@@ -27,7 +27,7 @@ if (isset($_POST["register"])) {
 
 <div class="container">
     <div class="form-content">
-    <h1>Halaman Registrasi</h1>
+    <h1 class="tag-line">Halaman Registrasi</h1>
         <form action="" method="post">
             <ul>
                 <li>
