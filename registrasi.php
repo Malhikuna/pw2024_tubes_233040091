@@ -31,6 +31,10 @@ if (isset($_POST["register"])) {
         <form action="" method="post">
             <ul>
                 <li>
+                    <label for="email">Email :</label>
+                    <input type="email" name="email" id="email">
+                </li>
+                <li>
                     <label for="username">Username :</label>
                     <input type="text" name="username" id="username">
                 </li>

@@ -6,3 +6,125 @@
   box-sizing: border-box;
   color: black;
 }
+
+body {
+  background-color: #eaeaea;
+  font-family: sans-serif;
+}
+
+:root {
+  --main-color: #ffd700;
+  --bg1: #c71585;
+  --bg2: #110b34;
+  --shadow: 3px 3px 1px black;
+}
+
+nav {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  height: 60px;
+  background-color: var(--bg1);
+  padding-left: 8%;
+  padding-right: 8%;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1.5px solid white;
+}
+
+.search-content {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 260px;
+  /* background-color: black; */
+  height: 40px;
+  /* display: none; */
+}
+
+.search {
+  /* margin-left: 20px; */
+  padding: 5px;
+  width: 220px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1.8px solid black;
+}
+
+.menu input {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -1.8px;
+  right: -2.9px;
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.menu {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  align-self: center;
+}
+
+.judul {
+  font-family: "Unbounded";
+  font-size: 25px;
+  color: white;
+}
+
+.navbar-list {
+  flex: 1;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.navbar-list ul li {
+  position: relative;
+  display: inline-block;
+  margin-left: 60px;
+}
+
+.navbar-list ul li a {
+  color: #fff;
+  font-size: 15px;
+}
+
+.navbar-list a:hover::before,
+.link.active::before {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  background: var(--main-color);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.navbar-list a::after,
+.link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 1.5px;
+  background: var(--main-color);
+  box-shadow: 3px 3px 10px var(--main-color), -3px -3px 10px white;
+  transition: 0.5s;
+}
+
+.link.active::after {
+  width: 100%;
+  height: 1.5px;
+}
+
+.navbar-list ul li a:hover::after {
+  width: 100%;
+}

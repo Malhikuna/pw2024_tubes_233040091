@@ -32,14 +32,6 @@ button {
   background-color: white;
 }
 
-p.error {
-  color: yellow;
-  font-weight: bold;
-  font-style: italic;
-  font-size: 1.1rem;
-  margin-top: 10px;
-}
-
 p {
   color: #222;
   text-align: center;
@@ -84,4 +76,21 @@ hr {
 
 p.line {
   text-align: center;
+}
+
+.error-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  width: 100%;
+  height: 70px;
+  background-color: #ffdee0;
+  border: 1px solid #fda6ab;
+}
+
+p.error {
+  color: #ff3640;
+  /* font-style: italic; */
+  font-size: 1rem;
 }
