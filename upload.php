@@ -58,10 +58,10 @@ if(isset($_POST["upload"])) {
     <div class="navbar-list">
       <ul>
         <li><a href="./index.php" class="link">home</a></li>
-        <li><a href="./upload.php" class="link">upload</a></li>
         <li><a href="./course" class="link">course</a></li>
         <li><a href="./playlist" class="link">playlist</a></li>
         <li><a href="./liked" class="link">liked</a></li>
+        <li><a href="./upload.php" class="link">upload</a></li>
       </ul>
     </div>
 
@@ -73,28 +73,55 @@ if(isset($_POST["upload"])) {
 
   <div class="container">
     <div class="form-content">
-      <h2>Create Your Course</h2>
-      <h2><?= $_SESSION["username"]; ?></h2>
-      <form action="" method="post" enctype="multipart/form-data">
-        <label>
-          Catagory
-          <input type="text" name="catagory" id="">
+      <div class="form-content-1">
+        <h2>Create Your Course</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+          <label>
+            Catagory
+            <input type="text" name="catagory" id="">
+            <br>
+          </label>
+          <label>
+            Course's Name
+            <input type="text" name="title">
+          </label>
+          <label>
+            Thumbnail Image
+            <input type="file" name="thumbnail" class="thumbnail">
+          </label>
+          <label>
+            <input type="hidden" name="author" value="<?= $_SESSION["username"]; ?>">
+          </label>
+          <!-- <button class="next" >Next</button> -->
+          <div class="next">Next</div>
+        </form>
+      </div>
+      <div class="form-content-2">
+        <h2>Create Video</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+          <label>
+            Video Title
+            <input type="text" name="title" id="">
+            <br>
+          </label>
+          <label>
+            Description <br>
+            <textarea name="description" style="resize: none;"></textarea>
+          </label>
           <br>
-        </label>
-        <label>
-          Course's Name
-          <input type="text" name="title" required>
-        </label>
-        <label>
-          Thumbnail Image
-          <input type="file" name="thumbnail" class="thumbnail" required>
-        </label>
-        <label>
-          <input type="hidden" name="author" value="<?= $_SESSION["username"]; ?>">
-        </label>
-        <button type="submit" name="upload" >Next</button>
-      </form>
+          <label>
+            Video
+            <input type="file" name="video" class="video" required>
+          </label>
+          <button type="submit" name="upload" >Upload</button>
+          <!-- <button class="prev">Prev</button> -->
+          <div class="prev">Prev</div>
+        </form>
+      </div>
     </div>
   </div>
+
+  <script src="javascript/jquery.js"></script>
+  <script src="javascript/script.js"></script>
 </body>
 </html>

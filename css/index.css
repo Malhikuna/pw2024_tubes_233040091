@@ -23,7 +23,7 @@
   background-color: white;
   border: 2px solid black;
   border-radius: 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 button {
@@ -100,10 +100,6 @@ img {
   color: black;
 }
 
-.search {
-  /* position: absolute; */
-}
-
 .course-content {
   /* display: flex; */
   position: relative;
@@ -114,7 +110,7 @@ img {
   left: 50%;
   transform: translateX(-50%);
   width: 800px;
-  height: 450px;
+  height: 470px;
   background-color: white;
   border: 1px solid black;
 }
@@ -122,7 +118,7 @@ img {
 .course-content img {
   margin: auto;
   width: 600px;
-  height: 280px;
+  height: 300px;
 }
 
 .top {
@@ -132,7 +128,7 @@ img {
 
 .top .right {
   width: 140px;
-  height: 280px;
+  height: 300px;
   /* background-color: black; */
   border: 1px solid black;
 }
@@ -144,27 +140,26 @@ img {
   margin-top: 10px;
 }
 
-.bottom {
+/* .bottom {
   display: inline-flex;
   justify-content: space-between;
-}
+} */
 
-.bottom .right {
+/* .bottom .right {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 110px;
   height: 110px;
-  /* background-color: black; */
-}
+} */
 
-.bottom .right p {
+/* .bottom .right p {
   font-size: 1.5rem;
   margin-bottom: 15px;
-}
+} */
 
-.bottom .right button {
+/* .bottom .right button {
   margin-top: 5px;
   padding: 5px;
   width: 100px;
@@ -172,7 +167,7 @@ img {
   border: 1px solid black;
   color: white;
   font-weight: bold;
-}
+} */
 
 .close {
   display: flex;
@@ -200,4 +195,32 @@ img {
 .close button i {
   font-size: 2rem;
   color: red;
+}
+
+.card .bottom {
+  display: flex;
+  /* justify-content: space-between; */
+  justify-content: space-between;
+}
+
+.card .bottom .left {
+  width: 260px;
+  /* background-color: red; */
+}
+
+.card .bottom .right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  /* background-color: black; */
+}
+
+button.check {
+  width: 80px;
+  padding: 4px;
+  background-color: #02b902;
+  color: white;
+  font-weight: bold;
+  border: 1px solid black;
 }

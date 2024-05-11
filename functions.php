@@ -54,7 +54,7 @@ function upload($data) {
     }
 
     //  query insert data
-    $query = "INSERT INTO courses(catagory, title, author, thumbnail)
+    $query = "INSERT INTO courses(catagory_id, title, author, thumbnail)
                 VALUES
                 ('$catagory', '$title', '$author', '$thumbnail')
                 ";
@@ -120,7 +120,7 @@ function user($data) {
 function search($keyword) {
     $query = "SELECT * FROM courses
                 WHERE
-                catagory LIKE '%$keyword%' OR
+                catagory_id LIKE '%$keyword%' OR
                 title LIKE '%$keyword%' OR
                 author LIKE '%$keyword%'
     ";

@@ -6,6 +6,7 @@ if(isset($_SESSION["login"])) {
   header ("Location: index.php");
   exit;
 }
+
 if (isset($_POST["login"])) {
   $email = $_POST["email"];
   $password = $_POST["password"];

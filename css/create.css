@@ -12,6 +12,15 @@ body {
 
 .form-content {
   position: relative;
+  width: 700px;
+  height: 600px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.form-content-1,
+.form-content-2 {
+  position: relative;
   padding: 50px;
   justify-content: center;
   background-color: white;
@@ -23,7 +32,9 @@ body {
   margin-bottom: 30px;
 }
 
-.form-content input {
+.form-content-1 input,
+.form-content-2 input,
+textarea[name="description"] {
   height: 30px;
   width: 100%;
   margin-bottom: 30px;
@@ -33,28 +44,62 @@ body {
   padding-left: 5px;
 }
 
+.form-content-2 button {
+  font-size: 1rem;
+}
+
+.form-content .next,
+.form-content .prev,
 .form-content button {
-  color: white;
-  font-weight: bold;
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   right: 10px;
-  bottom: 0;
-  margin-top: 5px;
-  padding: 10px;
+  bottom: 10px;
+  color: white;
   border-radius: 10px;
   border: 2.5px solid black;
   cursor: pointer;
-  margin-bottom: 15px;
-  width: 100px;
   background-color: #8c8cfe;
+  bottom: 5px;
+  text-align: center;
+  height: 30px;
+  width: 70px;
+  margin-bottom: 5px;
 }
 
-.form-content h2 {
+.form-content .prev {
+  left: 10px;
+}
+
+/* .form-content-2 button.prev {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+} */
+
+.form-content-1 h2,
+.form-content-2 h2 {
   text-align: center;
 }
 
-.form-content .thumbnail {
+.form-content-1 .thumbnail {
   padding-top: 120px;
   padding-left: 215px;
   height: 250px;
+}
+
+.form-content-2 {
+  position: absolute;
+  top: 0;
+  /* display: none; */
+}
+
+.form-content-2 textarea[name="description"] {
+  height: 200px;
+}
+
+.form-content-2 input[name="video"] {
+  padding-top: 4px;
 }
