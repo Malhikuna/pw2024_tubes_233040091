@@ -85,9 +85,9 @@ textarea[name="description"] {
 }
 
 .form-content-1 .thumbnail {
-  padding-top: 120px;
+  padding-top: 100px;
   padding-left: 215px;
-  height: 250px;
+  height: 220px;
 }
 
 .form-content-2 {
@@ -102,4 +102,11 @@ textarea[name="description"] {
 
 .form-content-2 input[name="video"] {
   padding-top: 4px;
+}
+
+.form-content-1 select {
+  margin-bottom: 30px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
 }

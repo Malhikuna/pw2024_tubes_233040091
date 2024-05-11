@@ -1,5 +1,5 @@
 <?php
-require "functions.php";
+require "../functions/functions.php";
 session_start();
 
 if(!isset($_SESSION["login"])) {
@@ -11,10 +11,12 @@ $course_id = $_POST["id"];
 
 $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
 
+// var_dump($videos);
+
 $catagory = $_POST["catagory"];
 $thumbnail = $_POST["thumbnail"];
-$title = $_POST["title"];
-$author = $_POST["author"];
+$course_name = $_POST["course_name"];
+$channel_name = $_POST["channel_name"];
 
  ?>
 
@@ -24,8 +26,8 @@ $author = $_POST["author"];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Check Page</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/check.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/check.css">
 </head>
 <body>
 <nav>
@@ -63,7 +65,7 @@ $author = $_POST["author"];
       <p class="catagory"><?= $catagory; ?></p>
       <div class="top">
         <div class="left">
-          <img src="img/<?= $thumbnail; ?>" alt="">
+          <img src="../img/<?= $thumbnail; ?>" alt="">
         </div>
         <div class="right">
           <h3>Include <?= count($videos) ?> Videos</h3>
@@ -75,11 +77,11 @@ $author = $_POST["author"];
 
       <div class="bottom">
         <div class="left">
-          <h1><?= $title; ?></h1>
+          <h1><?= $course_name; ?></h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
           <div class="channel-content">
             <div class="channel"></div>
-            <p><?= $author; ?></p>
+            <p><?= $channel_name; ?></p>
           </div>
         </div>
         <div class="right">

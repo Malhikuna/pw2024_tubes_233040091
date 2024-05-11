@@ -1,4 +1,5 @@
 <?php
+require "../functions/functions.php";
 session_start();
 
 // if(!isset($_SESSION["login"])) {
@@ -6,10 +7,10 @@ session_start();
 //     exit;
 // }
 
-require "functions.php";
-// require "login.php";
 
-$courses = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)");
+$courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+                  ORDER BY courses.id
+");
 
 if(isset($_POST['search'])) {
   $courses = search($_POST['keyword']);
@@ -19,10 +20,6 @@ if(isset($_POST["go"])) {
   $appreance = true;
 }
 
-// if(isset($_POST["close"])) {
-//   $appreance = false;
-// }
-
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +28,8 @@ if(isset($_POST["go"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 <body>
@@ -79,21 +76,21 @@ if(isset($_POST["go"])) {
             <form action="check.php" method="post">
               <p><?= $course["catagory_name"] ?></p>
               <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-              <img src="./img/<?= $course["thumbnail"] ?>" alt="">
+              <img src="../img/<?= $course["thumbnail"] ?>" alt="">
               <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
 
               <div class="bottom">
                 <div class="left">
-                  <h3><?= $course["title"] ?></h3> 
-                  <input type="hidden" name="title" value="<?= $course["title"]; ?>"> 
+                  <h4><?= $course["name"] ?></h4> 
+                  <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
                   <div class="channel-content">
                     <div class="channel"></div>
-                    <p><?= $course["author"] ?></p>
-                    <input type="hidden" name="author" value="<?= $course["author"]; ?>">
+                    <p><?= $course["channel_name"] ?></p>
+                    <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
                   </div>
                 </div>
                 <div class="right">
-                  <input type="hidden" name="id" value="<?= $course["id"]; ?>">
+                  <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
                   <button class="check">Check</button>
                 </div>
               </div>
@@ -143,7 +140,7 @@ if(isset($_POST["go"])) {
     <button class="logout"><a href="logout.php">Logout</a></button>
   <?php endif ; ?>
 
-  <script src="javascript/jquery.js"></script>
-  <script src="javascript/script.js"></script>
+  <script src="../javascript/jquery.js"></script>
+  <script src="../javascript/script.js"></script>
 </body>
 </html>

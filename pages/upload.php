@@ -7,8 +7,13 @@ if( !isset($_SESSION["login"])) {
     exit;
 }
 
-require "functions.php";
+require "../functions/functions.php";
 // cek apakah tombol submit sudah ditekan atau belum
+
+// if(isset($_POST["upload"])) {
+//   var_dump($_POST["catagory"]);
+// }
+
 if(isset($_POST["upload"])) {
     // cek apakah data berhasil ditambahkan atau tidak
     if (upload($_POST) > 0) {
@@ -22,7 +27,7 @@ if(isset($_POST["upload"])) {
         echo "
             <script>
                 alert('Maaf anda gagal mengupload, silahkan cek kembali');
-                document.location.href = 'index.php';
+                // document.location.href = 'index.php';
             </script>
         ";
     }
@@ -36,9 +41,9 @@ if(isset($_POST["upload"])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Upload Page</title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="../css/main.css">
   <!-- <link rel="stylesheet" href="css/upload.css"> -->
-  <link rel="stylesheet" href="css/create.css">
+  <link rel="stylesheet" href="../css/create.css">
 </head>
 <body>
   <nav>
@@ -73,35 +78,39 @@ if(isset($_POST["upload"])) {
 
   <div class="container">
     <div class="form-content">
-      <div class="form-content-1">
-        <h2>Create Your Course</h2>
-        <form action="" method="post" enctype="multipart/form-data">
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="form-content-1">
+          <h2>Create Your Course</h2>
           <label>
-            Catagory
-            <input type="text" name="catagory" id="">
-            <br>
+            Course Name
+            <input type="text" name="course_name" value="JavaScript Object Oriented Programing">
           </label>
           <label>
-            Course's Name
-            <input type="text" name="title">
+            Price
+            <input type="number" name="price" value="150000">
+          </label>
+          <label>
+            Catagory
+            <select name="catagory" id="catagory">
+              <option value="Frontend Developer" selected>Frontend Developer</option>
+              <option value="Backend Developer">Backend Developer</option>
+            </select>
+            <br>
           </label>
           <label>
             Thumbnail Image
             <input type="file" name="thumbnail" class="thumbnail">
           </label>
           <label>
-            <input type="hidden" name="author" value="<?= $_SESSION["username"]; ?>">
+            <input type="hidden" name="channel_name" value="<?= $_SESSION["username"]; ?>">
           </label>
-          <!-- <button class="next" >Next</button> -->
           <div class="next">Next</div>
-        </form>
-      </div>
-      <div class="form-content-2">
-        <h2>Create Video</h2>
-        <form action="" method="post" enctype="multipart/form-data">
+        </div>
+        <div class="form-content-2">
+          <h2>Create Video</h2>
           <label>
             Video Title
-            <input type="text" name="title" id="">
+            <input type="text" name="video_name" value="Pendahuluan">
             <br>
           </label>
           <label>
@@ -114,14 +123,13 @@ if(isset($_POST["upload"])) {
             <input type="file" name="video" class="video" required>
           </label>
           <button type="submit" name="upload" >Upload</button>
-          <!-- <button class="prev">Prev</button> -->
           <div class="prev">Prev</div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 
-  <script src="javascript/jquery.js"></script>
-  <script src="javascript/script.js"></script>
+  <script src="../javascript/jquery.js"></script>
+  <script src="../javascript/script.js"></script>
 </body>
 </html>

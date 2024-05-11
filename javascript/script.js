@@ -19,3 +19,13 @@ $(document).ready(function () {
     $(".form-content-2").hide();
   });
 });
+
+$(window).scroll(function () {
+  $(".next").click(function () {
+    $("html, body").animate({ scrollTop: 20 }, 0);
+  });
+
+  $(".prev").click(function () {
+    $("html, body").animate({ scrollTop: 20 }, 0);
+  });
+});
