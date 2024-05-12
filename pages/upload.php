@@ -8,12 +8,8 @@ if( !isset($_SESSION["login"])) {
 }
 
 require "../functions/functions.php";
-// cek apakah tombol submit sudah ditekan atau belum
 
-// if(isset($_POST["upload"])) {
-//   var_dump($_POST["catagory"]);
-// }
-
+// cek apakah tombol upload sudah ditekan atau belum
 if(isset($_POST["upload"])) {
     // cek apakah data berhasil ditambahkan atau tidak
     if (upload($_POST) > 0) {
@@ -42,39 +38,10 @@ if(isset($_POST["upload"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Upload Page</title>
   <link rel="stylesheet" href="../css/main.css">
-  <!-- <link rel="stylesheet" href="css/upload.css"> -->
   <link rel="stylesheet" href="../css/create.css">
 </head>
 <body>
-  <nav>
-    <div class="navbar-brand">
-      <a href="#" class="judul"
-        >UP YOUR SKIL</a
-      >
-    </div>
-
-    <div class="search-content">
-      <form action="index.php" method="post">
-        <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off" id="keyword">
-        <input type="hidden" class="search" name="search" id="tombol-cari"></input>
-      </form>
-    </div>
-
-    <div class="navbar-list">
-      <ul>
-        <li><a href="./index.php" class="link">home</a></li>
-        <li><a href="./course" class="link">course</a></li>
-        <li><a href="./playlist" class="link">playlist</a></li>
-        <li><a href="./liked" class="link">liked</a></li>
-        <li><a href="./upload.php" class="link">upload</a></li>
-      </ul>
-    </div>
-
-    <div class="menu">
-      <input type="checkbox" />
-      <img src="img/icons/menu_icon.png" class="menu-icon" height="15px" width="15px" />
-    </div>
-  </nav>
+  <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <div class="form-content">

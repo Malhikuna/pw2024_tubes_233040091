@@ -90,7 +90,7 @@ if(isset($_POST["go"])) {
       <?php foreach($courses as $course) : ?>
         <div class="card">
           <form action="check.php" method="post">
-            <p><?= $course["catagory_name"] ?></p>
+            <p class="catagory"><?= $course["catagory_name"] ?></p>
             <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
             <img src="../img/<?= $course["thumbnail"] ?>" alt="">
             <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">

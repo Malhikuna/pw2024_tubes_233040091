@@ -35,35 +35,7 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/check.css">
 </head>
 <body>
-  <nav>
-    <div class="navbar-brand">
-      <a href="#" class="judul"
-        >UP YOUR SKIL</a
-      >
-    </div>
-
-    <div class="search-content">
-      <form action="index.php" method="post">
-        <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off" id="keyword">
-        <input type="hidden" class="search" name="search" id="tombol-cari"></input>
-      </form>
-    </div>
-
-    <div class="navbar-list">
-      <ul>
-        <li><a href="./index.php" class="link">home</a></li>
-        <li><a href="./course" class="link">course</a></li>
-        <li><a href="./playlist" class="link">playlist</a></li>
-        <li><a href="./liked" class="link">liked</a></li>
-        <li><a href="./upload.php" class="link">upload</a></li>
-      </ul>
-    </div>
-
-    <div class="menu">
-      <input type="checkbox" />
-      <img src="img/icons/menu_icon.png" class="menu-icon" height="15px" width="15px" />
-    </div>
-  </nav>
+  <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <div class="course-content">
@@ -86,7 +58,7 @@ header("Cache-Control: no-cache, must-revalidate");
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
           <div class="channel-content">
             <div class="channel"></div>
-            <p><?= $crs["channel_name"]; ?></p>
+            <a href="profile.php?channel=<?= $crs["channel_name"]; ?>"><?= $crs["channel_name"]; ?></a>
           </div>
         </div>
         <div class="right">

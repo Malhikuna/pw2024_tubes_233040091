@@ -13,6 +13,16 @@ $crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = ca
 
 $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
 
+if(isset($_POST["video_click"])) {
+  $id = $_POST["video_id"];
+
+  $video_name = query("SELECT * FROM course_video WHERE courses_id = '$course_id' AND id = '$id'")[0];
+
+}
+
+header("Cache-Control: no-cache, must-revalidate");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,35 +35,7 @@ $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
   <link rel="stylesheet" href="../css/video.css">
 </head>
 <body>
-<nav>
-    <div class="navbar-brand">
-      <a href="#" class="judul"
-        >UP YOUR SKIL</a
-      >
-    </div>
-
-    <div class="search-content">
-      <form action="index.php" method="post">
-        <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off" id="keyword">
-        <input type="hidden" class="search" name="search" id="tombol-cari"></input>
-      </form>
-    </div>
-
-    <div class="navbar-list">
-      <ul>
-        <li><a href="./index.php" class="link">home</a></li>
-        <li><a href="./course" class="link">course</a></li>
-        <li><a href="./playlist" class="link">playlist</a></li>
-        <li><a href="./liked" class="link">liked</a></li>
-        <li><a href="./upload.php" class="link">upload</a></li>
-      </ul>
-    </div>
-
-    <div class="menu">
-      <input type="checkbox" />
-      <img src="img/icons/menu_icon.png" class="menu-icon" height="15px" width="15px" />
-    </div>
-  </nav>
+<?php require "../layouts/navbar.php" ?>
 
 <div class="container">
   <div class="top-content">
@@ -61,20 +43,25 @@ $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
       <video width="850" height="425" controls>
         <source src="../videos/663fd58675c29.mp4" type="video.mp4">
       </video>
-      <h1><?= $videos[0]["video_name"]; ?></h1>
+      <?php if(isset($_POST["video_click"])) : ?>
+        <h1><?= $video_name["video_name"]; ?></h1>
+      <?php else : ?>
+        <h1><?= $videos[0]["video_name"]; ?></h1>
+      <?php endif ; ?>
     </div>
     <div class="video-playlist">
-      <form action="" method="post">
-        <h4><?= $crs["name"]; ?></h4>
-        <?php foreach($videos as $video) : ?>
+      <h4><?= $crs["name"]; ?></h4>
+      <?php foreach($videos as $video) : ?>
+        <form action="" method="post">
           <div class="video-box">
             <img src="../img/<?= $crs["thumbnail"]; ?>" width="80" alt="">
-              <button name="video-click">
-                <p><?= $video["video_name"]; ?></p>
-              </button>
-            </div>
-        <?php endforeach ; ?>
-      </form>
+            <input type="hidden" name="video_id" value="<?= $video["id"]; ?>">
+            <button name="video_click">
+              <p><?= $video["video_name"]; ?></p>
+            </button>
+          </div>
+        </form>
+      <?php endforeach ; ?>
     </div>
   </div>
   <div class="bottom-content">
@@ -86,6 +73,7 @@ $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
       <button>❤ Like</button>
     </div>
   </div>
+
 </div>
 
   

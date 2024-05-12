@@ -17,21 +17,6 @@
   margin-top: 5px;
 }
 
-.channel-content {
-  display: flex;
-}
-
-.channel {
-  width: 20px;
-  height: 20px;
-  border: 1px solid black;
-  background-color: brown;
-}
-
-.channel-content p {
-  margin-left: 5px;
-}
-
 .tag-line {
   display: none;
   text-align: center;
@@ -76,7 +61,21 @@
   width: 650px;
 }
 .course-content .channel-content {
+  display: flex;
   margin-top: 10px;
+  position: relative;
+}
+
+.course-content .channel-content .channel {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  background-color: brown;
+}
+
+.course-content .channel-content a {
+  margin-left: 5px;
+  display: block;
 }
 
 .course-content .bottom {
