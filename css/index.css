@@ -1,5 +1,5 @@
 .container {
-  padding-top: 80px;
+  padding-top: 30px;
   width: 100%;
   min-height: 400vh;
   position: relative;
@@ -17,38 +17,21 @@
   gap: 20px;
 }
 
-.card {
+.card-rows .card {
+  position: relative;
   /* margin-top: 10px; */
   padding: 5px;
   background-color: white;
   border: 2px solid black;
   border-radius: 10px;
+  width: 370px;
+  height: 265px;
   /* cursor: pointer; */
 }
 
 button {
   display: block;
   cursor: pointer;
-}
-
-button.go {
-  padding: 10px;
-  /* display: none; */
-  width: 100px;
-  border-radius: 15px;
-  background-color: #62d4d8;
-  margin-top: 5px;
-  border: 2.5px solid black;
-  border-radius: 10px;
-}
-
-button.logout {
-  padding: 10px;
-  border: 1px solid black;
-}
-
-h4 {
-  margin-bottom: 10px;
 }
 
 p {
@@ -67,6 +50,7 @@ p {
 }
 
 .logout {
+  padding: 10px;
   position: fixed;
   left: 10px;
   bottom: 10px;
@@ -140,26 +124,26 @@ img {
   margin-top: 10px;
 }
 
-/* .bottom {
+.bottom {
   display: inline-flex;
   justify-content: space-between;
-} */
+}
 
-/* .bottom .right {
+.bottom .right {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 110px;
   height: 110px;
-} */
+}
 
-/* .bottom .right p {
+.bottom .right p {
   font-size: 1.5rem;
   margin-bottom: 15px;
-} */
+}
 
-/* .bottom .right button {
+.bottom .right button.buy {
   margin-top: 5px;
   padding: 5px;
   width: 100px;
@@ -167,7 +151,7 @@ img {
   border: 1px solid black;
   color: white;
   font-weight: bold;
-} */
+}
 
 .close {
   display: flex;
@@ -180,21 +164,20 @@ img {
   cursor: pointer;
 }
 
-.close p {
-  margin: auto;
-}
-
-.close button {
-  padding: 5px;
-  width: 100%;
-  height: 100%;
-  background-color: red;
+button.close {
   border: 0 solid black;
-}
-
-.close button i {
-  font-size: 2rem;
-  color: red;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  background-color: red;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }
 
 .card .bottom {
@@ -217,10 +200,17 @@ img {
 }
 
 button.check {
+  position: absolute;
+  top: -2px;
+  left: -2px;
   width: 80px;
   padding: 4px;
-  background-color: #02b902;
+  background-color: transparent;
+  /* background-color: #62d4d8; */
   color: white;
   font-weight: bold;
-  border: 1px solid black;
+  border-width: 0;
+  width: 370px;
+  height: 265px;
+  border-radius: 5px;
 }

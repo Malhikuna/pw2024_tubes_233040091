@@ -1,13 +1,13 @@
 $(document).ready(function () {
   // $(".course-content").hide();
 
-  /* $(".card").on("click", function () {
-    $(".course-content").show();
-  });
+  //  $(".card").on("click", function () {
+  //   $(".course-content").show();
+  // });
 
   $(".close").on("click", function () {
     $(".course-content").hide();
-  }); */
+  });
 
   $(".form-content-2").hide();
 
@@ -22,10 +22,10 @@ $(document).ready(function () {
 
 $(window).scroll(function () {
   $(".next").click(function () {
-    $("html, body").animate({ scrollTop: 20 }, 0);
+    $("html, body").animate({ scrollTop: 0 }, 0);
   });
 
   $(".prev").click(function () {
-    $("html, body").animate({ scrollTop: 20 }, 0);
+    $("html, body").animate({ scrollTop: 0 }, 0);
   });
 });

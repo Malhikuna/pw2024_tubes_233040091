@@ -20,6 +20,22 @@ if(isset($_POST["go"])) {
   $appreance = true;
 }
 
+// if(isset($_POST["check"])) {
+//   $id = $_POST["id"];
+
+//   $open = true;
+
+//   $crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+//   WHERE courses.id = '$id'
+//   ")[0];
+
+
+// }
+
+// if(isset($_POST["close"])) {
+//   $open = false;
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -70,68 +86,67 @@ if(isset($_POST["go"])) {
 
   <div class="container">
     <h1 class="tag-line">Popular Courses</h1>
-      <div class="card-rows">
-          <?php foreach($courses as $course) : ?>
-          <div class="card">
-            <form action="check.php" method="post">
-              <p><?= $course["catagory_name"] ?></p>
-              <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-              <img src="../img/<?= $course["thumbnail"] ?>" alt="">
-              <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
+    <div class="card-rows">
+      <?php foreach($courses as $course) : ?>
+        <div class="card">
+          <form action="check.php" method="post">
+            <p><?= $course["catagory_name"] ?></p>
+            <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
+            <img src="../img/<?= $course["thumbnail"] ?>" alt="">
+            <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
 
-              <div class="bottom">
-                <div class="left">
-                  <h4><?= $course["name"] ?></h4> 
-                  <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
-                  <div class="channel-content">
-                    <div class="channel"></div>
-                    <p><?= $course["channel_name"] ?></p>
-                    <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
-                  </div>
-                </div>
-                <div class="right">
-                  <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
-                  <button class="check">Check</button>
+            <div class="bottom">
+              <div class="left">
+                <h4><?= $course["name"] ?></h4> 
+                <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
+                <div class="channel-content">
+                  <div class="channel"></div>
+                  <p><?= $course["channel_name"] ?></p>
+                  <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
                 </div>
               </div>
-              
-              <!-- <button class="go" name="go">go</button> -->
-            </form>
-          </div>
-          <!-- <div class="course-content">
-            <p>$course["catagory"]</p>
+              <div class="right">
+                <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
+                <button class="check" name="check"></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      <?php endforeach ; ?>     
+    </div>
+
+    <?php if(isset($open)) : ?>
+      <div class="course-content">
+            <p><?= $crs["catagory_name"]; ?></p>
             <div class="top">
               <div class="left">
-                <img src="img/$course["thumbnail"]" alt="">
+                <img src="../img/<?= $crs["thumbnail"]; ?>" alt="">
               </div>
               <div class="right"></div>
             </div>
 
             <div class="bottom">
               <div class="left">
-                <h1>$course["title"]</h1>
+                <h1><?= $crs["name"]; ?></h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
                 <div class="channel-content">
                   <div class="channel"></div>
-                  <p>$course["author"]</p>
+                  <p><?= $crs["channel_name"]; ?></p>
                 </div>
               </div>
               <div class="right">
                 <p>Rp100.000</p>
-                <button>Add To Cart</button>
-                <button>Buy Now</button>
+                <button class="buy">Add To Cart</button>
+                <button class="buy">Buy Now</button>
               </div>
             </div>
-            <div class="close">
-              <p>X</p>
-            </div>
-          </div> -->
-          <?php //if(isset($appreance)) : ?>
-            
-          <?php //endif ; ?>
-          <?php endforeach ; ?>
-          
-      </div>
+            <form action="" method="post">
+              <button class="close">
+                X
+              </button>
+            </form>
+        </div>
+    <?php endif ; ?>
   </div>
 
   <button class="print">Print</button>

@@ -201,9 +201,9 @@ function user($data) {
 }
 
 function search($keyword) {
-    $query = "SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+    $query = "SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
             WHERE
-            title LIKE '%$keyword%' OR
+            name LIKE '%$keyword%' OR
             channel_name LIKE '%$keyword%'
     ";
     

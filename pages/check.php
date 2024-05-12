@@ -11,12 +11,17 @@ $course_id = $_POST["id"];
 
 $videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
 
-// var_dump($videos);
+$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$course_id'")[0];
 
-$catagory = $_POST["catagory"];
-$thumbnail = $_POST["thumbnail"];
-$course_name = $_POST["course_name"];
-$channel_name = $_POST["channel_name"];
+if(isset($_POST["play"])) {
+
+  $_SESSION["course_id"] = $_POST["course_id"];
+
+  header("Location: video.php");
+  exit;
+}
+
+header("Cache-Control: no-cache, must-revalidate");
 
  ?>
 
@@ -30,7 +35,7 @@ $channel_name = $_POST["channel_name"];
   <link rel="stylesheet" href="../css/check.css">
 </head>
 <body>
-<nav>
+  <nav>
     <div class="navbar-brand">
       <a href="#" class="judul"
         >UP YOUR SKIL</a
@@ -62,10 +67,10 @@ $channel_name = $_POST["channel_name"];
 
   <div class="container">
     <div class="course-content">
-      <p class="catagory"><?= $catagory; ?></p>
+      <p class="catagory"><?= $crs["catagory_name"]; ?></p>
       <div class="top">
         <div class="left">
-          <img src="../img/<?= $thumbnail; ?>" alt="">
+          <img src="../img/<?= $crs["thumbnail"]; ?>" alt="">
         </div>
         <div class="right">
           <h3>Include <?= count($videos) ?> Videos</h3>
@@ -77,17 +82,21 @@ $channel_name = $_POST["channel_name"];
 
       <div class="bottom">
         <div class="left">
-          <h1><?= $course_name; ?></h1>
+          <h1><?= $crs["name"]; ?></h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
           <div class="channel-content">
             <div class="channel"></div>
-            <p><?= $channel_name; ?></p>
+            <p><?= $crs["channel_name"]; ?></p>
           </div>
         </div>
         <div class="right">
-          <p>Rp100.000</p>
-          <button>Add To Cart</button>
-          <button>Buy Now</button>
+          <form action="" method="post">
+            <!-- <p>Rp100.000</p> -->
+            <!-- <button>Add To Cart</button> -->
+            <!-- <button>Buy Now</button> -->
+            <input type="hidden" name="course_id" value="<?= $course_id; ?>">
+            <button class="play" name="play">Play Video</button>
+          </form>
         </div>
       </div>
       <div class="back">
@@ -95,5 +104,6 @@ $channel_name = $_POST["channel_name"];
       </div>
     </div>
   </div>
+
 </body>
 </html>

@@ -87,7 +87,7 @@ if(isset($_POST["upload"])) {
           </label>
           <label>
             Price
-            <input type="number" name="price" value="150000">
+            <input type="number" name="price" value="100000">
           </label>
           <label>
             Catagory
@@ -104,7 +104,7 @@ if(isset($_POST["upload"])) {
           <label>
             <input type="hidden" name="channel_name" value="<?= $_SESSION["username"]; ?>">
           </label>
-          <div class="next">Next</div>
+          <button class="next">Next</button>
         </div>
         <div class="form-content-2">
           <h2>Create Video</h2>
@@ -123,7 +123,7 @@ if(isset($_POST["upload"])) {
             <input type="file" name="video" class="video" required>
           </label>
           <button type="submit" name="upload" >Upload</button>
-          <div class="prev">Prev</div>
+          <button class="prev">Prev</button>
         </div>
       </form>
     </div>
