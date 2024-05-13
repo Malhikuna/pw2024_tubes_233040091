@@ -37,6 +37,7 @@ a.account {
 
 .form-content .left-content .sign-in h1 {
   color: #800080;
+  margin-bottom: 20px;
 }
 
 .form-content .left-content .sign-in input {
@@ -91,10 +92,13 @@ a.account {
   color: white;
   margin-top: 20px;
   /* color: #e401e4; */
-  background: linear-gradient(135deg, #820082, #ff00ff, #ffff01);
+  /* background: linear-gradient(135deg, #820082, #ff00ff, #ffff01); */
+  background: linear-gradient(135deg, #820082, #ff00ff, #969dfa);
   /* border: 2.5px solid black; */
   border-width: 0;
   transition: 0.5s;
+  border: 1px solid purple;
+  box-shadow: 0 5px 7px #626262;
 }
 
 .form-content .left-content button:hover {
@@ -113,7 +117,7 @@ a.account {
   color: white;
   border-width: 0;
   /* position: relative; */
-  background-color: hsl(0, 0%, 0%, 0.5);
+  background-color: hsl(0, 0%, 0%, 0.7);
 }
 
 /* .form-content .right-content button::before {
@@ -160,7 +164,9 @@ a.account {
 
 .form-content .right-content .sign-up {
   color: white;
-  background-image: url("../img/background/bg3.jpg");
+  background-image: url("../img/background/8.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .form-content .right-content .sign-up p,
@@ -168,6 +174,20 @@ a.account {
   color: white;
 }
 
+.form-content .right-content .sign-up h1 {
+  font-size: 2.2rem;
+}
+
+.form-content .right-content .sign-up p {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
 .form-content .right-content {
   height: 100%;
 }
+
+/* .forget {
+  text-align: center;
+  margin-bottom: 5px;
+} */

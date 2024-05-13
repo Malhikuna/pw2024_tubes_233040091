@@ -19,9 +19,9 @@ $(document).ready(function () {
     $(".form-content-2").hide();
   });
 
-  $("#sign-up").on("click", function () {
-    // $(".sign-in").cl
-  });
+  // $("#sign-up").on("click", function () {
+  //   $(".sign-in").class("display", "none");
+  // });
 });
 
 $(window).scroll(function () {
