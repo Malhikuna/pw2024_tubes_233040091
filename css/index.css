@@ -5,6 +5,13 @@
   position: relative;
 }
 
+.tag-line {
+  /* display: none; */
+  /* text-align: center; */
+  margin-left: 40px;
+  color: black;
+}
+
 .card-rows {
   /* margin-top: 80px; */
   width: 100%;
@@ -89,12 +96,6 @@ img {
 
 .channel-content p {
   margin-left: 5px;
-}
-
-.tag-line {
-  display: none;
-  text-align: center;
-  color: black;
 }
 
 .course-content {

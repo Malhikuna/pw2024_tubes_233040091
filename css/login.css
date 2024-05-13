@@ -1,44 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  color: black;
-}
-
-body {
-  font-family: sans-serif;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 10px;
-  color: white;
-}
-
-label {
-  /* display: block; */
-}
-
-button {
-  margin-top: 5px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 2.5px solid black;
-  cursor: pointer;
-  margin-bottom: 15px;
-  width: 100%;
-  background-color: white;
-}
-
-p {
-  color: #222;
-  text-align: center;
-}
-
 a.account {
-  color: white;
+  color: #800080;
 }
 
 .container {
@@ -48,37 +9,58 @@ a.account {
 }
 
 .form-content {
-  padding: 50px;
+  display: flex;
   justify-content: center;
-  background-color: cadetblue;
-  width: 400px;
-  height: 500px;
+  align-items: center;
+  width: 90%;
+  height: 90vh;
   margin: auto;
-  border: 1.5px solid black;
-  border-radius: 10px;
 }
 
-input {
-  height: 30px;
-  width: 100%;
-  margin-bottom: 30px;
+.form-content .left-content p {
+  margin-bottom: 5px;
+}
+
+.form-content .right-content p {
+  width: 200px;
+}
+
+.form-content p {
+  color: #222;
+  text-align: center;
+}
+
+.form-content h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.form-content .left-content .sign-in h1 {
+  color: #800080;
+}
+
+.form-content .left-content .sign-in input {
+  height: 35px;
+  width: 280px;
+  margin-bottom: 10px;
   border-radius: 10px;
-  background-color: white;
+  background-color: #f3f3f3;
   border: 1px solid black;
   padding-left: 5px;
 }
 
-hr {
+.form-content .left-content .sign-in hr {
   display: inline-block;
   width: 25%;
   margin-bottom: 2.5px;
+  color: black;
 }
 
-p.line {
+.form-content .left-content .sign-in p.line {
   text-align: center;
 }
 
-.error-content {
+.form-content .left-content .sign-in .error-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,8 +71,103 @@ p.line {
   border: 1px solid #fda6ab;
 }
 
-p.error {
+.form-content .left-content .sign-in p.error {
   color: #ff3640;
-  /* font-style: italic; */
   font-size: 1rem;
+}
+
+.form-content .left-content .login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-content .left-content button {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  width: 250px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  margin-top: 20px;
+  /* color: #e401e4; */
+  background: linear-gradient(135deg, #820082, #ff00ff, #ffff01);
+  /* border: 2.5px solid black; */
+  border-width: 0;
+  transition: 0.5s;
+}
+
+.form-content .left-content button:hover {
+  opacity: 0.8;
+}
+
+.form-content button {
+  padding: 10px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.form-content .right-content button {
+  width: 200px;
+  margin-top: 40px;
+  color: white;
+  border-width: 0;
+  /* position: relative; */
+  background-color: hsl(0, 0%, 0%, 0.5);
+}
+
+/* .form-content .right-content button::before {
+  content: "";
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 30px;
+} */
+
+.form-content .left-content {
+  z-index: 9999;
+  position: relative;
+  left: 20px;
+}
+
+.form-content .left-content,
+.form-content .right-content {
+  height: 90%;
+  width: 450px;
+}
+
+.form-content .left-content .sign-in {
+  background-color: white;
+}
+
+.form-content .sign-in,
+.form-content .sign-up {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  box-shadow: 5px 10px 15px #626262;
+  border-radius: 10px;
+}
+
+.form-content .right-content .sign-up {
+  box-shadow: 0 10px 15px #626262;
+}
+
+.form-content .right-content .sign-up {
+  color: white;
+  background-image: url("../img/background/bg3.jpg");
+}
+
+.form-content .right-content .sign-up p,
+.form-content .right-content .sign-up h1 {
+  color: white;
+}
+
+.form-content .right-content {
+  height: 100%;
 }

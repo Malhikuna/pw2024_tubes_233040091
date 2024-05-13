@@ -32,7 +32,7 @@ if (isset($_POST["register"])) {
             <ul>
                 <li>
                     <label for="email">Email :</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" auto>
                 </li>
                 <li>
                     <label for="username">Username :</label>

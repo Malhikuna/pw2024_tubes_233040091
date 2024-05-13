@@ -15,9 +15,9 @@
   <div class="navbar-list">
     <ul>
       <li><a href="./index.php" class="link">home</a></li>
-      <li><a href="./course" class="link">course</a></li>
-      <li><a href="./playlist" class="link">playlist</a></li>
-      <li><a href="./liked" class="link">liked</a></li>
+      <li><a href="./course.php" class="link">course</a></li>
+      <li><a href="./playlist.php" class="link">playlist</a></li>
+      <li><a href="./liked.php" class="link">liked</a></li>
       <?php if(!isset($_SESSION["login"])) : ?>
         <li><a href="./login.php" class="link">Login</a></li>
       <?php else : ?>

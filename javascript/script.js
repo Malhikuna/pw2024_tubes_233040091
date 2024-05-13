@@ -18,6 +18,10 @@ $(document).ready(function () {
   $(".prev").on("click", function () {
     $(".form-content-2").hide();
   });
+
+  $("#sign-up").on("click", function () {
+    // $(".sign-in").cl
+  });
 });
 
 $(window).scroll(function () {

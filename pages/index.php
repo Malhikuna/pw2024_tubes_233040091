@@ -9,15 +9,11 @@ session_start();
 
 
 $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
-                  ORDER BY courses.id
+                  ORDER BY courses.id DESC
 ");
 
 if(isset($_POST['search'])) {
   $courses = search($_POST['keyword']);
-}
-
-if(isset($_POST["go"])) {
-  $appreance = true;
 }
 
 // if(isset($_POST["check"])) {
@@ -43,7 +39,7 @@ if(isset($_POST["go"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Halaman Utama</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
@@ -67,9 +63,9 @@ if(isset($_POST["go"])) {
     <div class="navbar-list">
       <ul>
         <li><a href="./index.php" class="link">home</a></li>
-        <li><a href="./course" class="link">course</a></li>
-        <li><a href="./playlist" class="link">playlist</a></li>
-        <li><a href="./liked" class="link">liked</a></li>
+        <li><a href="./course.php" class="link">course</a></li>
+        <li><a href="./playlist.php" class="link">playlist</a></li>
+        <li><a href="./liked.php" class="link">liked</a></li>
         <?php if(!isset($_SESSION["login"])) : ?>
           <li><a href="./login.php" class="link">Login</a></li>
         <?php else : ?>
@@ -85,7 +81,7 @@ if(isset($_POST["go"])) {
   </nav>
 
   <div class="container">
-    <h1 class="tag-line">Popular Courses</h1>
+    <!-- <h1 class="tag-line">Recent Courses</h1> -->
     <div class="card-rows">
       <?php foreach($courses as $course) : ?>
         <div class="card">

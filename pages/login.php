@@ -40,40 +40,59 @@ if (isset($_POST["login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
   <div class="container">
     <div class="form-content">
-      <h1>Hello !<br>Welcome Back</h1>
-        
-      <form action="" method="post">
-        <ul>
-          <li>
-              <input type="email" name="email" id="email" autocomplete="off" placeholder="enter your email">
-          </li>
-          <li>
-              <input type="password" name="password" id="password" placeholder="enter your password">
-          </li>
-          <li>
-              <!-- <label for="remember">Remember me :</label>
-              <input type="checkbox" name="remember" id="remember"> -->
-          </li>
-          <li>
-              <button type="submit" name="login" >Login</button>
-          </li>
-        </ul>
-      </form>
+      <div class="left-content">
+        <div class="sign-in">
+          <h1>Sign In</h1>
 
-      <p class="line">or continue with</p><br>
+          <p>Use Your Email Account</p>
 
-      <p>Don't have a account? <a href="registrasi.php" class="account">Create Account</a></p>
+          <form action="" method="post">
+            <ul>
+              <li>
+                  <input type="email" name="email" id="email" autocomplete="off" placeholder="email" autocomplete="off">
+              </li>
+              <li>
+                  <input type="password" name="password" id="password" placeholder="password">
+              </li>
+              <li>
+                  <!-- <label for="remember">Remember me :</label>
+                  <input type="checkbox" name="remember" id="remember"> -->
+              </li>
+              <li>
+                <div class="login">
+                  <button type="submit" name="login" >Login</button>
+                </div>
+              </li>
+            </ul>
+          </form>
 
-      <?php if(isset($error)) : ?>
-        <div class="error-content">
-          <p class="error">inccorect email or password</p>
+          <p class="line">or continue with</p><br>
+
+          <p>Don't have a account? <a href="registrasi.php" class="account">Create Account</a></p>
+
+          <?php if(isset($error)) : ?>
+            <div class="error-content">
+              <p class="error">inccorect email or password</p>
+            </div>
+          <?php endif ; ?>
+
         </div>
-      <?php endif ; ?>
+      </div>
 
+      <div class="right-content">
+        <div class="sign-up">
+          <h1>Welcome Back!</h1>
+          <p>Let's Go Create Your Account</p>
+
+          <button id="sign-up">SIGN UP</button>
+        </div>
+      </div>
+        
     </div>
   </div>
 </body>

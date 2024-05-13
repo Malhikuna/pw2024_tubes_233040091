@@ -21,6 +21,11 @@ if(isset($_POST["play"])) {
   exit;
 }
 
+if(isset($_POST["back"])) {
+  header("Location: javascript://history.go(-1)");
+  exit;
+}
+
 header("Cache-Control: no-cache, must-revalidate");
 
  ?>
@@ -71,9 +76,9 @@ header("Cache-Control: no-cache, must-revalidate");
           </form>
         </div>
       </div>
-      <div class="back">
-        <p><a href="index.php">Back</a></p>
-      </div>
+      <!-- <form action="" method="post">
+        <button class="back" name="back">Back</button>
+      </form> -->
     </div>
   </div>
 

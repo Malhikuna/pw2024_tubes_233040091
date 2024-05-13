@@ -50,7 +50,7 @@ if(isset($_POST["upload"])) {
           <h2>Create Your Course</h2>
           <label>
             Course Name
-            <input type="text" name="course_name" value="JavaScript Object Oriented Programing">
+            <input type="text" name="course_name">
           </label>
           <label>
             Price
