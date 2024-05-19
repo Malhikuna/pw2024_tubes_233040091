@@ -54,7 +54,7 @@ if (isset($_POST["login"])) {
           <form action="" method="post">
             <ul>
               <li>
-                  <input type="email" name="email" id="email" autocomplete="off" placeholder="email" autocomplete="off" required>
+                  <input type="email" name="email" id="email" placeholder="email" autocomplete="off" required>
               </li>
               <li>
                   <input type="password" name="password" id="password" placeholder="password" required>
@@ -95,6 +95,25 @@ if (isset($_POST["login"])) {
 
           <button id="sign-up">SIGN UP</button>
         </div>
+        <!-- <div class="sign-up">
+          <h1>Create Account</h1>
+          <form action="" method="post">
+            <ul>
+              <li>
+                  <input type="email" name="email" id="email" autocomplete="off" placeholder="email" autocomplete="off" required>
+              </li>
+              <li>
+                  <input type="password" name="password" id="password" placeholder="password" required>
+              </li>
+              <li>
+                <center><hr width="100"></center>
+                <div class="login">
+                  <button type="submit" name="sign up" >Sign UP</button>
+                </div>
+              </li>
+            </ul>
+          </form>
+        </div> -->
       </div>
         
     </div>

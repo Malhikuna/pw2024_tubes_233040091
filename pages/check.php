@@ -7,24 +7,15 @@ if(!isset($_SESSION["login"])) {
     exit;
 }
 
-$course_id = $_POST["id"];
+$courseId = $_POST["id"];
 
-$videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
+$videos = query("SELECT * FROM course_video WHERE courses_id = '$courseId'");
 
-$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$course_id'")[0];
+$numVideos = strval(count($videos));
 
-if(isset($_POST["play"])) {
+// var_dump($numVideos);
 
-  $_SESSION["course_id"] = $_POST["course_id"];
-
-  header("Location: video.php");
-  exit;
-}
-
-if(isset($_POST["back"])) {
-  header("Location: javascript://history.go(-1)");
-  exit;
-}
+$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$courseId'")[0];
 
 header("Cache-Control: no-cache, must-revalidate");
 
@@ -45,12 +36,15 @@ header("Cache-Control: no-cache, must-revalidate");
   <div class="container">
     <div class="course-content">
       <p class="catagory"><?= $crs["catagory_name"]; ?></p>
+      <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+          <button class="delete" name="delete">Delete</button>
+      <?php endif ; ?>
       <div class="top">
         <div class="left">
           <img src="../img/<?= $crs["thumbnail"]; ?>" alt="">
         </div>
         <div class="right">
-          <h3>Include <?= count($videos) ?> Videos</h3>
+          <h3>Include <?= $numVideos ?> Videos</h3>
           <?php foreach($videos as $video) : ?>
           <p>▶ <?= $video["video_name"]; ?></p>
           <?php endforeach ; ?>
@@ -67,20 +61,36 @@ header("Cache-Control: no-cache, must-revalidate");
           </div>
         </div>
         <div class="right">
-          <form action="" method="post">
-            <!-- <p>Rp100.000</p> -->
-            <!-- <button>Add To Cart</button> -->
-            <!-- <button>Buy Now</button> -->
-            <input type="hidden" name="course_id" value="<?= $course_id; ?>">
-            <button class="play" name="play">Play Video</button>
+            <input type="hidden" name="course_id" value="<?= $courseId; ?>">
+            <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+              <a href="edit-course.php?id=<?= $courseId; ?>"><button id="edit" name="edit">Edit</button></a>
+              <a href="video.php?id=<?= $courseId; ?>"><button id="play" name="play">Play Video</button></a>
+            <?php else : ?>
+              <p>Rp100.000</p>
+              <button id="add">Add To Cart</button>
+              <button id="buy">Buy Now</button>
+            <?php endif ; ?>
+        </div>
+      </div>
+
+      <div class="alert">
+        <p>The course will be deleted</p>
+        <p>Are you sure?</p>
+        <div class="yon">
+          <button class="no">No</button>
+          <form action="delete.php" method="post">
+            <input type="hidden" name="id" value="<?= $courseId; ?>">
+            <input type="hidden" name="videos" value="<?= $numVideos; ?>">
+            <button class="yes">Yes</button>
           </form>
         </div>
       </div>
-      <!-- <form action="" method="post">
-        <button class="back" name="back">Back</button>
-      </form> -->
+      <a href="javascript:history.back()"><button class="back">Back</button></a>
     </div>
   </div>
+
+  <script src="../javascript/jquery.js"></script>
+  <script src="../javascript/check.js"></script>
 
 </body>
 </html>

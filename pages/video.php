@@ -7,21 +7,22 @@ if(!isset($_SESSION["login"])) {
   exit;
 }
 
-$course_id = $_SESSION["course_id"];
+$courseId = $_GET["id"];
 
-$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$course_id'")[0];
+$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$courseId'")[0];
 
-$videos = query("SELECT * FROM course_video WHERE courses_id = '$course_id'");
+$videos = query("SELECT * FROM course_video WHERE courses_id = '$courseId'");
+
+$id = query("SELECT id FROM course_video WHERE courses_id = $courseId ORDER BY id LIMIT 1")[0]["id"];
 
 if(isset($_POST["video_click"])) {
   $id = $_POST["video_id"];
 
-  $video_name = query("SELECT * FROM course_video WHERE courses_id = '$course_id' AND id = '$id'")[0];
-
+  $videoName = query("SELECT * FROM course_video WHERE courses_id = '$courseId' AND id = '$id'")[0];
+  
 }
 
 header("Cache-Control: no-cache, must-revalidate");
-
 
 ?>
 
@@ -44,7 +45,7 @@ header("Cache-Control: no-cache, must-revalidate");
         <source src="../videos/663fd58675c29.mp4" type="video.mp4">
       </video>
       <?php if(isset($_POST["video_click"])) : ?>
-        <h1><?= $video_name["video_name"]; ?></h1>
+        <h1><?= $videoName["video_name"]; ?></h1>
       <?php else : ?>
         <h1><?= $videos[0]["video_name"]; ?></h1>
       <?php endif ; ?>
@@ -63,6 +64,16 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       <?php endforeach ; ?>
     </div>
+    <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+      <?php if(isset($_POST["video_click"])) : ?>
+        <a href="delete-video.php?id=<?= $id; ?>"><button class="delete">Delete</button></a>
+        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
+      <?php else : ?>
+        <a href="delete-video.php?id=<?= $id; ?>"><button class="delete">Delete</button></a>
+        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
+      <?php endif ; ?>
+      <a href="add-video.php?id=<?= $courseId; ?>"><button name="new-video" class="new-video">New</button></a>
+    <?php endif ; ?>
   </div>
   <div class="bottom-content">
     <div class="channel-box">

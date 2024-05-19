@@ -32,6 +32,12 @@ function registrasi($data) {
         return false;
     }
 
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE email = '$username'");
+    if(mysqli_fetch_assoc($result)) {
+        echo "<script>alert('Username sudah terpakai')</script>";
+        return false;
+    }
+
     $password1 = password_hash($password1, PASSWORD_DEFAULT);
 
     mysqli_query($conn, "INSERT INTO users(email, username, password) VALUES ('$email', '$username', '$password1')");
@@ -50,14 +56,8 @@ function upload($data) {
     $description = htmlspecialchars($data["description"]);
 
     // Cek Catagory
-    switch($data["catagory"]) {
-        case "Frontend Developer":
-            $catagory = 1;
-            break;
-        case "Backend Developer":
-            $catagory = 2;
-            break;
-    }
+    $catagory = catagoryCheck($data["catagory"]);
+
 
     // Upload gambar
     $thumbnail = uploadImage();
@@ -89,9 +89,9 @@ function upload($data) {
             $courseId = $id["id"];
         }
      
-        $query2 = "INSERT INTO course_video(video_name, description, courses_id)
+        $query2 = "INSERT INTO course_video(video_name, description, video, courses_id
                     VALUES
-                    ('$video_name', '$description', '$courseId')";
+                    ('$video_name', '$description', '$video', '$courseId')";
 
         mysqli_query($conn, $query2);
 
@@ -193,7 +193,9 @@ function uploadVideo() {
 
 function user($data) {
     global $conn;
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE email = '$data'");
+    $result = mysqli_query($conn, "SELECT * 
+                                    FROM users 
+                                    WHERE email = '$data'");
     $row = mysqli_fetch_assoc(($result));
     $username = ucwords($row["username"]);
 
@@ -201,13 +203,183 @@ function user($data) {
 }
 
 function search($keyword) {
-    $query = "SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
-            WHERE
-            name LIKE '%$keyword%' OR
-            channel_name LIKE '%$keyword%'
+    $query = "SELECT *, courses.id as courses_id 
+                FROM courses 
+                JOIN catagories 
+                ON (courses.catagory_id = catagories.id)
+                WHERE name 
+                LIKE '%$keyword%' 
+                OR channel_name 
+                LIKE '%$keyword%'
     ";
     
     return query($query);
 }
 
+function catagoryCheck($data) {
+    switch($data) {
+        case "Frontend Developer":
+            $catagory = 1;
+            return $catagory;
+            break;
+        case "Backend Developer":
+            $catagory = 2;
+            return $catagory;
+            break;
+    }
+}
+
+function update($data) {
+    global $conn;
+    // ambil data dari tiap elemen dalam form
+    $id = $data["id"];
+    $course_name = htmlspecialchars($data["course_name"]);
+    $price = htmlspecialchars($data["price"]);
+    $old_thumbnail = ($data["old_thumbnail"]);
+
+    // Cek catagori
+    $catagory = catagoryCheck($data["catagory"]);
+
+    // Cek apakah user pilih gambar baru atau tidak
+    if( $_FILES['thumbnail']['error'] === 4) {
+        $thumbnail = $old_thumbnail;
+    } else {
+        $thumbnail = uploadImage();
+    } 
+
+    //  query update data
+    $query = "UPDATE courses 
+                SET
+                name = '$course_name',
+                price = '$price',
+                catagory_id = '$catagory',
+                thumbnail = '$thumbnail'
+                WHERE courses.id = $id 
+                ";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function delete($id, $videos) {
+    global $conn;
+
+    if($videos > 0) {
+        mysqli_query($conn, "DELETE courses, course_video
+                             FROM courses
+                             JOIN course_video
+                             ON courses.id = courses_id
+                             WHERE courses.id = $id");
+    
+        return mysqli_affected_rows($conn);
+    } else {
+        mysqli_query($conn, "DELETE
+                             FROM courses
+                             WHERE courses.id = $id");
+    
+        return mysqli_affected_rows($conn);
+    }
+}
+
+// Dashboard Functions
+
+function deleteVideo($id) {
+    global $conn;
+    mysqli_query($conn, "DELETE
+                         FROM course_video
+                         WHERE id = $id");
+
+    return mysqli_affected_rows($conn);
+}
+
+function deleteCatagory($id) {
+    global $conn;
+    mysqli_query($conn, "DELETE
+                         FROM catagories
+                         WHERE id = $id");
+
+    return mysqli_affected_rows($conn);
+}
+
+function addCatagory($data) {
+    global $conn;
+
+    $catagory = $data["catagory"];
+
+    $result = mysqli_query($conn, "SELECT * FROM catagories WHERE catagory_name = '$catagory'");
+
+    if(mysqli_fetch_assoc($result)) {
+        return false;
+    }
+
+    mysqli_query($conn, "INSERT INTO catagories
+                                    (catagory_name)
+                                    VALUES
+                                    ('$catagory')");
+
+    return mysqli_affected_rows($conn);
+}
+
+function updateCatagory($data) {
+    global $conn;
+
+    $catagoryName = $data["catagoryName"];
+    $id = $data["id"];
+
+    mysqli_query($conn, "UPDATE catagories
+                            SET catagory_name = '$catagoryName' 
+                            where catagories.id = $id");
+    return mysqli_affected_rows($conn);
+}
+
+function addVideo($data) {
+        global $conn;
+
+        $video_name = $data["video_name"];
+        $description = $data["description"];
+        $courseId = $data["courseId"];
+
+        $video = uploadVideo();
+
+        if(!$video) {
+            return false;
+        }
+     
+        $query = "INSERT INTO course_video(video_name, description, video, courses_id)
+                    VALUES
+                    ('$video_name', '$description', '$video', '$courseId')";
+
+        mysqli_query($conn, $query);
+
+        return mysqli_affected_rows($conn);
+}
+
+function updateVideo($data) {
+    global $conn;
+    // ambil data dari tiap elemen dalam form
+    $videoId = $data["id"];
+    $videoName = htmlspecialchars($data["videoName"]);
+    $description = htmlspecialchars($data["description"]);
+    $oldVideo = $data["oldVideo"];
+
+    // Cek apakah user pilih video baru atau tidak
+    if( $_FILES['video']['error'] === 4) {
+        $video = $oldVideo;
+    } else {
+        $video = uploadVideo();
+    } 
+
+    //  query update data
+    $query = "UPDATE course_video 
+                SET
+                video_name = '$videoName',
+                description = '$description',
+                video = '$video'
+                WHERE id = $videoId 
+                ";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
 ?>

@@ -8,7 +8,7 @@ $courses = query("SELECT *, courses.id as courses_id
                   FROM courses 
                   JOIN catagories ON (courses.catagory_id = catagories.id)
                   WHERE channel_name = '$channel_name'
-                  ORDER BY name 
+                  ORDER BY courses.id DESC 
 ");
 
 ?>
@@ -21,6 +21,7 @@ $courses = query("SELECT *, courses.id as courses_id
   <title>Document</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/index.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 <body>
   <?php require "../layouts/navbar.php" ?>
@@ -35,6 +36,11 @@ $courses = query("SELECT *, courses.id as courses_id
             <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
             <img src="../img/<?= $course["thumbnail"] ?>" alt="">
             <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
+
+            <div class="like">
+              <i class="ri-heart-3-line"></i>
+            </div>
+
 
             <div class="bottom">
               <div class="left">

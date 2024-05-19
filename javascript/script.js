@@ -1,10 +1,4 @@
 $(document).ready(function () {
-  // $(".course-content").hide();
-
-  //  $(".card").on("click", function () {
-  //   $(".course-content").show();
-  // });
-
   $(".close").on("click", function () {
     $(".course-content").hide();
   });
@@ -19,9 +13,53 @@ $(document).ready(function () {
     $(".form-content-2").hide();
   });
 
-  // $("#sign-up").on("click", function () {
-  //   $(".sign-in").class("display", "none");
-  // });
+  $(".con-red").on("click", function () {
+    $(".alert").hide();
+  });
+
+  // Dashboard.php
+
+  $(".add").hide();
+
+  $(".col-1").hover(
+    function () {
+      $(".add-1").show();
+    },
+    function () {
+      $(".add-1").hide();
+    }
+  );
+
+  $(".col-2").hover(
+    function () {
+      $(".add-2").show();
+    },
+    function () {
+      $(".add-2").hide();
+    }
+  );
+
+  $(".back").click(function (e) {
+    $(location).attr("href", "dashboard.php");
+  });
+
+  $(".add-1").click(function (e) {
+    $(location).attr("href", "videos.php");
+  });
+
+  $(".add-2").click(function (e) {
+    $(location).attr("href", "catagories.php");
+  });
+
+  $(".add-ctg").hide();
+
+  $("#add").click(function () {
+    $(".add-ctg").show();
+  });
+
+  $("#submit").click(function (e) {
+    $(".add-ctg").hide();
+  });
 });
 
 $(window).scroll(function () {
@@ -33,3 +71,7 @@ $(window).scroll(function () {
     $("html, body").animate({ scrollTop: 0 }, 0);
   });
 });
+
+// $("#sign-up").on("click", function () {
+//   $(".sign-in").class("display", "none");
+// });

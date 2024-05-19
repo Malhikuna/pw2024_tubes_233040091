@@ -146,6 +146,11 @@ a.account {
   background-color: white;
 }
 
+.form-content .right-content .sign-up {
+  background-color: white;
+  /* display: none; */
+}
+
 .form-content .sign-in,
 .form-content .sign-up {
   display: flex;

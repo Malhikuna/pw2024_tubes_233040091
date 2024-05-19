@@ -10,7 +10,7 @@ if( !isset($_SESSION["login"])) {
 require "../functions/functions.php";
 
 // cek apakah tombol upload sudah ditekan atau belum
-if(isset($_POST["upload"])) {
+/* if(isset($_POST["upload"])) {
     // cek apakah data berhasil ditambahkan atau tidak
     if (upload($_POST) > 0) {
         echo "
@@ -27,7 +27,7 @@ if(isset($_POST["upload"])) {
             </script>
         ";
     }
-}
+} */
 
  ?>
 
@@ -39,6 +39,7 @@ if(isset($_POST["upload"])) {
   <title>Upload Page</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/create.css">
+  <link rel="stylesheet" href="../css/alert.css">
 </head>
 <body>
   <?php require "../layouts/navbar.php" ?>
@@ -89,11 +90,26 @@ if(isset($_POST["upload"])) {
             Video
             <input type="file" name="video" class="video" required>
           </label>
-          <button type="submit" name="upload" >Upload</button>
+          <button type="submit" name="upload" class="upload" >Upload</button>
           <button class="prev">Prev</button>
         </div>
       </form>
     </div>
+
+    
+    <?php if(isset($_POST["upload"])) : ?>
+      <?php if (upload($_POST) > 0) : ?>
+        <div class="alert alert-green">
+          <p>data berhasil diupload</p>
+          <a href="course.php"><button name="continue" class="continue">continue</button></a>
+        </div>
+      <?php else : ?>
+        <div class="alert alert-red">
+          <p>data gagal diupload</p>
+          <a href="upload.php"><button name="continue" class="continue con-red">continue</button></a>
+        </div>    
+      <?php endif ; ?>
+    <?php endif ; ?> 
   </div>
 
   <script src="../javascript/jquery.js"></script>

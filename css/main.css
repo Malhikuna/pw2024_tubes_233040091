@@ -21,11 +21,12 @@ body {
 
 nav {
   display: flex;
-  /* position: fixed; */
+  position: fixed;
   width: 100%;
   z-index: 9999;
   height: 60px;
-  background-color: var(--bg1);
+  /* background: linear-gradient(135deg, #7433db, #651dd8, #7433db, #844ddd, #9d74de); */
+  background: linear-gradient(100deg, #a29fe8, #928fe5);
   padding-left: 8%;
   padding-right: 8%;
   justify-content: center;
@@ -97,7 +98,7 @@ nav {
 .link.active::before {
   content: "";
   position: absolute;
-  bottom: -9px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
   width: 7px;
@@ -114,7 +115,7 @@ nav {
   left: 50%;
   transform: translateX(-50%);
   width: 0%;
-  height: 1.5px;
+  height: 1.8px;
   background: var(--main-color);
   box-shadow: 3px 3px 10px var(--main-color), -3px -3px 10px white;
   transition: 0.5s;
@@ -127,4 +128,8 @@ nav {
 
 .navbar-list ul li a:hover::after {
   width: 100%;
+}
+
+button {
+  cursor: pointer;
 }

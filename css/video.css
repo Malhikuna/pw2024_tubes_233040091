@@ -1,5 +1,5 @@
 .container {
-  padding-top: 15px;
+  padding-top: 75px;
   width: 100%;
   min-height: 300vh;
   background-color: #eaeaea;
@@ -12,6 +12,8 @@
   width: 90%;
   height: 80vh;
   margin: auto;
+  position: relative;
+  padding-right: -5px;
 }
 
 .top-content .video-box {
@@ -35,6 +37,9 @@
   /* background-color: black; */
   border: 1.5px solid black;
   padding: 5px;
+  justify-self: end;
+  position: relative;
+  margin-left: 10px;
 }
 
 .top-content .video-playlist .video-box {
@@ -114,4 +119,35 @@
   border-radius: 50%;
   background-color: gold;
   border: 1px solid black;
+}
+
+.new-video,
+.delete,
+.edit {
+  position: absolute;
+  width: 90px;
+  height: 30px;
+  color: white;
+  border: 1px solid black;
+  font-size: 1rem;
+}
+
+.new-video {
+  right: 0;
+  bottom: 30px;
+  background-color: #02b902;
+  border-radius: 0 10px 10px 0;
+}
+
+.delete {
+  bottom: 30px;
+  right: 96px;
+  background-color: #ff1f1f;
+}
+
+.edit {
+  bottom: 30px;
+  right: 192px;
+  background-color: #4444f9;
+  border-radius: 10px 0 0 10px;
 }
