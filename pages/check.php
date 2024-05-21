@@ -9,7 +9,7 @@ if(!isset($_SESSION["login"])) {
 
 $courseId = $_POST["id"];
 
-$videos = query("SELECT * FROM course_video WHERE courses_id = '$courseId'");
+$videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
 
 $numVideos = strval(count($videos));
 

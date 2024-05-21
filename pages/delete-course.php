@@ -12,6 +12,10 @@ $id = $_POST["id"];
 
 var_dump($id);
 
+$videos = query("SELECT * FROM videos WHERE course_id = '$id'");
+
+$numVideos = strval(count($videos));
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +39,7 @@ var_dump($id);
 <body>
     <div class="container">
       <div class="alert" >
-        <p>The video will be deleted</p>
+        <p>The course will be deleted</p>
         <p>Are you sure?</p>
         <div class="yon">
           <a href="javascript:history.back()"><button type="button" class="no">No</button></a>
@@ -49,15 +53,15 @@ var_dump($id);
       <div class="container">
         <?php if(isset($_POST["yes"])) : ?>
           <?php $id = $_POST["id"] ?>
-          <?php if( deleteVideo($id) > 0) : ?>
+          <?php if( delete($id, $numVideos) > 0) : ?>
               <div class="alert alert-green">
-                <p>Video berhasil terhapus</p>
-                <a href="#" onclick="history.go(-2)"><button name="continue" class="continue">continue</button></a>
+                <p>Course berhasil terhapus</p>
+                <a href="dashboard-courses.php"><button name="continue" class="continue">continue</button></a>
               </div>
           <?php else : ?>
               <div class="alert alert-red">
-                <p>Video gagal terhapus</p>
-                <a href="#" onclick="history.go(-2)"><button name="continue" class="continue con-red">continue</button></a>
+                <p>Course gagal terhapus</p>
+                <a href="dashboard-courses.php"><button name="continue" class="continue con-red">continue</button></a>
               </div>    
           <?php endif ; ?>
         <?php endif ; ?>

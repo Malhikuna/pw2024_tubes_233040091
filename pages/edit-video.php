@@ -10,8 +10,9 @@ if( !isset($_SESSION["login"])) {
 require "../functions/functions.php";
 
 $videoId = $_GET["id"];
+$courseId = query("SELECT course_id FROM videos WHERE id = $videoId")[0]["course_id"];
 
-$courseVideo = query("SELECT * FROM course_video WHERE id = $videoId")[0];
+$courseVideo = query("SELECT * FROM videos WHERE id = $videoId")[0];
 $videoName = $courseVideo["video_name"];
 $description = $courseVideo["description"];
 $videoFile = $courseVideo["video"];
@@ -22,7 +23,7 @@ $videoFile = $courseVideo["video"];
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Page</title>
+  <title>Update Video</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/create.css">
   <link rel="stylesheet" href="../css/alert.css">
@@ -34,7 +35,7 @@ $videoFile = $courseVideo["video"];
     <div class="form-content">
       <form action="" method="post" enctype="multipart/form-data">
         <div class="form-content-2">
-          <h2>Create Video</h2>
+          <h2>Update Video</h2>
           <label>
             Video Title
             <input type="text" name="videoName" value="<?= $videoName; ?>">
@@ -61,12 +62,12 @@ $videoFile = $courseVideo["video"];
       <?php if (updateVideo($_POST) > 0) : ?>
         <div class="alert alert-green">
           <p>Video berhasil diupdate</p>
-          <a href="#" onclick="history.go(-2)"><button name="continue" class="continue">continue</button></a>
+          <a href="video.php?id=<?= $courseId; ?>"><button name="continue" class="continue">continue</button></a>
         </div>
       <?php else : ?>
         <div class="alert alert-red">
           <p>Video gagal diupdate</p>
-          <a href="edit-video.php"><button name="continue" class="continue con-red">continue</button></a>
+          <a href="video.php?id=<?= $courseId; ?>"><button name="continue" class="continue con-red">continue</button></a>
         </div>    
       <?php endif ; ?>
     <?php endif ; ?> 

@@ -11,15 +11,14 @@ $courseId = $_GET["id"];
 
 $crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$courseId'")[0];
 
-$videos = query("SELECT * FROM course_video WHERE courses_id = '$courseId'");
+$videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
 
-$id = query("SELECT id FROM course_video WHERE courses_id = $courseId ORDER BY id LIMIT 1")[0]["id"];
+$id = query("SELECT id FROM videos WHERE course_id = $courseId ORDER BY id LIMIT 1")[0]["id"];
 
 if(isset($_POST["video_click"])) {
   $id = $_POST["video_id"];
 
-  $videoName = query("SELECT * FROM course_video WHERE courses_id = '$courseId' AND id = '$id'")[0];
-  
+  $videoName = query("SELECT * FROM videos WHERE course_id = '$courseId' AND id = '$id'")[0];
 }
 
 header("Cache-Control: no-cache, must-revalidate");
@@ -66,10 +65,16 @@ header("Cache-Control: no-cache, must-revalidate");
     </div>
     <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
       <?php if(isset($_POST["video_click"])) : ?>
-        <a href="delete-video.php?id=<?= $id; ?>"><button class="delete">Delete</button></a>
+        <form action="delete-video.php" method="post">
+          <input type="hidden" name="id" value="<?= $id; ?>">
+          <button class="delete">Delete</button>
+        </form>
         <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
       <?php else : ?>
-        <a href="delete-video.php?id=<?= $id; ?>"><button class="delete">Delete</button></a>
+        <form action="delete-video.php" method="post">
+          <input type="hidden" name="id" value="<?= $id; ?>">
+          <button class="delete">Delete</button>
+        </form>
         <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
       <?php endif ; ?>
       <a href="add-video.php?id=<?= $courseId; ?>"><button name="new-video" class="new-video">New</button></a>

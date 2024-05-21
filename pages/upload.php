@@ -9,26 +9,6 @@ if( !isset($_SESSION["login"])) {
 
 require "../functions/functions.php";
 
-// cek apakah tombol upload sudah ditekan atau belum
-/* if(isset($_POST["upload"])) {
-    // cek apakah data berhasil ditambahkan atau tidak
-    if (upload($_POST) > 0) {
-        echo "
-            <script>
-                alert('Berhasil upload');
-                document.location.href = 'index.php';
-            </script>
-        ";
-    } else {
-        echo "
-            <script>
-                alert('Maaf anda gagal mengupload, silahkan cek kembali');
-                // document.location.href = 'index.php';
-            </script>
-        ";
-    }
-} */
-
  ?>
 
 <!DOCTYPE html>
@@ -51,7 +31,7 @@ require "../functions/functions.php";
           <h2>Create Your Course</h2>
           <label>
             Course Name
-            <input type="text" name="course_name">
+            <input type="text" name="courseName">
           </label>
           <label>
             Price
@@ -70,7 +50,7 @@ require "../functions/functions.php";
             <input type="file" name="thumbnail" class="thumbnail">
           </label>
           <label>
-            <input type="hidden" name="channel_name" value="<?= $_SESSION["username"]; ?>">
+            <input type="hidden" name="channelName" value="<?= $_SESSION["username"]; ?>">
           </label>
           <button class="next">Next</button>
         </div>
@@ -78,7 +58,7 @@ require "../functions/functions.php";
           <h2>Create Video</h2>
           <label>
             Video Title
-            <input type="text" name="video_name" value="Pendahuluan">
+            <input type="text" name="videoName" value="Pendahuluan">
             <br>
           </label>
           <label>

@@ -5,8 +5,6 @@ require "../functions/functions.php";
 $username = $_SESSION["username"];
 $status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
-var_dump($status);
-
 if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
@@ -15,7 +13,7 @@ if($status !== "admin") {
   header("Location: index.php");
 }
 
-$catagory = query("SELECT * FROM catagories");
+$catagory = query("SELECT * FROM catagories ORDER BY id DESC LIMIT 10");
 
 header("Cache-Control: no-cache, must-revalidate");
 
@@ -26,7 +24,7 @@ header("Cache-Control: no-cache, must-revalidate");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>Catagories Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
@@ -41,11 +39,17 @@ header("Cache-Control: no-cache, must-revalidate");
     </div>
     <div class="right catagories">
       <i class="ri-arrow-left-circle-fill back"></i>
+
+      <div id="search">
+        <form action="" method="post">
+          <input class="search" type="text" name="key" size="40" placeholder="search.." autocomplete="off" id="key">
+        </form>
+      </div>
       <button id="add"><i class="ri-add-circle-line"></i></button>
-      <section class="table table-catagory">
+      <section class="table-catagory">
         <div class="top">
         </div>
-        <div class="bottom">
+        <div class="bottom" id="container">
           <table>
             <thead>
               <tr>
@@ -101,6 +105,13 @@ header("Cache-Control: no-cache, must-revalidate");
       $(".updateCatagory").hide();
 
 
+      // Event ketika keyword ditulis
+      $("#key").on("keyup", function () {
+        // $.get()
+        $.get("../ajax/dashboard-catagories.php?keyword=" + $("#key").val(), function (data) {
+          $("#container").html(data);
+        });
+      });
     })
   </script>
 </body>

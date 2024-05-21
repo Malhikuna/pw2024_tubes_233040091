@@ -47,12 +47,12 @@ $id = $_GET["id"];
         <?php if( deleteCatagory($id) > 0) : ?>
             <div class="alert alert-green">
               <p>Katagori berhasil terhapus</p>
-              <a href="catagories.php"><button name="continue" class="continue">continue</button></a>
+              <a href="dashboard-catagories.php"><button name="continue" class="continue">continue</button></a>
             </div>
         <?php else : ?>
             <div class="alert alert-red">
               <p>Katagori gagal terhapus</p>
-              <a href="catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+              <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
             </div>    
         <?php endif ; ?>
       <?php endif ; ?>

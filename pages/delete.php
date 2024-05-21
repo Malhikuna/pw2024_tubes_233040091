@@ -25,12 +25,12 @@ $videos = $_POST["videos"];
     <div class="container">
         <?php if( delete($id, $videos) > 0) : ?>
             <div class="alert alert-green">
-              <p>Data berhasil terhapus</p>
+              <p>Course berhasil terhapus</p>
               <a href="course.php"><button name="continue" class="continue">continue</button></a>
             </div>
         <?php else : ?>
             <div class="alert alert-red">
-              <p>data gagal terhapus</p>
+              <p>Course gagal terhapus</p>
               <a href="course.php"><button name="continue" class="continue con-red">continue</button></a>
             </div>    
         <?php endif ; ?>
@@ -38,9 +38,6 @@ $videos = $_POST["videos"];
 
     <script src="../javascript/jquery.js"></script>
     <script>
-        $(document).ready(function () {
-
-        })
     </script>
 </body>
 </html>

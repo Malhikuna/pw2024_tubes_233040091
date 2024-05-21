@@ -6,7 +6,7 @@
   </div>
 
   <div class="search-content">
-    <form action="index.php" method="post">
+    <form action="search.php" method="post">
       <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off" id="keyword">
       <input type="hidden" class="search" name="search" id="tombol-cari"></input>
     </form>

@@ -5,8 +5,6 @@ require "../functions/functions.php";
 $username = $_SESSION["username"];
 $status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
-var_dump($status);
-
 if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
@@ -71,14 +69,14 @@ header("Cache-Control: no-cache, must-revalidate");
 
       <?php if(isset($_POST["update"])) : ?>
         <?php if (updateCatagory($_POST) > 0) : ?>
-          <div class="alert alert-greem">
+          <div class="alert alert-green">
             <p>Catagory Berhasil ditambahkan</p>
-            <a href="catagories.php"><button class="continue con-red">continue</button></a>
+            <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
           </div>    
         <?php else : ?>
           <div class="alert alert-red">
             <p>Catagory gagal ditambahkan</p>
-            <a href="catagories.php"><button class="continue con-red">continue</button></a>
+            <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
           </div>    
         <?php endif ; ?>
       <?php endif ; ?>

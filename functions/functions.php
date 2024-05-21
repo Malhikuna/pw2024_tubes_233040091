@@ -49,10 +49,10 @@ function registrasi($data) {
 function upload($data) {
     global $conn;
     // ambil data dari tiap elemen dalam form
-    $course_name = htmlspecialchars($data["course_name"]);
+    $courseName = htmlspecialchars($data["courseName"]);
     $price = htmlspecialchars($data["price"]);
-    $channel_name = htmlspecialchars($data["channel_name"]);
-    $video_name = htmlspecialchars($data["video_name"]);
+    $channelName = htmlspecialchars($data["channelName"]);
+    $videoName = htmlspecialchars($data["videoName"]);
     $description = htmlspecialchars($data["description"]);
 
     // Cek Catagory
@@ -74,24 +74,24 @@ function upload($data) {
     //  query insert data
     $query1 = "INSERT INTO courses(catagory_id, name, channel_name, thumbnail, price)
                 VALUES
-                ('$catagory', '$course_name', '$channel_name', '$thumbnail', '$price')
+                ('$catagory', '$courseName', '$channelName', '$thumbnail', '$price')
                 ";
 
     mysqli_query($conn, $query1);
     
     if(mysqli_affected_rows($conn) > 0) {
 
-        $course_id = query("SELECT id FROM courses WHERE name = '$course_name'");
+        $course_id = query("SELECT id FROM courses WHERE name = '$courseName'");
 
         // $courseId = $course_id["id"];
 
         foreach($course_id as $id) {
             $courseId = $id["id"];
         }
-     
-        $query2 = "INSERT INTO course_video(video_name, description, video, courses_id
-                    VALUES
-                    ('$video_name', '$description', '$video', '$courseId')";
+
+        $query2 = "INSERT INTO videos(video_name, description, video, course_id)
+            VALUES
+            ('$videoName', '$description', '$video', '$courseId')";
 
         mysqli_query($conn, $query2);
 
@@ -233,16 +233,16 @@ function update($data) {
     global $conn;
     // ambil data dari tiap elemen dalam form
     $id = $data["id"];
-    $course_name = htmlspecialchars($data["course_name"]);
+    $courseName = htmlspecialchars($data["courseName"]);
     $price = htmlspecialchars($data["price"]);
-    $old_thumbnail = ($data["old_thumbnail"]);
+    $oldThumbnail = ($data["oldThumbnail"]);
 
     // Cek catagori
     $catagory = catagoryCheck($data["catagory"]);
 
     // Cek apakah user pilih gambar baru atau tidak
     if( $_FILES['thumbnail']['error'] === 4) {
-        $thumbnail = $old_thumbnail;
+        $thumbnail = $oldThumbnail;
     } else {
         $thumbnail = uploadImage();
     } 
@@ -250,7 +250,7 @@ function update($data) {
     //  query update data
     $query = "UPDATE courses 
                 SET
-                name = '$course_name',
+                name = '$courseName',
                 price = '$price',
                 catagory_id = '$catagory',
                 thumbnail = '$thumbnail'
@@ -265,10 +265,10 @@ function delete($id, $videos) {
     global $conn;
 
     if($videos > 0) {
-        mysqli_query($conn, "DELETE courses, course_video
+        mysqli_query($conn, "DELETE courses, videos
                              FROM courses
-                             JOIN course_video
-                             ON courses.id = courses_id
+                             JOIN videos
+                             ON courses.id = course_id
                              WHERE courses.id = $id");
     
         return mysqli_affected_rows($conn);
@@ -286,7 +286,7 @@ function delete($id, $videos) {
 function deleteVideo($id) {
     global $conn;
     mysqli_query($conn, "DELETE
-                         FROM course_video
+                         FROM videos
                          WHERE id = $id");
 
     return mysqli_affected_rows($conn);
@@ -335,19 +335,18 @@ function updateCatagory($data) {
 function addVideo($data) {
         global $conn;
 
-        $video_name = $data["video_name"];
+        $videoName = $data["videoName"];
         $description = $data["description"];
         $courseId = $data["courseId"];
 
         $video = uploadVideo();
-
         if(!$video) {
             return false;
         }
      
-        $query = "INSERT INTO course_video(video_name, description, video, courses_id)
+        $query = "INSERT INTO videos(video_name, description, video, course_id)
                     VALUES
-                    ('$video_name', '$description', '$video', '$courseId')";
+                    ('$videoName', '$description', '$video', '$courseId')";
 
         mysqli_query($conn, $query);
 
@@ -370,7 +369,7 @@ function updateVideo($data) {
     } 
 
     //  query update data
-    $query = "UPDATE course_video 
+    $query = "UPDATE videos 
                 SET
                 video_name = '$videoName',
                 description = '$description',

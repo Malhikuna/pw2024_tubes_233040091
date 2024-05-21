@@ -39,16 +39,29 @@ $(document).ready(function () {
     }
   );
 
+  $(".col-3").hover(
+    function () {
+      $(".add-3").show();
+    },
+    function () {
+      $(".add-3").hide();
+    }
+  );
+
   $(".back").click(function (e) {
     $(location).attr("href", "dashboard.php");
   });
 
   $(".add-1").click(function (e) {
-    $(location).attr("href", "videos.php");
+    $(location).attr("href", "dashboard-courses.php");
   });
 
   $(".add-2").click(function (e) {
-    $(location).attr("href", "catagories.php");
+    $(location).attr("href", "dashboard-videos.php");
+  });
+
+  $(".add-3").click(function (e) {
+    $(location).attr("href", "dashboard-catagories.php");
   });
 
   $(".add-ctg").hide();

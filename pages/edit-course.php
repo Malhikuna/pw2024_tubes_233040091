@@ -24,7 +24,7 @@ header("Cache-Control: no-cache, must-revalidate");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Page</title>
+  <title>Update Course</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/create.css">
   <link rel="stylesheet" href="../css/update.css">
@@ -37,12 +37,12 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="form-content">
       <form action="" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $id; ?>">
-        <input type="hidden" name="old_thumbnail" value="<?= $crs["thumbnail"]; ?>">
+        <input type="hidden" name="oldThumbnail" value="<?= $crs["thumbnail"]; ?>">
         <div class="form-content-1">
           <h2>Edit Your Course</h2>
           <label>
             Course Name
-            <input type="text" name="course_name" value="<?= $crs["name"]; ?>" autocomplete="off">
+            <input type="text" name="courseName" value="<?= $crs["name"]; ?>" autocomplete="off">
           </label>
           <label>
             Price
@@ -63,9 +63,6 @@ header("Cache-Control: no-cache, must-revalidate");
           <div class="img">
             <img src="../img/<?= $crs["thumbnail"]; ?>" alt=""><br>
           </div>
-          <label>
-            <input type="hidden" name="channel_name" value="<?= $_SESSION["username"]; ?>">
-          </label>
           <button name="update" class="update">Update</button>
         </div>
       </form>
