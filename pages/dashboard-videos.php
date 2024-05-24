@@ -9,9 +9,14 @@ if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
 
-$courseVideos = query("SELECT *, videos.id as videoId FROM courses JOIN videos ON (course_id = courses.id)
-                  ORDER BY videos.id DESC LIMIT 5
-");
+$jumlahDataPerHalaman = 5;
+$jumlahData = count(query("SELECT *, videos.id as videoId FROM courses JOIN videos ON (course_id = courses.id)"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
+$courseVideos = query("SELECT *, videos.id as videoId FROM courses JOIN videos ON (course_id = courses.id) ORDER BY videos.id DESC LIMIT $dataAwal, $jumlahDataPerHalaman");
 
 $videos = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM videos"));
 
@@ -48,10 +53,11 @@ header("Cache-Control: no-cache, must-revalidate");
           <input class="search" type="text" name="key" size="40" placeholder="search.." autocomplete="off" id="key">
         </form>
       </div>
-      <section class="table">
+    
+      <section class="table" id="container">
         <div class="top">
         </div>
-        <div class="bottom" id="container">
+        <div class="bottom">
           <table>
             <thead>
               <tr>
@@ -67,7 +73,7 @@ header("Cache-Control: no-cache, must-revalidate");
               <?php foreach($courseVideos as $video) : ?>
                 <tr>
                   <td><?= $video["channel_name"]; ?></td>
-                  <td><img src="../img/<?= $video["thumbnail"]; ?>"></td>
+                  <td><img src="../img/thumbnail/<?= $video["thumbnail"]; ?>"></td>
                   <td><?= $video["video_name"]; ?></td>
                   <td>08-02-2024</td>
                   <td>
@@ -81,7 +87,28 @@ header("Cache-Control: no-cache, must-revalidate");
             </tbody>
           </table>
         </div>
+
+        <div class="pagination">
+          <?php if( $halamanAktif > 1 ) : ?>
+            <a href="?page=<?= $halamanAktif - 1 ?>">&laquo;</a>
+          <?php endif ; ?>
+    
+          <?php for($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+            <?php if( $i == $halamanAktif ) : ?>
+            <div class="active">
+              <a href="?page=<?= $i ?>"><?= $i; ?></a>
+            </div>
+            <?php else : ?>
+            <a href="?page=<?= $i ?>"><?= $i; ?></a>
+            <?php endif ; ?>
+          <?php endfor ; ?>
+    
+          <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+            <a href="?page=<?= $halamanAktif + 1 ?>">&raquo;</a>
+          <?php endif ; ?>
+        </div>
       </section>
+
     </div>
   </div>
 

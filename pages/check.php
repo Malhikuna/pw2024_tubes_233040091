@@ -15,7 +15,10 @@ $numVideos = strval(count($videos));
 
 // var_dump($numVideos);
 
-$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$courseId'")[0];
+$crs = query("SELECT * FROM courses 
+              JOIN catagories ON (courses.catagory_id = catagories.id)
+              JOIN users ON (user_id = users.id) 
+              WHERE courses.id = '$courseId'")[0];
 
 header("Cache-Control: no-cache, must-revalidate");
 
@@ -36,12 +39,12 @@ header("Cache-Control: no-cache, must-revalidate");
   <div class="container">
     <div class="course-content">
       <p class="catagory"><?= $crs["catagory_name"]; ?></p>
-      <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+      <?php if($crs["username"] === $_SESSION["username"]) : ?>
           <button class="delete" name="delete">Delete</button>
       <?php endif ; ?>
       <div class="top">
         <div class="left">
-          <img src="../img/<?= $crs["thumbnail"]; ?>" alt="">
+          <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" alt="">
         </div>
         <div class="right">
           <h3>Include <?= $numVideos ?> Videos</h3>
@@ -57,12 +60,12 @@ header("Cache-Control: no-cache, must-revalidate");
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
           <div class="channel-content">
             <div class="channel"></div>
-            <a href="profile.php?channel=<?= $crs["channel_name"]; ?>"><?= $crs["channel_name"]; ?></a>
+            <a href="profile.php?profile=<?= $crs["username"]; ?>"><?= $crs["username"]; ?></a>
           </div>
         </div>
         <div class="right">
             <input type="hidden" name="course_id" value="<?= $courseId; ?>">
-            <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+            <?php if($crs["username"] === $_SESSION["username"]) : ?>
               <a href="edit-course.php?id=<?= $courseId; ?>"><button id="edit" name="edit">Edit</button></a>
               <a href="video.php?id=<?= $courseId; ?>"><button id="play" name="play">Play Video</button></a>
             <?php else : ?>

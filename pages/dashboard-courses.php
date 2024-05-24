@@ -69,7 +69,7 @@ header("Cache-Control: no-cache, must-revalidate");
               <?php foreach($courses as $course) : ?>
                 <tr>
                   <td><?= $course["channel_name"]; ?></td>
-                  <td><img src="../img/<?= $course["thumbnail"]; ?>"></td>
+                  <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>
                   <td><?= $course["name"]; ?></td>
                   <td>08-02-2024</td>
                   <td>

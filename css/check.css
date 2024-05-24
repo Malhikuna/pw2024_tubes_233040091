@@ -14,7 +14,19 @@
 }
 
 .course-content .catagory {
-  margin-top: 5px;
+  position: absolute;
+  /* margin-top: 5px; */
+  top: 32px;
+  left: 25px;
+  display: inline-block;
+  background-color: blueviolet;
+  height: 18px;
+  width: auto;
+  padding-right: 13px;
+  padding-left: 10px;
+  color: #eaeaea;
+  border: 0.5px solid black;
+  border-bottom-width: 0;
 }
 
 .tag-line {
@@ -33,6 +45,7 @@
 .top {
   display: flex;
   justify-content: space-between;
+  margin-top: 25px;
 }
 
 .top .right {

@@ -61,7 +61,7 @@ header("Cache-Control: no-cache, must-revalidate");
             <input type="file" name="thumbnail" class="thumbnail" value="<?= $crs["thumbnail"]; ?>">
           </label>
           <div class="img">
-            <img src="../img/<?= $crs["thumbnail"]; ?>" alt=""><br>
+            <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" alt=""><br>
           </div>
           <button name="update" class="update">Update</button>
         </div>
@@ -69,7 +69,7 @@ header("Cache-Control: no-cache, must-revalidate");
     </div>
 
     <?php if(isset($_POST["update"])) : ?>
-      <?php if (update($_POST) > 0) : ?>
+      <?php if (updateCourse($_POST) > 0) : ?>
         <div class="alert alert-green">
           <p>data berhasil diubah</p>
           <a href="course.php"><button name="continue" class="continue">continue</button></a>        

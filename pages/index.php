@@ -2,22 +2,30 @@
 require "../functions/functions.php";
 session_start();
 
-$courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
-                  ORDER BY courses.id DESC LIMIT 9
+$jumlahDataPerHalaman = 9;
+$jumlahData = count(query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+ORDER BY courses.id DESC"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
+$courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) JOIN users ON (user_id = users.id)
+                  ORDER BY courses.id DESC LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
 
 $catagories = query("SELECT * FROM catagories");
 
 if(isset($_POST["sort"])) {
   if($_POST["sort"] === "old") {
-    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
-                  ORDER BY courses.id ASC LIMIT 9
+    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) JOIN users ON (user_id = users.id)
+                  ORDER BY courses.id ASC LIMIT $dataAwal, $jumlahDataPerHalaman
   ");
   }
 
   if($_POST["sort"] === "new") {
-    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
-                  ORDER BY courses.id DESC LIMIT 9
+    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) JOIN users ON (user_id = users.id)
+                  ORDER BY courses.id DESC LIMIT $dataAwal, $jumlahDataPerHalaman
   ");
   }
 }
@@ -36,9 +44,13 @@ header("Cache-Control: no-cache, must-revalidate");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+    />
+    <link href="../css/remixicon.css" rel="stylesheet" />
 
     <!-- Fonts -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Roboto&family=Unbounded:wght@500&display=swap" rel="stylesheet" /> -->
@@ -68,7 +80,7 @@ header("Cache-Control: no-cache, must-revalidate");
         <div class="card">
           <form action="check.php" method="post">
             <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-            <img src="../img/<?= $course["thumbnail"] ?>" alt="">
+            <img src="../img/thumbnail/<?= $course["thumbnail"] ?>" alt="">
             <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
             <p class="catagory"><?= $course["catagory_name"] ?></p>
 
@@ -82,8 +94,8 @@ header("Cache-Control: no-cache, must-revalidate");
                 <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
                 <div class="channel-content">
                   <div class="channel"></div>
-                  <p><?= $course["channel_name"] ?></p>
-                  <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
+                  <p><?= $course["username"] ?></p>
+                  <input type="hidden" name="channel_name" value="<?= $course["username"]; ?>">
                 </div>
               </div>
               <div class="right">
@@ -95,8 +107,28 @@ header("Cache-Control: no-cache, must-revalidate");
         </div>
       <?php endforeach ; ?>     
     </section>
+
+    <div class="pagination">
+      <?php if( $halamanAktif > 1 ) : ?>
+        <a href="?page=<?= $halamanAktif - 1 ?>">&laquo;</a>
+      <?php endif ; ?>
+
+      <?php for($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+        <?php if( $i == $halamanAktif ) : ?>
+        <div class="active">
+          <a href="?page=<?= $i ?>"><?= $i; ?></a>
+        </div>
+        <?php else : ?>
+        <a href="?page=<?= $i ?>"><?= $i; ?></a>
+        <?php endif ; ?>
+      <?php endfor ; ?>
+
+      <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+        <a href="?page=<?= $halamanAktif + 1 ?>">&raquo;</a>
+      <?php endif ; ?>
+    </div>
     
-    <h1 class="tag-line webdev">Web Development<i class="ri-arrow-down-wide-line"></i></h1>
+    <h1 class="tag-line webdev">Web Development</h1>
     <section class="webdev-rows">
         <a href="search.php?course=<?= $courses[0]["name"]; ?>">
         <div class="webdev-card card-1">
@@ -169,13 +201,6 @@ header("Cache-Control: no-cache, must-revalidate");
     </a>
     <?php endforeach ; ?>
   </section>
-
-
-  <button class="print">Print</button>
-
-  <?php if(isset($_SESSION["login"])) : ?>
-    <button class="logout"><a href="logout.php">Logout</a></button>
-  <?php endif ; ?>
 
   <?php require("../layouts/footer.php") ?>
 

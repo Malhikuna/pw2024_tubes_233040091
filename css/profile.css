@@ -1,49 +1,50 @@
-.profile-content {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-  width: 90%;
+.container {
   height: 200vh;
-  margin-top: 10px;
-  /* background-color: #eaeaea; */
-  /* background-color: red; */
 }
 
-.profile-content .top {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  margin-top: -310px;
-  width: 100%;
-  height: 300px;
-  background-color: #f6f4f4;
-  border-radius: 10px;
-  border: 1px solid black;
-}
-
-.profile-content .top .left {
-  position: absolute;
-  bottom: -150px;
+.profile-top,
+.profile-bottom {
+  position: fixed;
+  left: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  width: 30%;
-  height: 300px;
+  width: 250px;
   background-color: beige;
   border-radius: 10px;
   border: 2px solid black;
 }
 
-.profile-content .top .left .button {
+.profile-top {
+  top: 70px;
+  height: 250px;
+  gap: 10px;
+}
+
+.profile-bottom {
+  bottom: 5px;
+  height: 285px;
+}
+
+.profile-right {
+  position: absolute;
+  top: 70px;
+  right: 100px;
+  width: 800px;
+  height: 100vh;
+  background-color: beige;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.profile-top .button {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.profile-content .top .left .button button {
+.profile-top .button button {
   width: 70px;
   height: 30px;
   background-color: greenyellow;
@@ -52,21 +53,107 @@
   border-radius: 10px;
 }
 
-.profile-content .top .left .img {
-  width: 170px;
-  height: 170px;
-  background-image: url(../img/profile/malhikuna.jpeg);
+.profile-top .img {
+  width: 150px;
+  height: 150px;
   border: 2px solid black;
-  background-position: center;
-  background-size: cover;
   border-radius: 50%;
 }
 
-.profile-content .center {
+/* courses */
+
+.courses {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  gap: 40px;
+  margin-top: 50px;
+}
+
+.courses img {
   width: 100%;
-  height: 600px;
-  background-color: #f6f4f4;
+  height: 140px;
+  border-bottom: 1px solid black;
+  border-radius: 20px 20px 0 0;
+}
+
+.courses .card {
+  position: relative;
+  background-color: #ffffff;
+  border: 1.8px solid black;
+  border-radius: 20px;
+  width: 280px;
+  height: 200px;
+}
+
+.courses .card .catagory {
+  display: inline-block;
+  background-color: blueviolet;
+  height: 18px;
+  width: auto;
+  padding-right: 13px;
+  padding-left: 10px;
+  color: #eaeaea;
+  border: 0.5px solid black;
+  border-left-width: 0;
+  position: absolute;
+  top: 122px;
+  left: 0;
+}
+
+.courses .card .bottom {
+  padding-left: 5px;
+}
+
+.courses .channel-content {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  height: 30px;
+}
+
+.courses .channel {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  background-color: brown;
+  border-radius: 50%;
+}
+
+.courses .channel-content p {
+  margin-left: 5px;
+}
+
+.courses .card .like {
+  position: absolute;
+  top: 125px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.courses .card .like i {
+  z-index: 1000;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button.check {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  background-color: transparent;
+  /* background-color: #62d4d8; */
+  color: white;
+  font-weight: bold;
+  border-width: 0;
+  border-radius: 20px;
 }

@@ -7,9 +7,15 @@ if(!isset($_SESSION["login"])) {
   exit;
 }
 
+$userId = $_SESSION["id"];
+$profilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
+
 $courseId = $_GET["id"];
 
-$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$courseId'")[0];
+$crs = query("SELECT * FROM courses 
+              JOIN catagories ON (courses.catagory_id = catagories.id)
+              JOIN users ON (user_id = users.id)
+              WHERE courses.id = '$courseId'")[0];
 
 $videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
 
@@ -54,7 +60,7 @@ header("Cache-Control: no-cache, must-revalidate");
       <?php foreach($videos as $video) : ?>
         <form action="" method="post">
           <div class="video-box">
-            <img src="../img/<?= $crs["thumbnail"]; ?>" width="80" alt="">
+            <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" width="80" alt="">
             <input type="hidden" name="video_id" value="<?= $video["id"]; ?>">
             <button name="video_click">
               <p><?= $video["video_name"]; ?></p>
@@ -63,7 +69,7 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       <?php endforeach ; ?>
     </div>
-    <?php if($crs["channel_name"] === $_SESSION["username"]) : ?>
+    <?php if($crs["username"] === $_SESSION["username"]) : ?>
       <?php if(isset($_POST["video_click"])) : ?>
         <form action="delete-video.php" method="post">
           <input type="hidden" name="id" value="<?= $id; ?>">
@@ -82,8 +88,12 @@ header("Cache-Control: no-cache, must-revalidate");
   </div>
   <div class="bottom-content">
     <div class="channel-box">
-      <div class="picture-profile"></div>
-      <p><?= $crs["channel_name"]; ?></p>
+      <a href="profile.php?profile=<?= $_SESSION["username"]; ?>">
+        <img class="picture-profile" src="../img/profile/<?= $profilePicture; ?>">
+      </a>
+      <a href="profile.php?profile=<?= $_SESSION["username"]; ?>">
+        <p><?= $crs["username"]; ?></p>
+      </a>
     </div>
     <div class="like-box">
       <button>❤ Like</button>

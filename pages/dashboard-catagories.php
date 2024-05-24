@@ -86,12 +86,12 @@ header("Cache-Control: no-cache, must-revalidate");
         <?php if (addCatagory($_POST) > 0) : ?>
           <div class="alert alert-green">
             <p>Catagory Berhasil ditambahkan</p>
-            <a href="catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+            <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
           </div>    
         <?php else : ?>
           <div class="alert alert-red">
             <p>Catagory gagal ditambahkan</p>
-            <a href="catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+            <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
           </div>    
         <?php endif ; ?>
       <?php endif ; ?> 

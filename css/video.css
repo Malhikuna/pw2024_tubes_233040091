@@ -114,11 +114,10 @@
 
 .bottom-content .channel-box .picture-profile {
   margin-left: 5px;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: gold;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .new-video,

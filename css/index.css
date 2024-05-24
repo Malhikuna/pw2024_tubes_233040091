@@ -5,6 +5,33 @@
   position: relative;
 }
 
+.pagination {
+  margin-top: 20px;
+  bottom: -50px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  width: 1000px;
+  height: 30px;
+  /* background-color: black; */
+  margin: auto;
+}
+
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #000062;
+}
+
+.active a {
+  color: white;
+}
+
 .sort-content {
   display: flex;
   justify-content: center;
@@ -101,7 +128,8 @@
   display: inline-block;
   background-color: blueviolet;
   height: 18px;
-  width: 170px;
+  width: auto;
+  padding-right: 13px;
   padding-left: 10px;
   margin-bottom: 4px;
   color: #eaeaea;
@@ -126,6 +154,7 @@ p {
 }
 
 .print {
+  display: none;
   background-color: white;
   position: fixed;
   bottom: 10px;
@@ -235,12 +264,6 @@ button.check {
 
 .webdev-rows .webdev-card .add i {
   font-size: 5rem;
-}
-
-footer {
-  width: 100%;
-  height: 50vh;
-  background-color: #373737;
 }
 
 /* Catagories */

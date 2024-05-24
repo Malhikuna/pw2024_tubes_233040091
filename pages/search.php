@@ -60,7 +60,7 @@ header("Cache-Control: no-cache, must-revalidate");
         <div class="card">
           <form action="check.php" method="post">
             <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-            <img src="../img/<?= $course["thumbnail"] ?>" alt="">
+            <img src="../img/thumbnail/<?= $course["thumbnail"] ?>" alt="">
             <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
             <p class="catagory"><?= $course["catagory_name"] ?></p>
 

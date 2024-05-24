@@ -2,13 +2,14 @@
 require "../functions/functions.php";
 session_start();
 
-$channel_name = $_SESSION["username"];
+$userId = $_SESSION["id"];
 
-$courses = query("SELECT *, courses.id as courses_id 
+$courses = query("SELECT *, courses.id as courseId 
                   FROM courses 
                   JOIN catagories ON (courses.catagory_id = catagories.id)
-                  WHERE channel_name = '$channel_name'
-                  ORDER BY courses.id DESC 
+                  JOIN users ON (user_id = users.id)
+                  WHERE user_id = '$userId'
+                  ORDER BY courseId DESC 
 ");
 
 ?>
@@ -34,7 +35,7 @@ $courses = query("SELECT *, courses.id as courses_id
           <form action="check.php" method="post">
             <p class="catagory"><?= $course["catagory_name"] ?></p>
             <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-            <img src="../img/<?= $course["thumbnail"] ?>" alt="">
+            <img src="../img/thumbnail/<?= $course["thumbnail"] ?>" alt="">
             <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
 
             <div class="like">
@@ -48,12 +49,12 @@ $courses = query("SELECT *, courses.id as courses_id
                 <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
                 <div class="channel-content">
                   <div class="channel"></div>
-                  <p><?= $course["channel_name"] ?></p>
-                  <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
+                  <p><?= $course["username"] ?></p>
+                  <input type="hidden" name="channel_name" value="<?= $course["username"]; ?>">
                 </div>
               </div>
               <div class="right">
-                <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
+                <input type="hidden" name="id" value="<?= $course["courseId"]; ?>">
                 <button class="check" name="check"></button>
               </div>
             </div>

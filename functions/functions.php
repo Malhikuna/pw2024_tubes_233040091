@@ -46,21 +46,21 @@ function registrasi($data) {
 }
 
 
-function upload($data) {
+function uploadCourse($data) {
     global $conn;
     // ambil data dari tiap elemen dalam form
     $courseName = htmlspecialchars($data["courseName"]);
     $price = htmlspecialchars($data["price"]);
-    $channelName = htmlspecialchars($data["channelName"]);
+    $userId = htmlspecialchars($data["userId"]);
     $videoName = htmlspecialchars($data["videoName"]);
     $description = htmlspecialchars($data["description"]);
 
     // Cek Catagory
-    $catagory = catagoryCheck($data["catagory"]);
+    $catagoryId = catagoryCheck($data["catagory"]);
 
 
     // Upload gambar
-    $thumbnail = uploadImage();
+    $thumbnail = uploadImage('thumbnail', '../img/thumbnail/');
     if(!$thumbnail) {
         return false;
     }
@@ -72,22 +72,16 @@ function upload($data) {
     }
 
     //  query insert data
-    $query1 = "INSERT INTO courses(catagory_id, name, channel_name, thumbnail, price)
+    $query1 = "INSERT INTO courses(catagory_id, user_id, name, thumbnail, price)
                 VALUES
-                ('$catagory', '$courseName', '$channelName', '$thumbnail', '$price')
+                ('$catagoryId', '$userId', '$courseName', '$thumbnail', '$price')
                 ";
 
     mysqli_query($conn, $query1);
     
     if(mysqli_affected_rows($conn) > 0) {
 
-        $course_id = query("SELECT id FROM courses WHERE name = '$courseName'");
-
-        // $courseId = $course_id["id"];
-
-        foreach($course_id as $id) {
-            $courseId = $id["id"];
-        }
+        $courseId = query("SELECT id FROM courses WHERE name = '$courseName'")[0]["id"];
 
         $query2 = "INSERT INTO videos(video_name, description, video, course_id)
             VALUES
@@ -101,11 +95,11 @@ function upload($data) {
     return false;
 }
 
-function uploadImage() {
-    $namaFile = $_FILES['thumbnail']['name'];
-    $ukuranFile = $_FILES['thumbnail']['size'];
-    $error = $_FILES['thumbnail']['error'];
-    $tmpName = $_FILES['thumbnail']['tmp_name'];
+function uploadImage($name, $folder) {
+    $namaFile = $_FILES[$name]['name'];
+    $ukuranFile = $_FILES[$name]['size'];
+    $error = $_FILES[$name]['error'];
+    $tmpName = $_FILES[$name]['tmp_name'];
 
     // Cek apakah tidak ada gambar yang diupload
     if( $error === 4) {
@@ -141,7 +135,7 @@ function uploadImage() {
     $namaFileBaru .= $ekstensiGambar;
 
     // Lolos pengecekan, gambar siap diupload
-    move_uploaded_file($tmpName, '../img/' . $namaFileBaru);
+    move_uploaded_file($tmpName, $folder . $namaFileBaru);
 
     return $namaFileBaru;
 }
@@ -217,19 +211,12 @@ function search($keyword) {
 }
 
 function catagoryCheck($data) {
-    switch($data) {
-        case "Frontend Developer":
-            $catagory = 1;
-            return $catagory;
-            break;
-        case "Backend Developer":
-            $catagory = 2;
-            return $catagory;
-            break;
-    }
+    $result = query("SELECT id FROM catagories WHERE catagory_name = '$data'")[0]["id"];
+
+    return $result;
 }
 
-function update($data) {
+function updateCourse($data) {
     global $conn;
     // ambil data dari tiap elemen dalam form
     $id = $data["id"];
@@ -244,7 +231,7 @@ function update($data) {
     if( $_FILES['thumbnail']['error'] === 4) {
         $thumbnail = $oldThumbnail;
     } else {
-        $thumbnail = uploadImage();
+        $thumbnail = uploadImage('thumbnail', '../img/thumbnail/');
     } 
 
     //  query update data
@@ -378,6 +365,60 @@ function updateVideo($data) {
                 ";
 
     mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function editProfile($data) {
+    global $conn;
+
+    $username = htmlspecialchars($data["username"]);
+    $description = htmlspecialchars($data["description"]);
+    $birth = htmlspecialchars($data["birth"]);
+    $instagram = htmlspecialchars($data["instagram"]);
+    $linkedin = htmlspecialchars($data["linkedin"]);
+    $facebook = htmlspecialchars($data["facebook"]);
+    $youtube = htmlspecialchars($data["youtube"]);
+    $userId = $data["userId"];
+ 
+    mysqli_query($conn, "UPDATE profile 
+                        JOIN users 
+                        ON
+                        (user_id = users.id)
+                        SET 
+                        users.username = '$username',
+                        description = '$description',
+                        birth = '$birth',
+                        image = '$profilePicture',
+                        instagram = '$instagram',
+                        linkedin = '$linkedin',
+                        facebook = '$facebook',
+                        youtube = '$youtube' 
+                        where user_id = $userId");
+
+    return mysqli_affected_rows($conn);
+}
+
+function editProfilePicture($data) {
+    global $conn;
+
+    $oldProfilePicture = $data["oldProfilePicture"];
+    $userId = $data["userId"];
+
+
+    if( $_FILES['profilePicture']['error'] === 4) {
+        $profilePicture = $oldProfilePicture;
+    } else {
+        $profilePicture = uploadImage('profilePicture', '../img/profile/');
+    } 
+ 
+    mysqli_query($conn, "UPDATE profile 
+                        JOIN users 
+                        ON
+                        (user_id = users.id)
+                        SET 
+                        image = '$profilePicture' 
+                        where user_id = $userId");
 
     return mysqli_affected_rows($conn);
 }

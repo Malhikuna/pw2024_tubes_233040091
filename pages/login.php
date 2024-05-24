@@ -24,6 +24,11 @@ if (isset($_POST["login"])) {
 
       $_SESSION["username"] = (user($_POST["email"]));
 
+      $username = $_SESSION["username"];
+      $_SESSION["id"] = query("SELECT id FROM users WHERE username = '$username'")[0]["id"];
+
+      var_dump($_SESSION["id"]);
+
       header ("Location: index.php");
       exit;
     }

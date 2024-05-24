@@ -219,20 +219,33 @@ body {
   justify-content: center;
   /* backdrop-filter: blur(7px); */
   box-shadow: 0 0.4rem 0.8rem #0005;
-  border-radius: 20px;
-  overflow: hidden;
+  border-radius: 25px;
+  /* overflow: hidden; */
   position: relative;
+}
+
+table .top {
+  /* border-radius: 20px 20px; */
 }
 
 table {
   width: 100%;
   margin-top: 100px;
   background-color: #d1cfcf;
+  border-radius: 20px 20px 20px 20px;
 }
 
 table img {
   width: 150px;
   border: 1px solid black;
+}
+
+table th:nth-child(1) {
+  border-top-left-radius: 25px;
+}
+
+table th:nth-child(5) {
+  border-top-right-radius: 25px;
 }
 
 table,
@@ -428,4 +441,35 @@ thead th {
   border-radius: 0;
   background-color: #f5f5f5;
   border: 2px solid #000062;
+}
+
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #000062;
+  /* color: white; */
+}
+
+.active a {
+  color: white;
+}
+
+.pagination {
+  position: absolute;
+  /* margin-top: 20px; */
+  bottom: -50px;
+  /* margin-left: 280px; */
+  /* margin-left: 26px; */
+  left: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  width: 1000px;
+  height: 30px;
+  /* background-color: black; */
 }

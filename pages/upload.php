@@ -1,5 +1,5 @@
 <?php 
-
+require "../functions/functions.php";
 session_start();
 
 if( !isset($_SESSION["login"])) {
@@ -7,7 +7,7 @@ if( !isset($_SESSION["login"])) {
     exit;
 }
 
-require "../functions/functions.php";
+$catagories = query("SELECT catagory_name FROM catagories");
 
  ?>
 
@@ -31,26 +31,27 @@ require "../functions/functions.php";
           <h2>Create Your Course</h2>
           <label>
             Course Name
-            <input type="text" name="courseName">
+            <input type="text" name="courseName" required autocomplete="off">
           </label>
           <label>
             Price
-            <input type="number" name="price" value="100000">
+            <input type="number" name="price" required>
           </label>
           <label>
             Catagory
-            <select name="catagory" id="catagory">
-              <option value="Frontend Developer" selected>Frontend Developer</option>
-              <option value="Backend Developer">Backend Developer</option>
+            <select name="catagory" id="catagory" required>
+              <?php foreach($catagories as $catagory) : ?>
+              <option value="<?= $catagory["catagory_name"]; ?>"><?= $catagory["catagory_name"]; ?></option>
+              <?php endforeach ; ?>
             </select>
             <br>
           </label>
           <label>
             Thumbnail Image
-            <input type="file" name="thumbnail" class="thumbnail">
+            <input type="file" name="thumbnail" class="thumbnail" required>
           </label>
           <label>
-            <input type="hidden" name="channelName" value="<?= $_SESSION["username"]; ?>">
+            <input type="hidden" name="userId" value="<?= $_SESSION["id"]; ?>">
           </label>
           <button class="next">Next</button>
         </div>
@@ -58,7 +59,7 @@ require "../functions/functions.php";
           <h2>Create Video</h2>
           <label>
             Video Title
-            <input type="text" name="videoName" value="Pendahuluan">
+            <input type="text" name="videoName" value="Pendahuluan" required autocomplete="off">
             <br>
           </label>
           <label>
@@ -78,7 +79,7 @@ require "../functions/functions.php";
 
     
     <?php if(isset($_POST["upload"])) : ?>
-      <?php if (upload($_POST) > 0) : ?>
+      <?php if (uploadCourse($_POST) > 0) : ?>
         <div class="alert alert-green">
           <p>data berhasil diupload</p>
           <a href="course.php"><button name="continue" class="continue">continue</button></a>

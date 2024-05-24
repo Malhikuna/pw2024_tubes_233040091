@@ -31,6 +31,11 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/alert.css">
+  <style>
+    .alert {
+      left: 707px !important;
+    }
+  </style>
 </head>
 <body>
   <?php require "../layouts/navbar.php" ?>
@@ -42,7 +47,7 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="right catagories">
       <form action="" method="post">
       <div class="updateCatagory">
-        <input type="text" name="catagoryName" value="<?= $catagoryName; ?>">
+        <input type="text" name="catagoryName" value="<?= $catagoryName; ?>" autocomplete="off">
         <input type="hidden" name="id" value="<?= $id; ?>">
         <div class="button">
           <a href="catagories.php"><button type="button" id="continue">Continue</button></a>
@@ -51,31 +56,15 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
       </form>
 
-      <!-- <?php //if(isset($_POST["update"])) : ?>
-      <?php //$newCatagoryName = $_POST["newCatagoryName"]  ?>
-      <div class="alert first" >
-        <p>The Catagory will be updated</p>
-        <p>Are you sure?</p>
-        <div class="yon">
-          <button type="button" class="no">No</button>
-          <form action="" method="post">
-            <input type="hidden" name="id" value="">
-            <input type="hidden" name="catagoryName" value="">
-            <button name="yes" class="yes">Yes</button>
-          </form>
-        </div>
-      </div>
-      <?php //endif ; ?> -->
-
       <?php if(isset($_POST["update"])) : ?>
         <?php if (updateCatagory($_POST) > 0) : ?>
           <div class="alert alert-green">
-            <p>Catagory Berhasil ditambahkan</p>
+            <p>Katagori Berhasil diupdate</p>
             <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
           </div>    
         <?php else : ?>
           <div class="alert alert-red">
-            <p>Catagory gagal ditambahkan</p>
+            <p>Katagori gagal diupdate</p>
             <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
           </div>    
         <?php endif ; ?>
@@ -85,22 +74,5 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
-  <script>
-    $(document).ready(function () {
-      // $(".alert").hide();
-      // $("#update").click(function (e) { 
-      //   $(".alert").show();
-      // });
-
-      // $(".no").click(function () {
-      //   $(".alert").hide();
-      // })
-
-      // $(".continue").click(function (e) { 
-      //   $(".alert").hide();
-        
-      // });
-    })
-  </script>
 </body>
 </html>
