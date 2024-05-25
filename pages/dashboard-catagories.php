@@ -36,6 +36,17 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/alert.css">
+  <style>
+    .table-catagory {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pagination {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
 </head>
 <body>
   <?php require "../layouts/navbar.php" ?>
@@ -53,7 +64,7 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       </div>
       <button id="add"><i class="ri-add-circle-line"></i></button>
-      <section class="table-catagory">
+      <section class="table table-catagory">
         <div class="top">
         </div>
         <div class="bottom" id="container">
@@ -65,6 +76,7 @@ header("Cache-Control: no-cache, must-revalidate");
                 <th>Action</th>
               </tr>
             </thead>
+              
             <tbody>
               <?php $i = 1; ?>
               <?php foreach($catagory as $ctg) : ?>
@@ -76,11 +88,13 @@ header("Cache-Control: no-cache, must-revalidate");
                     <a href="delete-catagory.php?id=<?= $ctg["id"]; ?>"><button name="delete" class="delete">Delete</button></a>
                   </td>
                 </tr>
-                <?php endforeach ; ?>
-              </tbody>
+              <?php endforeach ; ?>
+            </tbody>
           </table>
         </div>
+
       </section>
+      <?php require "../layouts/pagination.php" ?>
 
       <form action="" method="post">
         <div class="add-ctg">
@@ -90,16 +104,28 @@ header("Cache-Control: no-cache, must-revalidate");
       </form>
 
       <?php if(isset($_POST["add"])) : ?>
-        <?php if (addCatagory($_POST) > 0) : ?>
+        <?php 
+        $categoryName = $_POST["catagoryName"];
+        
+        $count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM catagories WHERE catagory_name = '$categoryName'"));
+        ?>
+        <?php if($count > 0) : ?>
           <div class="alert alert-green">
-            <p>Catagory Berhasil ditambahkan</p>
-            <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+            <p>Katagori sudah ada</p>
+            <a href="update-catagory.php?id=<?= $id; ?>"><button class="continue con-red">continue</button></a>
           </div>    
         <?php else : ?>
-          <div class="alert alert-red">
-            <p>Catagory gagal ditambahkan</p>
-            <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
-          </div>    
+          <?php if (addCatagory($_POST) > 0) : ?>
+            <div class="alert alert-green">
+              <p>Catagory Berhasil ditambahkan</p>
+              <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+            </div>    
+          <?php else : ?>
+            <div class="alert alert-red">
+              <p>Catagory gagal ditambahkan</p>
+              <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+            </div>    
+          <?php endif ; ?>
         <?php endif ; ?>
       <?php endif ; ?> 
     </div>

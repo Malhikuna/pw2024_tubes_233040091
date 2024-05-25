@@ -95,6 +95,8 @@ header("Cache-Control: no-cache, must-revalidate");
             </tbody>
           </table>
         </div>
+
+        <?php require "../layouts/pagination.php" ?>
       </section>
     </div>
   </div>

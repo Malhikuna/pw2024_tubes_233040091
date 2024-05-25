@@ -13,18 +13,18 @@
   </form>
 
   <div class="navbar-list">
-      <a href="" class="link ctgs">catagories</a>
-      <a href="playlist.php" class="link">playlist</a>
-      <a href="likes.php" class="link">liked</a>
-      <?php if(!isset($_SESSION["login"])) : ?>
-        
-          <div class="login-button">
-            <a href="./login.php" class="link login">Login</a>
-          </div>
-        
-      <?php else : ?>
-        <a href="./upload.php" class="link">upload</a>
-      <?php endif ; ?>
+    <a href="" class="link ctgs">catagories</a>
+    <a href="playlist.php" class="link">playlist</a>
+    <a href="likes.php" class="link">liked</a>
+    <?php if(!isset($_SESSION["login"])) : ?>
+      
+    <div class="login-button">
+      <a href="./login.php" class="link login">Login</a>
+    </div>
+      
+    <?php else : ?>
+      <a href="./upload.php" class="link">upload</a>
+    <?php endif ; ?>
   </div>
 
   <?php $ctgs = query("SELECT * FROM catagories"); ?>

@@ -130,7 +130,8 @@
 
 .new-video,
 .delete,
-.edit {
+.edit,
+#add {
   position: absolute;
   width: 90px;
   height: 30px;
@@ -157,4 +158,89 @@
   right: 192px;
   background-color: #4444f9;
   border-radius: 10px 0 0 10px;
+}
+
+#add {
+  bottom: 30px;
+  width: 40px;
+  right: 292px;
+  background-color: #02b902;
+  border-radius: 10px;
+}
+
+#add i {
+  color: white;
+}
+
+.add {
+  position: absolute;
+  bottom: 30px;
+  right: 292px;
+  width: 220px;
+  height: 250px;
+  background-color: #bdbdffd7;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+#close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  transition: 0.2s;
+}
+
+#close:hover {
+  background-color: #ff0000d3;
+}
+
+#close i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+#add-list {
+  width: 70px;
+  height: 30px;
+  background-color: #4444f9aa;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  border: 1px solid black;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+.list-name {
+  width: 95%;
+  height: 170px;
+  margin: auto;
+  margin-top: 10px;
+  /* background-color: #02b902; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.list-name .list {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.list-name input {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }

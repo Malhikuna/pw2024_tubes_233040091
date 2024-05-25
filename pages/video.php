@@ -63,13 +63,15 @@ header("Cache-Control: no-cache, must-revalidate");
 <?php require "../layouts/navbar.php" ?>
 
 <div class="container">
-  <div class="top-content">
+  <section class="top-content">
     <div class="video-box">
       <video width="850" height="425" controls>
         <source src="../videos/663fd58675c29.mp4" type="video.mp4">
       </video>
       <h1><?= $videoName; ?></h1>
     </div>
+
+    <!-- Jumlah Video Dalam List -->
     <div class="video-playlist">
       <h4><?= $crs["name"]; ?></h4>
       <?php foreach($videos as $video) : ?>
@@ -84,6 +86,30 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       <?php endforeach ; ?>
     </div>
+    <button name="add" id="add"><i class="ri-play-list-add-fill"></i></button>
+
+    <!-- Menambahkan Ke Playlist -->
+    <div class="add">
+      <p>Save to..</p>
+      <div class="list-name">
+        <div class="list">
+          <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+          <label for="vehicle1">Watch List</label>
+        </div>
+        <div class="list">
+          <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+          <label for="vehicle1">Watch List</label>
+        </div>
+      </div>
+      <button id="close">
+        <i class="ri-close-line"></i>
+      </button>
+      <button id="add-list">
+        Add New
+      </button>
+    </div>
+
+    <!-- Tombol Tambah, Hapus, Dan Edit -->
     <?php if($crs["username"] === $_SESSION["username"]) : ?>
       <?php if(isset($_POST["video_click"])) : ?>
         <form action="delete-video.php" method="post">
@@ -100,8 +126,11 @@ header("Cache-Control: no-cache, must-revalidate");
       <?php endif ; ?>
       <a href="add-video.php?id=<?= $courseId; ?>"><button name="new-video" class="new-video">New</button></a>
     <?php endif ; ?>
-  </div>
-  <div class="bottom-content">
+  </section>
+
+
+  <section class="bottom-content">
+    <!-- Link Ke Halaman Profile -->
     <div class="channel-box">
       <a href="profile.php?profile=<?= $username; ?>">
         <img class="picture-profile" src="../img/profile/<?= $profilePicture; ?>">
@@ -110,6 +139,8 @@ header("Cache-Control: no-cache, must-revalidate");
         <p><?= $username; ?></p>
       </a>
     </div>
+
+    <!-- Tombol Like -->
     <div class="like-box">
       <?php 
       
@@ -117,7 +148,7 @@ header("Cache-Control: no-cache, must-revalidate");
       $result = (mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM video_likes WHERE video_id = $id AND user_id = $myUserId")));
 
       ?>
-      <form action="" method="post">
+      <form action="" method="post" id="form-like">
         <input type="hidden" name="userId" value="<?= $myUserId; ?>">
         <input type="hidden" name="videoId" value="<?= $id; ?>">
         <?php if($result === null) : ?>
@@ -127,10 +158,11 @@ header("Cache-Control: no-cache, must-revalidate");
         <?php endif ; ?>
       </form>
     </div>
-  </div>
+  </section>
 
 </div>
 
-  
+<script src="../javascript/jquery.js"></script>  
+<script src="../javascript/video.js"></script>  
 </body>
 </html>

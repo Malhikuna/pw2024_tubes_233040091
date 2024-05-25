@@ -457,4 +457,12 @@ function videoUnliked($data) {
 
     mysqli_query($conn, $query);
 }
+
+function jumlah($tabel) {
+    global $conn;
+
+    $result = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabel"));
+
+    return $result;
+}
 ?>

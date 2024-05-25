@@ -13,9 +13,9 @@ if($status !== "admin") {
   header("Location: index.php");
 }
 
-$videos = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM videos"));
-$catagories = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM catagories"));
-$courses = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM courses"));
+$videos = jumlah("videos");
+$catagories = jumlah("catagories");
+$courses = jumlah("courses");
 
 $currentCourse = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
 ORDER BY courses.id DESC LIMIT 3
