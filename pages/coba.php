@@ -13,6 +13,10 @@ if(isset($_POST["contoh"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Percobaan</title>
   <link rel="stylesheet" href="../css/main.css">
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+    />
   <style>
     h1, p {
       /* font-family: ; */
@@ -44,6 +48,7 @@ if(isset($_POST["contoh"])) {
 <body>
   <div class="container">
     <h1>Hello World!</h1>
+    <h1><i class="ri-heart-fill"></h1>
     <p>Hello World!</p>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus ut, veritatis, expedita possimus, esse fuga quis aut excepturi tempora porro nesciunt reprehenderit labore quibusdam suscipit natus laudantium voluptates iusto?</p>
 

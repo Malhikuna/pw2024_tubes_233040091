@@ -7,7 +7,10 @@ if(!isset($_SESSION["login"])) {
     exit;
 }
 
-$courseId = $_POST["id"];
+$userId = $_POST["userId"];
+$channel = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
+
+$courseId = $_POST["courseId"];
 
 $videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
 
@@ -17,7 +20,7 @@ $numVideos = strval(count($videos));
 
 $crs = query("SELECT * FROM courses 
               JOIN catagories ON (courses.catagory_id = catagories.id)
-              JOIN users ON (user_id = users.id) 
+              JOIN users ON (courses.user_id = users.id)
               WHERE courses.id = '$courseId'")[0];
 
 header("Cache-Control: no-cache, must-revalidate");
@@ -37,12 +40,12 @@ header("Cache-Control: no-cache, must-revalidate");
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <div class="course-content">
+    <section class="course-content">
       <p class="catagory"><?= $crs["catagory_name"]; ?></p>
       <?php if($crs["username"] === $_SESSION["username"]) : ?>
           <button class="delete" name="delete">Delete</button>
       <?php endif ; ?>
-      <div class="top">
+      <section class="top">
         <div class="left">
           <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" alt="">
         </div>
@@ -52,14 +55,16 @@ header("Cache-Control: no-cache, must-revalidate");
           <p>▶ <?= $video["video_name"]; ?></p>
           <?php endforeach ; ?>
         </div>
-      </div>
+      </section>
 
-      <div class="bottom">
+      <section class="bottom">
         <div class="left">
           <h1><?= $crs["name"]; ?></h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
           <div class="channel-content">
-            <div class="channel"></div>
+            <a href="profile.php?profile=<?= $crs["username"]; ?>">
+              <img class="channel" src="../img/profile/<?= $channel; ?>">
+            </a>
             <a href="profile.php?profile=<?= $crs["username"]; ?>"><?= $crs["username"]; ?></a>
           </div>
         </div>
@@ -74,7 +79,7 @@ header("Cache-Control: no-cache, must-revalidate");
               <button id="buy">Buy Now</button>
             <?php endif ; ?>
         </div>
-      </div>
+      </section>
 
       <div class="alert">
         <p>The course will be deleted</p>
@@ -89,7 +94,7 @@ header("Cache-Control: no-cache, must-revalidate");
         </div>
       </div>
       <a href="javascript:history.back()"><button class="back">Back</button></a>
-    </div>
+    </section>
   </div>
 
   <script src="../javascript/jquery.js"></script>

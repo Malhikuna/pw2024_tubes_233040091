@@ -7,27 +7,31 @@ if(!isset($_SESSION["login"])) {
   exit;
 }
 
-$courseId = $_GET["id"];
+$id = $_GET["id"];
+
+$courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+$videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+$courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
+
+if(isset($_POST["video_click"])) {
+  $id = $_POST["video_id"];
+  
+  $courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+  $videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+  $courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
+}
+
 $userId = query("SELECT user_id FROM courses WHERE id = '$courseId'")[0]["user_id"];
 $username = query("SELECT username FROM users WHERE id = '$userId'")[0]["username"];
 $profilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
 
-$crs = query("SELECT * FROM courses 
-              JOIN catagories ON (courses.catagory_id = catagories.id)
-              JOIN users ON (user_id = users.id)
-              WHERE courses.id = '$courseId'")[0];
+$myUserId = $_SESSION["id"];
 
-$videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
-
-$id = query("SELECT id FROM videos WHERE course_id = $courseId ORDER BY id LIMIT 1")[0]["id"];
-
-$videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
-
-if(isset($_POST["video_click"])) {
-  $id = $_POST["video_id"];
-
-  $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
-}
+$videos = query("SELECT *, videos.id as videoId 
+                  FROM videos
+                  JOIN courses ON (course_id = courses.id) 
+                  JOIN video_likes ON (video_id = videos.id) 
+                  WHERE video_likes.user_id = '$myUserId'");
 
 // Ketika video di like
 if(isset($_POST["liked"])) {
@@ -58,6 +62,24 @@ header("Cache-Control: no-cache, must-revalidate");
     href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
     />
+  <style>
+    .course {
+      position: absolute;
+      bottom: -35px;
+      right: 0;
+      width: 100%;
+      height: 30px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4444f9;
+    }
+    
+    .course p {
+      color: white;
+    }
+  </style>
 </head>
 <body>
 <?php require "../layouts/navbar.php" ?>
@@ -69,37 +91,23 @@ header("Cache-Control: no-cache, must-revalidate");
         <source src="../videos/663fd58675c29.mp4" type="video.mp4">
       </video>
       <h1><?= $videoName; ?></h1>
+      <p><?= $courseName; ?></p>
     </div>
     <div class="video-playlist">
-      <h4><?= $crs["name"]; ?></h4>
+      <h4>Video Liked</h4>
       <?php foreach($videos as $video) : ?>
         <form action="" method="post">
           <div class="video-box">
-            <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" width="80" alt="">
-            <input type="hidden" name="video_id" value="<?= $video["id"]; ?>">
+            <img src="../img/thumbnail/<?= $video["thumbnail"]; ?>" width="80" alt="">
+            <input type="hidden" name="video_id" value="<?= $video["videoId"]; ?>">
             <button name="video_click">
               <p><?= $video["video_name"]; ?></p>
             </button>
           </div>
         </form>
       <?php endforeach ; ?>
+      <a href="video.php?id=<?= $courseId; ?>"><div class="course"><p>See Full Course</p></div></a>
     </div>
-    <?php if($crs["username"] === $_SESSION["username"]) : ?>
-      <?php if(isset($_POST["video_click"])) : ?>
-        <form action="delete-video.php" method="post">
-          <input type="hidden" name="id" value="<?= $id; ?>">
-          <button class="delete">Delete</button>
-        </form>
-        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
-      <?php else : ?>
-        <form action="delete-video.php" method="post">
-          <input type="hidden" name="id" value="<?= $id; ?>">
-          <button class="delete">Delete</button>
-        </form>
-        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
-      <?php endif ; ?>
-      <a href="add-video.php?id=<?= $courseId; ?>"><button name="new-video" class="new-video">New</button></a>
-    <?php endif ; ?>
   </div>
   <div class="bottom-content">
     <div class="channel-box">

@@ -7,27 +7,28 @@ if(!isset($_SESSION["login"])) {
     exit;
 }
 
-$username = $_SESSION["username"];
+$username = $_GET["profile"];
 
-$profile = query("SELECT * FROM profile JOIN users ON (user_id = users.id) WHERE username = '$username'")[0];
+$profile = query("SELECT *, users.id as userId FROM profile JOIN users ON (user_id = users.id) WHERE username = '$username'")[0];
 
 $jumlahDataPerHalaman = 2;
-$jumlahData = count(query("SELECT *, courses.id as courses_id 
-                          FROM courses 
-                          JOIN catagories ON (courses.catagory_id = catagories.id)
-                          JOIN users ON (user_id = users.id)
-                          ORDER BY courses.id DESC"));
+$jumlahData = count(query("SELECT * 
+                            FROM courses 
+                            JOIN users ON (courses.user_id = users.id)
+                            WHERE username = '$username'"));
 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
 $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
 $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$courses = query("SELECT *, courses.id as courses_id 
+$courses = query("SELECT *, courses.id as courseId, users.id as userId 
                   FROM courses 
-                  JOIN catagories ON (courses.catagory_id = catagories.id)
-                  JOIN users ON (user_id = users.id)
-                  WHERE username = '$username' 
-                  ORDER BY courses.id DESC LIMIT 2
+                  JOIN catagories ON (courses.catagory_id = catagories.id) 
+                  JOIN users ON (courses.user_id = users.id)
+                  JOIN profile ON (users.id = profile.user_id)
+                  WHERE username = '$username'
+                  ORDER BY courses.id DESC 
+                  LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
 
 ?>
@@ -63,37 +64,8 @@ $courses = query("SELECT *, courses.id as courses_id
 
     <div class="profile-right">
       <div class="courses">
-        <?php foreach($courses as $course) : ?>
-        <div class="card">
-          <form action="check.php" method="post">
-            <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-            <img src="../img/thumbnail/<?= $course["thumbnail"] ?>" alt="">
-            <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
-            <p class="catagory"><?= $course["catagory_name"] ?></p>
-
-            <div class="like">
-              <i class="ri-heart-3-line"></i>
-            </div>
-
-            <div class="bottom">
-              <div class="left">
-                <h4><?= $course["name"] ?></h4> 
-                <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
-                <div class="channel-content">
-                  <div class="channel"></div>
-                  <p><?= $course["username"] ?></p>
-                  <input type="hidden" name="channel_name" value="<?= $course["username"]; ?>">
-                </div>
-              </div>
-              <div class="right">
-                <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
-                <button class="check" name="check"></button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <?php endforeach ; ?>
+        <?php require "../layouts/cards.php" ?>
     </div>
-  
+  </div>
 </body>
 </html>

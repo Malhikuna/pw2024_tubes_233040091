@@ -13,6 +13,13 @@ if($status !== "admin") {
   header("Location: index.php");
 }
 
+$jumlahDataPerHalaman = 10;
+$jumlahData = count(query("SELECT * FROM catagories"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
 $catagory = query("SELECT * FROM catagories ORDER BY id DESC LIMIT 10");
 
 header("Cache-Control: no-cache, must-revalidate");

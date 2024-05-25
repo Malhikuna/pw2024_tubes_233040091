@@ -13,9 +13,9 @@
   </form>
 
   <div class="navbar-list">
-      <a href="./index.php" class="link ctgs">catagories</a>
-      <a href="./playlist.php" class="link">playlist</a>
-      <a href="./liked.php" class="link">liked</a>
+      <a href="" class="link ctgs">catagories</a>
+      <a href="playlist.php" class="link">playlist</a>
+      <a href="likes.php" class="link">liked</a>
       <?php if(!isset($_SESSION["login"])) : ?>
         
           <div class="login-button">

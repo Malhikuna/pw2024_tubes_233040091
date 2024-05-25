@@ -112,6 +112,14 @@
   cursor: pointer;
 }
 
+/* .bottom-content .like-box button#unliked {
+  background-color: #ff4545;
+} */
+
+.bottom-content .like-box button#unliked i {
+  color: #ff0000;
+}
+
 .bottom-content .channel-box .picture-profile {
   margin-left: 5px;
   width: 40px;

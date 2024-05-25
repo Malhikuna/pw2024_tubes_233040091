@@ -197,16 +197,29 @@ function user($data) {
 }
 
 function search($keyword) {
-    $query = "SELECT *, courses.id as courses_id 
+    $jumlahDataPerHalaman = 9;
+    $jumlahData = count(query("SELECT *, courses.id as courses_id 
+                                FROM courses 
+                                JOIN catagories ON (courses.catagory_id = catagories.id)
+                                ORDER BY courses.id DESC"));
+    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+    $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+    $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
+    $query = "SELECT *, courses.id as courseId, users.id as userId 
                 FROM courses 
-                JOIN catagories 
-                ON (courses.catagory_id = catagories.id)
+                JOIN catagories ON (courses.catagory_id = catagories.id) 
+                JOIN users ON (courses.user_id = users.id)
+                JOIN profile ON (users.id = profile.user_id)
                 WHERE name 
                 LIKE '%$keyword%' 
-                OR channel_name 
+                OR username 
                 LIKE '%$keyword%'
+                ORDER BY courses.id DESC 
+                LIMIT $dataAwal, $jumlahDataPerHalaman
     ";
-    
+
     return query($query);
 }
 
@@ -320,24 +333,24 @@ function updateCatagory($data) {
 }
 
 function addVideo($data) {
-        global $conn;
+    global $conn;
 
-        $videoName = $data["videoName"];
-        $description = $data["description"];
-        $courseId = $data["courseId"];
+    $videoName = $data["videoName"];
+    $description = $data["description"];
+    $courseId = $data["courseId"];
 
-        $video = uploadVideo();
-        if(!$video) {
-            return false;
-        }
-     
-        $query = "INSERT INTO videos(video_name, description, video, course_id)
-                    VALUES
-                    ('$videoName', '$description', '$video', '$courseId')";
+    $video = uploadVideo();
+    if(!$video) {
+        return false;
+    }
+    
+    $query = "INSERT INTO videos(video_name, description, video, course_id)
+                VALUES
+                ('$videoName', '$description', '$video', '$courseId')";
 
-        mysqli_query($conn, $query);
+    mysqli_query($conn, $query);
 
-        return mysqli_affected_rows($conn);
+    return mysqli_affected_rows($conn);
 }
 
 function updateVideo($data) {
@@ -421,5 +434,27 @@ function editProfilePicture($data) {
                         where user_id = $userId");
 
     return mysqli_affected_rows($conn);
+}
+
+function videoLiked($data) {
+    global $conn;
+
+    $userId = $data["userId"];
+    $videoId = $data["videoId"];
+
+    $query = "INSERT INTO `video_likes` (`id`, `video_id`, `user_id`) VALUES (NULL, '$videoId', '$userId')";
+
+    mysqli_query($conn, $query);
+}
+
+function videoUnliked($data) {
+    global $conn;
+
+    $userId = $data["userId"];
+    $videoId = $data["videoId"];
+
+    $query = "DELETE FROM video_likes WHERE video_id = $videoId AND user_id = $userId";
+
+    mysqli_query($conn, $query);
 }
 ?>

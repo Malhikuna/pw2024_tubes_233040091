@@ -13,8 +13,20 @@ if($status !== "admin") {
   header("Location: index.php");
 }
 
-$courses = query("SELECT *, courses.id as courseId FROM courses JOIN catagories ON (catagory_id = catagories.id)
-                  ORDER BY courses.id DESC LIMIT 5
+// Pagination
+$jumlahDataPerHalaman = 5;
+$jumlahData = count(query("SELECT * FROM courses"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
+$courses = query("SELECT *, courses.id as courseId, users.id as userId 
+                  FROM courses 
+                  JOIN catagories ON (courses.catagory_id = catagories.id) 
+                  JOIN users ON (courses.user_id = users.id)
+                  ORDER BY courses.id DESC 
+                  LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
 
 header("Cache-Control: no-cache, must-revalidate");
@@ -68,7 +80,7 @@ header("Cache-Control: no-cache, must-revalidate");
             <tbody>
               <?php foreach($courses as $course) : ?>
                 <tr>
-                  <td><?= $course["channel_name"]; ?></td>
+                  <td><a href="profile.php?profile=<?= $course["username"]; ?>"><?= $course["username"]; ?></a></td>
                   <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>
                   <td><?= $course["name"]; ?></td>
                   <td>08-02-2024</td>

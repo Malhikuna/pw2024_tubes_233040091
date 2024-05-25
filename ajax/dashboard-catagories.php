@@ -1,11 +1,19 @@
 <?php 
 require "../functions/functions.php";
 $keyword = $_GET["keyword"];
+
+$jumlahDataPerHalaman = 5;
+$jumlahData = count(query("SELECT * FROM catagories"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
 $query = "SELECT * FROM catagories
           WHERE 
           catagory_name LIKE '%$keyword%'
           ORDER BY id DESC
-          LIMIT 5
+          LIMIT $dataAwal, $jumlahDataPerHalaman
 ";
 $catagory = query($query);
 
@@ -33,3 +41,5 @@ $catagory = query($query);
         <?php endforeach ; ?>
       </tbody>
   </table>
+
+  <?php require "../layouts/pagination.php" ?>

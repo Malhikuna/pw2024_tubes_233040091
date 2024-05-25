@@ -6,23 +6,48 @@ $catagoryName = $_GET["catagory"];
 
 $catagoryId = query("SELECT id FROM catagories WHERE catagory_name = '$catagoryName'")[0]["id"];
 
-$courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+// Pagination
+$jumlahDataPerHalaman = 9;
+$jumlahData = count(query("SELECT * 
+                            FROM courses
+                            WHERE catagory_id = $catagoryId"));
+$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
+
+$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+
+$courses = query("SELECT *, courses.id as courseId, users.id as userId 
+                  FROM courses 
+                  JOIN catagories ON (courses.catagory_id = catagories.id) 
+                  JOIN users ON (courses.user_id = users.id)
+                  JOIN profile ON (users.id = profile.user_id)
                   WHERE catagory_id = $catagoryId
-                  ORDER BY courses.id DESC
+                  ORDER BY courses.id DESC 
+                  LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
 
 if(isset($_POST["sort"])) {
   if($_POST["sort"] === "old") {
-    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+    $courses = query("SELECT *, courses.id as courseId, users.id as userId 
+                      FROM courses 
+                      JOIN catagories ON (courses.catagory_id = catagories.id) 
+                      JOIN users ON (courses.user_id = users.id)
+                      JOIN profile ON (users.id = profile.user_id)
                       WHERE catagory_id = $catagoryId
                       ORDER BY courses.id ASC;
+                      LIMIT $dataAwal, $jumlahDataPerHalaman
   ");
   }
 
   if($_POST["sort"] === "new") {
-    $courses = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON  (courses.catagory_id = catagories.id)
+    $courses = query("SELECT *, courses.id as courseId, users.id as userId 
+                      FROM courses 
+                      JOIN catagories ON (courses.catagory_id = catagories.id) 
+                      JOIN users ON (courses.user_id = users.id)
+                      JOIN profile ON (users.id = profile.user_id)
                       WHERE catagory_id = $catagoryId
                       ORDER BY courses.id DESC;
+                      LIMIT $dataAwal, $jumlahDataPerHalaman
   ");
   }
 }
@@ -62,7 +87,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <div class="container">
     <form action="" method="post">
-     <div class="sort-content">
+      <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
           <?php if($_POST["sort"] === "old") : ?>
             <option value="new">Newest</option>
@@ -78,39 +103,14 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
     </form>
     <section class="card-rows">
-      <?php foreach($courses as $course) : ?>
-        <div class="card">
-          <form action="check.php" method="post">
-            <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
-            <img src="../img/<?= $course["thumbnail"] ?>" alt="">
-            <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
-            <p class="catagory"><?= $course["catagory_name"] ?></p>
+      <?php require "../layouts/cards.php" ?>     
+    </section>
+    
+    <!-- Pagination -->
+    <?php require "../layouts/pagination.php" ?>
 
-            <div class="like">
-              <i class="ri-heart-3-line"></i>
-            </div>
-
-            <div class="bottom">
-              <div class="left">
-                <h3><?= $course["name"] ?></h3> 
-                <input type="hidden" name="course_name" value="<?= $course["name"]; ?>"> 
-                <div class="channel-content">
-                  <div class="channel"></div>
-                  <p><?= $course["channel_name"] ?></p>
-                  <input type="hidden" name="channel_name" value="<?= $course["channel_name"]; ?>">
-                </div>
-              </div>
-              <div class="right">
-                <input type="hidden" name="id" value="<?= $course["courses_id"]; ?>">
-                <button class="check" name="check"></button>
-              </div>
-            </div>
-          </form>
-        </div>
-      <?php endforeach ; ?>     
-    </section>    
-
-  <?php require("../layouts/footer.php") ?>
+    <?php require("../layouts/footer.php") ?>
+  </div>
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
