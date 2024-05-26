@@ -17,7 +17,7 @@ $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 $videos = query("SELECT *, users.id as userId, videos.id as videoId
                   FROM videos
                   JOIN courses ON (course_id = courses.id) 
-                  JOIN catagories ON (catagory_id = catagories.id)
+                  JOIN categories ON (category_id = categories.id)
                   JOIN video_likes ON (video_id = videos.id)
                   JOIN users ON (courses.user_id = users.id)
                   JOIN profile ON (users.id = profile.user_id)
@@ -27,7 +27,7 @@ $videos = query("SELECT *, users.id as userId, videos.id as videoId
 ");
 
 // Ambil semua data dari tabel kategori
-$catagories = query("SELECT * FROM catagories");
+$categories = query("SELECT * FROM categories");
 
 // Sorting
 if(isset($_POST["sort"])) {
@@ -35,7 +35,7 @@ if(isset($_POST["sort"])) {
     $videos = query("SELECT *, users.id as userId, videos.id as videoId
                       FROM videos
                       JOIN courses ON (course_id = courses.id) 
-                      JOIN catagories ON (catagory_id = catagories.id)
+                      JOIN categories ON (category_id = categories.id)
                       JOIN video_likes ON (video_id = videos.id)
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
@@ -49,7 +49,7 @@ if(isset($_POST["sort"])) {
     $videos = query("SELECT *, users.id as userId, videos.id as videoId
                       FROM videos
                       JOIN courses ON (course_id = courses.id) 
-                      JOIN catagories ON (catagory_id = catagories.id)
+                      JOIN categories ON (category_id = categories.id)
                       JOIN video_likes ON (video_id = videos.id)
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
@@ -69,7 +69,7 @@ header("Cache-Control: no-cache, must-revalidate");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course</title>
+  <title>Liked</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/index.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
@@ -95,7 +95,7 @@ header("Cache-Control: no-cache, must-revalidate");
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <h1 class="tag-line">Liked Videos</h1>
+    <h1 class="tag-line">Video Liked</h1>
     <form action="" method="post">
      <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
@@ -118,7 +118,7 @@ header("Cache-Control: no-cache, must-revalidate");
         <div class="card">
           <form action="check.php" method="post">
             <img src="../img/thumbnail/<?= $video["thumbnail"] ?>" alt="">
-            <p class="catagory"><?= $video["catagory_name"] ?></p>
+            <p class="category"><?= $video["category_name"] ?></p>
 
             <div class="like">
               <i class="ri-heart-3-fill" style="color: red;"></i>

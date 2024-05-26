@@ -9,28 +9,43 @@ if(!isset($_SESSION["login"])) {
 
 // user id yang dipakai
 $myUserId = $_SESSION["id"];
-$courseId = $_GET["id"];
-$userId = query("SELECT user_id FROM courses WHERE id = '$courseId'")[0]["user_id"];
-$username = query("SELECT username FROM users WHERE id = '$userId'")[0]["username"];
-$profilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
+$playlistId = $_GET["id"];
+$jumlahVideo = mysqli_num_rows(mysqli_query($conn, "SELECT *
+                                              FROM video_playlist
+                                              WHERE playlist_id = $playlistId"));
 
-// Mengambil semua data dari ralasi tabel course, categories, dan users
-$crs = query("SELECT * FROM courses 
-              JOIN categories ON (courses.category_id = categories.id)
-              JOIN users ON (user_id = users.id)
-              WHERE courses.id = '$courseId'")[0];
-$videos = query("SELECT * FROM videos WHERE course_id = '$courseId'");
-$id = query("SELECT id FROM videos WHERE course_id = $courseId ORDER BY id LIMIT 1")[0]["id"];
-$videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
+if($jumlahVideo <= 0) {
+  header("Location: playlist.php");
+  exit;
+}
+
+
+$playlistName = query("SELECT name FROM playlist WHERE id = $playlistId")[0]["name"];
+$id = query("SELECT video_id FROM video_playlist WHERE playlist_id = $playlistId ORDER BY id limit 1")[0]["video_id"];
+
+$courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+$videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+$courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
 
 // Mengambil data dari tabel plalist
 $playlist = query("SELECT * FROM playlist WHERE user_id = $myUserId ORDER BY id DESC LIMIT 5");
 
-// Ketika video di samping di klik / pindah ke video lain
-if(isset($_POST["video_click"]) || isset($_POST["continue"])) {
+if(isset($_POST["video_click"])) {
   $id = $_POST["videoId"];
-  $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
+  $courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+  $videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+  $courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
 }
+
+$userId = query("SELECT user_id FROM courses WHERE id = '$courseId'")[0]["user_id"];
+$username = query("SELECT username FROM users WHERE id = '$userId'")[0]["username"];
+$profilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
+$myUserId = $_SESSION["id"];
+$videos = query("SELECT *, videos.id as videoId 
+                  FROM videos
+                  JOIN courses ON (course_id = courses.id) 
+                  JOIN video_playlist ON (video_id = videos.id) 
+                  WHERE video_playlist.playlist_id = '$playlistId'");
 
 // Ketika video di like
 if(isset($_POST["liked"])) {
@@ -45,7 +60,9 @@ if(isset($_POST["unliked"])) {
 // Tambah ke playlist
 if(isset($_POST["list"])) {
   $id = $_POST["videoId"];
-  $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
+  $courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+  $videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+  $courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
   $playlistName = $_POST["playlistName"];
   $value = $_POST["list"];
 }
@@ -53,7 +70,9 @@ if(isset($_POST["list"])) {
 // Tambah playlist baru
 if(isset($_POST["add-new"])) {
   $id = $_POST["videoId"];
-  $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
+  $courseId = query("SELECT course_id FROM videos WHERE id = $id")[0]["course_id"];
+  $videoName = query("SELECT video_name FROM videos WHERE id = $id")[0]["video_name"];
+  $courseName = query("SELECT name FROM courses WHERE id = $courseId")[0]["name"];
   $newPlaylist = $_POST["newPlaylist"];
 }
 
@@ -66,7 +85,7 @@ header("Cache-Control: no-cache, must-revalidate");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Page</title>
+  <title>Video Liked</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/video.css">
   <link rel="stylesheet" href="../css/alert.css">
@@ -74,6 +93,24 @@ header("Cache-Control: no-cache, must-revalidate");
     href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"
     />
+  <style>
+    .course {
+      position: absolute;
+      bottom: -38px;
+      right: 0;
+      width: 100%;
+      height: 30px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4444f9;
+    }
+    
+    .course p {
+      color: white;
+    }
+  </style>
 </head>
 <body>
 <?php require "../layouts/navbar.php" ?>
@@ -85,24 +122,26 @@ header("Cache-Control: no-cache, must-revalidate");
         <source src="../videos/663fd58675c29.mp4" type="video.mp4">
       </video>
       <h1><?= $videoName; ?></h1>
+      <p><?= $courseName; ?></p>
     </div>
 
     <!-- Jumlah Video Dalam List -->
     <div class="video-playlist">
-      <h4><?= $crs["name"]; ?></h4>
+      <h4><?= $playlistName; ?></h4>
       <?php foreach($videos as $video) : ?>
         <form action="" method="post">
           <div class="video-box">
-            <img src="../img/thumbnail/<?= $crs["thumbnail"]; ?>" width="80" alt="">
-            <input type="hidden" name="videoId" value="<?= $video["id"]; ?>">
+            <img src="../img/thumbnail/<?= $video["thumbnail"]; ?>" width="80" alt="">
+            <input type="hidden" name="videoId" value="<?= $video["videoId"]; ?>">
             <button name="video_click">
               <p><?= $video["video_name"]; ?></p>
             </button>
           </div>
         </form>
       <?php endforeach ; ?>
+      <a href="video.php?id=<?= $courseId; ?>"><div class="course"><p>See Full Course</p></div></a>
     </div>
-    
+
     <!-- Menambahkan Ke Playlist -->
     <div class="close-click"></div>
     <button name="add" id="add"><i class="ri-play-list-add-fill"></i></button>
@@ -146,27 +185,7 @@ header("Cache-Control: no-cache, must-revalidate");
       <button id="add-list">
         Add New
       </button>
-    </div>
-
-    <!-- Tombol Tambah, Hapus, Dan Edit -->
-    <?php if($crs["username"] === $_SESSION["username"]) : ?>
-      <?php if(isset($_POST["video_click"])) : ?>
-        <form action="delete-video.php" method="post">
-          <input type="hidden" name="id" value="<?= $id; ?>">
-          <button class="delete">Delete</button>
-        </form>
-        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
-      <?php else : ?>
-        <form action="delete-video.php" method="post">
-          <input type="hidden" name="id" value="<?= $id; ?>">
-          <button class="delete">Delete</button>
-        </form>
-        <a href="edit-video.php?id=<?= $id; ?>"><button class="edit">Edit</button></a>
-      <?php endif ; ?>
-      <a href="add-video.php?id=<?= $courseId; ?>"><button name="new-video" class="new-video">New</button></a>
-    <?php endif ; ?>
   </section>
-
 
   <section class="bottom-content">
     <!-- Link Ke Halaman Profile -->
@@ -179,14 +198,15 @@ header("Cache-Control: no-cache, must-revalidate");
       </a>
     </div>
 
-    <!-- Tombol Like -->
+    <!-- Tombol like -->
     <div class="like-box">
       <?php 
       
+      $myUserId = $_SESSION["id"]; 
       $result = (mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM video_likes WHERE video_id = $id AND user_id = $myUserId")));
 
       ?>
-      <form action="" method="post" id="form-like">
+      <form action="" method="post">
         <input type="hidden" name="userId" value="<?= $myUserId; ?>">
         <input type="hidden" name="videoId" value="<?= $id; ?>">
         <?php if($result === null) : ?>
@@ -222,6 +242,7 @@ header("Cache-Control: no-cache, must-revalidate");
       <?php endif ; ?>
     <?php endif ; ?>
   <?php endif ; ?>
+
 
   <?php if(isset($_POST["add-new"])) : ?>
     <?php if (addNewPlaylist($_POST) > 0) : ?>

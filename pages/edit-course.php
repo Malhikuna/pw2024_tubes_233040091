@@ -9,7 +9,7 @@ if( !isset($_SESSION["login"])) {
 
 $id = $_GET["id"];
 
-$crs = query("SELECT * FROM courses JOIN catagories ON (courses.catagory_id = catagories.id) WHERE courses.id = '$id'")[0];
+$crs = query("SELECT * FROM courses JOIN categories ON (courses.category_id = categories.id) WHERE courses.id = '$id'")[0];
 
 // cek apakah tombol update sudah ditekan atau belum
 
@@ -49,8 +49,8 @@ header("Cache-Control: no-cache, must-revalidate");
             <input type="number" name="price" value="<?= $crs["price"]; ?>" autocomplete="off" >
           </label>
           <label>
-            Catagory
-            <select name="catagory" id="catagory">
+            Category
+            <select name="category" id="category">
               <option value="Frontend Developer" selected>Frontend Developer</option>
               <option value="Backend Developer">Backend Developer</option>
             </select>

@@ -60,6 +60,20 @@ if(isset($_POST["contoh"])) {
     <div class="img" style="background-image: url(../img/profile/665013d3d58fb.jpeg);"></div>
 
     <img src="../img/profile/665013d3d58fb.jpeg">
+
+    <?php 
+    
+    if(isset($_POST["coba"])) {
+      echo "MEMEK";
+    }
+
+    ?>
+
+    <form action="" method="post">
+      <input type="hidden" id="coba" name="coba" value="KONTOL">
+      <input type="checkbox" id="coba" name="coba" value="KONTOL" onchange="this.form.submit();" checked>
+      <label for="coba">KONTOL</label>
+    </form>
   </div>
 
 </body>

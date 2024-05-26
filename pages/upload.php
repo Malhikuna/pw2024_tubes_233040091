@@ -7,7 +7,7 @@ if( !isset($_SESSION["login"])) {
     exit;
 }
 
-$catagories = query("SELECT catagory_name FROM catagories");
+$categories = query("SELECT category_name FROM categories");
 
  ?>
 
@@ -38,10 +38,10 @@ $catagories = query("SELECT catagory_name FROM catagories");
             <input type="number" name="price" required>
           </label>
           <label>
-            Catagory
-            <select name="catagory" id="catagory" required>
-              <?php foreach($catagories as $catagory) : ?>
-              <option value="<?= $catagory["catagory_name"]; ?>"><?= $catagory["catagory_name"]; ?></option>
+            Category
+            <select name="category" id="category" required>
+              <?php foreach($categories as $category) : ?>
+              <option value="<?= $category["category_name"]; ?>"><?= $category["category_name"]; ?></option>
               <?php endforeach ; ?>
             </select>
             <br>

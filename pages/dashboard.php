@@ -14,10 +14,10 @@ if($status !== "admin") {
 }
 
 $videos = jumlah("videos");
-$catagories = jumlah("catagories");
+$categories = jumlah("categories");
 $courses = jumlah("courses");
 
-$currentCourse = query("SELECT *, courses.id as courses_id FROM courses JOIN catagories ON (courses.catagory_id = catagories.id)
+$currentCourse = query("SELECT *, courses.id as courses_id FROM courses JOIN categories ON (courses.category_id = categories.id)
 ORDER BY courses.id DESC LIMIT 3
 ");
 
@@ -79,8 +79,8 @@ if(isset($_POST["delete"])) {
           <div class="circle">
             <i class="ri-stack-fill"></i>
           </div>
-          <p><?= $catagories; ?></p>
-          <p>Catagories</p>
+          <p><?= $categories; ?></p>
+          <p>Categories</p>
           <div class="add add-3">
           <i class="ri-arrow-right-circle-line"></i>
           </div>

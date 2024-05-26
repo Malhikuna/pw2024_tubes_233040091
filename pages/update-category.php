@@ -15,7 +15,7 @@ if($status !== "admin") {
 
 $id = $_GET["id"];
 
-$catagoryName = query("SELECT catagory_name FROM catagories WHERE id = '$id'")[0]["catagory_name"];
+$categoryName = query("SELECT category_name FROM categories WHERE id = '$id'")[0]["category_name"];
 
 header("Cache-Control: no-cache, must-revalidate");
 
@@ -52,13 +52,13 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="left">
 
     </div>
-    <div class="right catagories">
+    <div class="right categories">
       <form action="" method="post">
-      <div class="updateCatagory">
-        <input type="text" name="catagoryName" value="<?= $catagoryName; ?>" autocomplete="off" required>
+      <div class="updateCategory">
+        <input type="text" name="categoryName" value="<?= $categoryName; ?>" autocomplete="off" required>
         <input type="hidden" name="id" value="<?= $id; ?>">
         <div class="button">
-          <a href="dashboard-catagories.php"><button type="button" id="continue">Continue</button></a>
+          <a href="dashboard-categories.php"><button type="button" id="continue">Continue</button></a>
           <button name="update" id="update">Update</button>
         </div>
       </div>
@@ -66,25 +66,25 @@ header("Cache-Control: no-cache, must-revalidate");
 
       <?php if(isset($_POST["update"])) : ?>
         <?php 
-        $categoryName = $_POST["catagoryName"];
+        $categoryName = $_POST["categoryName"];
         
-        $count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM catagories WHERE catagory_name = '$categoryName'"));
+        $count = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM categories WHERE category_name = '$categoryName'"));
         ?>
         <?php if($count > 0) : ?>
           <div class="alert alert-green">
             <p>Silahkan perbarui Kategori</p>
-            <a href="update-catagory.php?id=<?= $id; ?>"><button class="continue con-red">continue</button></a>
+            <a href="update-category.php?id=<?= $id; ?>"><button class="continue con-red">continue</button></a>
           </div>    
         <?php else : ?>
-          <?php if (updateCatagory($_POST) > 0) : ?>
+          <?php if (updateCategory($_POST) > 0) : ?>
             <div class="alert alert-green">
               <p>Katagori Berhasil diupdate</p>
-              <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
+              <a href="dashboard-categories.php"><button class="continue con-red">continue</button></a>
             </div>    
           <?php else : ?>
             <div class="alert alert-red">
               <p>Katagori gagal diupdate</p>
-              <a href="dashboard-catagories.php"><button class="continue con-red">continue</button></a>
+              <a href="dashboard-categories.php"><button class="continue con-red">continue</button></a>
             </div>    
           <?php endif ; ?>
         <?php endif ; ?>

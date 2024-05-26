@@ -55,8 +55,8 @@ function uploadCourse($data) {
     $videoName = htmlspecialchars($data["videoName"]);
     $description = htmlspecialchars($data["description"]);
 
-    // Cek Catagory
-    $catagoryId = catagoryCheck($data["catagory"]);
+    // Cek Category
+    $categoryId = categoryCheck($data["category"]);
 
 
     // Upload gambar
@@ -72,9 +72,9 @@ function uploadCourse($data) {
     }
 
     //  query insert data
-    $query1 = "INSERT INTO courses(catagory_id, user_id, name, thumbnail, price)
+    $query1 = "INSERT INTO courses(category_id, user_id, name, thumbnail, price)
                 VALUES
-                ('$catagoryId', '$userId', '$courseName', '$thumbnail', '$price')
+                ('$categoryId', '$userId', '$courseName', '$thumbnail', '$price')
                 ";
 
     mysqli_query($conn, $query1);
@@ -200,7 +200,7 @@ function search($keyword) {
     $jumlahDataPerHalaman = 9;
     $jumlahData = count(query("SELECT *, courses.id as courses_id 
                                 FROM courses 
-                                JOIN catagories ON (courses.catagory_id = catagories.id)
+                                JOIN categories ON (courses.category_id = categories.id)
                                 ORDER BY courses.id DESC"));
     $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
@@ -209,7 +209,7 @@ function search($keyword) {
 
     $query = "SELECT *, courses.id as courseId, users.id as userId 
                 FROM courses 
-                JOIN catagories ON (courses.catagory_id = catagories.id) 
+                JOIN categories ON (courses.category_id = categories.id) 
                 JOIN users ON (courses.user_id = users.id)
                 JOIN profile ON (users.id = profile.user_id)
                 WHERE name 
@@ -223,8 +223,8 @@ function search($keyword) {
     return query($query);
 }
 
-function catagoryCheck($data) {
-    $result = query("SELECT id FROM catagories WHERE catagory_name = '$data'")[0]["id"];
+function categoryCheck($data) {
+    $result = query("SELECT id FROM categories WHERE category_name = '$data'")[0]["id"];
 
     return $result;
 }
@@ -237,8 +237,8 @@ function updateCourse($data) {
     $price = htmlspecialchars($data["price"]);
     $oldThumbnail = ($data["oldThumbnail"]);
 
-    // Cek catagori
-    $catagory = catagoryCheck($data["catagory"]);
+    // Cek categori
+    $category = categoryCheck($data["category"]);
 
     // Cek apakah user pilih gambar baru atau tidak
     if( $_FILES['thumbnail']['error'] === 4) {
@@ -252,7 +252,7 @@ function updateCourse($data) {
                 SET
                 name = '$courseName',
                 price = '$price',
-                catagory_id = '$catagory',
+                category_id = '$category',
                 thumbnail = '$thumbnail'
                 WHERE courses.id = $id 
                 ";
@@ -292,51 +292,51 @@ function deleteVideo($id) {
     return mysqli_affected_rows($conn);
 }
 
-function deleteCatagory($id) {
+function deleteCategory($id) {
     global $conn;
     mysqli_query($conn, "DELETE
-                         FROM catagories
+                         FROM categories
                          WHERE id = $id");
 
     return mysqli_affected_rows($conn);
 }
 
-function addCatagory($data) {
+function addCategory($data) {
     global $conn;
 
-    $catagory = $data["catagory"];
+    $category = htmlspecialchars($data["category"]);
 
-    $result = mysqli_query($conn, "SELECT * FROM catagories WHERE catagory_name = '$catagory'");
+    $result = mysqli_query($conn, "SELECT * FROM categories WHERE category_name = '$category'");
 
     if(mysqli_fetch_assoc($result)) {
         return false;
     }
 
-    mysqli_query($conn, "INSERT INTO catagories
-                                    (catagory_name)
+    mysqli_query($conn, "INSERT INTO categories
+                                    (category_name)
                                     VALUES
-                                    ('$catagory')");
+                                    ('$category')");
 
     return mysqli_affected_rows($conn);
 }
 
-function updateCatagory($data) {
+function updateCategory($data) {
     global $conn;
 
-    $catagoryName = $data["catagoryName"];
+    $categoryName = htmlspecialchars($data["categoryName"]);
     $id = $data["id"];
 
-    mysqli_query($conn, "UPDATE catagories
-                            SET catagory_name = '$catagoryName' 
-                            where catagories.id = $id");
+    mysqli_query($conn, "UPDATE categories
+                            SET category_name = '$categoryName' 
+                            where categories.id = $id");
     return mysqli_affected_rows($conn);
 }
 
 function addVideo($data) {
     global $conn;
 
-    $videoName = $data["videoName"];
-    $description = $data["description"];
+    $videoName = htmlspecialchars($data["videoName"]);
+    $description = htmlspecialchars($data["description"]);
     $courseId = $data["courseId"];
 
     $video = uploadVideo();
@@ -464,5 +464,63 @@ function jumlah($tabel) {
     $result = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabel"));
 
     return $result;
+}
+
+function saveTo($data) {
+    global $conn;
+    
+    $videoId = $data["videoId"];
+    $playlistId = $data["playlistId"];
+
+    $query = "INSERT INTO video_playlist (video_id, playlist_id) VALUES ('$videoId', '$playlistId')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function unSave($data) {
+    global $conn;
+
+    $videoId = $data["videoId"];
+    $playlistId = $data["playlistId"];
+
+    $query = "DELETE FROM video_playlist 
+                WHERE video_id = $videoId 
+                AND playlist_id = $playlistId";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function addNewPlaylist($data) {
+    global $conn;
+
+    $videoId = $data["videoId"];
+    $newPlaylist = htmlspecialchars($data["newPlaylist"]);
+    $userId = $data["userId"];
+
+    $query1 = "INSERT INTO playlist (user_id, name) VALUES ('$userId', '$newPlaylist')";
+
+    $result = mysqli_query($conn ,"SELECT * FROM playlist WHERE user_id = $userId AND name = '$newPlaylist'");
+
+    if(mysqli_fetch_assoc($result)) {
+        return false;
+    }
+
+    mysqli_query($conn, $query1);
+
+    if(mysqli_affected_rows($conn) > 0) {
+        $playlistId = query("SELECT id FROM playlist WHERE user_id = $userId AND name = '$newPlaylist'")[0]["id"];
+
+        $query2 = "INSERT INTO video_playlist (video_id, playlist_id) VALUES ('$videoId', '$playlistId')";
+
+        mysqli_query($conn, $query2);
+
+        return mysqli_affected_rows($conn);
+    }
+
+    return false;
 }
 ?>

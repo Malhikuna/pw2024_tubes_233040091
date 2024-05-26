@@ -19,7 +19,7 @@ $numVideos = strval(count($videos));
 // var_dump($numVideos);
 
 $crs = query("SELECT * FROM courses 
-              JOIN catagories ON (courses.catagory_id = catagories.id)
+              JOIN categories ON (courses.category_id = categories.id)
               JOIN users ON (courses.user_id = users.id)
               WHERE courses.id = '$courseId'")[0];
 
@@ -41,7 +41,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <div class="container">
     <section class="course-content">
-      <p class="catagory"><?= $crs["catagory_name"]; ?></p>
+      <p class="category"><?= $crs["category_name"]; ?></p>
       <?php if($crs["username"] === $_SESSION["username"]) : ?>
           <button class="delete" name="delete">Delete</button>
       <?php endif ; ?>

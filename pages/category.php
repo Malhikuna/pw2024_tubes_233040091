@@ -2,15 +2,15 @@
 require "../functions/functions.php";
 session_start();
 
-$catagoryName = $_GET["catagory"];
+$categoryName = $_GET["category"];
 
-$catagoryId = query("SELECT id FROM catagories WHERE catagory_name = '$catagoryName'")[0]["id"];
+$categoryId = query("SELECT id FROM categories WHERE category_name = '$categoryName'")[0]["id"];
 
 // Pagination
 $jumlahDataPerHalaman = 9;
 $jumlahData = count(query("SELECT * 
                             FROM courses
-                            WHERE catagory_id = $catagoryId"));
+                            WHERE category_id = $categoryId"));
 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
 $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
@@ -18,10 +18,10 @@ $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 $courses = query("SELECT *, courses.id as courseId, users.id as userId 
                   FROM courses 
-                  JOIN catagories ON (courses.catagory_id = catagories.id) 
+                  JOIN categories ON (courses.category_id = categories.id) 
                   JOIN users ON (courses.user_id = users.id)
                   JOIN profile ON (users.id = profile.user_id)
-                  WHERE catagory_id = $catagoryId
+                  WHERE category_id = $categoryId
                   ORDER BY courses.id DESC 
                   LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
@@ -30,10 +30,10 @@ if(isset($_POST["sort"])) {
   if($_POST["sort"] === "old") {
     $courses = query("SELECT *, courses.id as courseId, users.id as userId 
                       FROM courses 
-                      JOIN catagories ON (courses.catagory_id = catagories.id) 
+                      JOIN categories ON (courses.category_id = categories.id) 
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
-                      WHERE catagory_id = $catagoryId
+                      WHERE category_id = $categoryId
                       ORDER BY courses.id ASC;
                       LIMIT $dataAwal, $jumlahDataPerHalaman
   ");
@@ -42,10 +42,10 @@ if(isset($_POST["sort"])) {
   if($_POST["sort"] === "new") {
     $courses = query("SELECT *, courses.id as courseId, users.id as userId 
                       FROM courses 
-                      JOIN catagories ON (courses.catagory_id = catagories.id) 
+                      JOIN categories ON (courses.category_id = categories.id) 
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
-                      WHERE catagory_id = $catagoryId
+                      WHERE category_id = $categoryId
                       ORDER BY courses.id DESC;
                       LIMIT $dataAwal, $jumlahDataPerHalaman
   ");

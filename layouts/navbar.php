@@ -13,13 +13,16 @@
   </form>
 
   <div class="navbar-list">
-    <a href="" class="link ctgs">catagories</a>
+    <a href="" class="link ctgs">categories</a>
+    <?php if(isset($_SESSION["login"])) : ?>
     <a href="playlist.php" class="link">playlist</a>
     <a href="likes.php" class="link">liked</a>
+    <?php endif ; ?>
     <?php if(!isset($_SESSION["login"])) : ?>
       
     <div class="login-button">
-      <a href="./login.php" class="link login">Login</a>
+      <a href="./login.php" class="link login"><button>Sign In</button></a>
+      <a href="./login.php" class="link login"><button>Sign Up</button></a>
     </div>
       
     <?php else : ?>
@@ -27,10 +30,10 @@
     <?php endif ; ?>
   </div>
 
-  <?php $ctgs = query("SELECT * FROM catagories"); ?>
-  <div class="catagory-menu">
+  <?php $ctgs = query("SELECT * FROM categories"); ?>
+  <div class="category-menu">
     <?php foreach($ctgs as $ctg) : ?>
-    <a href="catagory.php?catagory=<?= $ctg["catagory_name"]; ?>"><?= $ctg["catagory_name"]; ?></a>
+    <a href="category.php?category=<?= $ctg["category_name"]; ?>"><?= $ctg["category_name"]; ?></a>
     <?php endforeach ; ?>
   </div>
 
@@ -68,7 +71,7 @@
 
     $(".navbar-list").mouseout(function () {
         $(".profile-menu").hide();
-        $(".catagory-menu").hide();
+        $(".category-menu").hide();
 
       }
     );
@@ -81,19 +84,19 @@
       $(".profile-menu").hide();
     });
 
-    $(".catagory-menu").hide();
+    $(".category-menu").hide();
 
     $(".ctgs").mouseover(function () {
-        $(".catagory-menu").show();
+        $(".category-menu").show();
       }
     );
     
-    $(".catagory-menu").mouseover(function () { 
-      $(".catagory-menu").show();
+    $(".category-menu").mouseover(function () { 
+      $(".category-menu").show();
     });
 
-    $(".catagory-menu").mouseout(function () { 
-      $(".catagory-menu").hide();
+    $(".category-menu").mouseout(function () { 
+      $(".category-menu").hide();
     });
   })
 </script>

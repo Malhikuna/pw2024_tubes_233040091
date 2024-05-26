@@ -36,7 +36,7 @@ $id = $_GET["id"];
         <p>The video will be deleted</p>
         <p>Are you sure?</p>
         <div class="yon">
-          <a href="catagories.php"><button type="button" class="no">No</button></a>
+          <a href="categories.php"><button type="button" class="no">No</button></a>
           <form action="" method="post">
             <button name="yes" class="yes">Yes</button>
           </form>
@@ -47,12 +47,12 @@ $id = $_GET["id"];
         <?php if( deleteCatagory($id) > 0) : ?>
             <div class="alert alert-green">
               <p>Katagori berhasil terhapus</p>
-              <a href="dashboard-catagories.php"><button name="continue" class="continue">continue</button></a>
+              <a href="dashboard-categories.php"><button name="continue" class="continue">continue</button></a>
             </div>
         <?php else : ?>
             <div class="alert alert-red">
               <p>Katagori gagal terhapus</p>
-              <a href="dashboard-catagories.php"><button name="continue" class="continue con-red">continue</button></a>
+              <a href="dashboard-categories.php"><button name="continue" class="continue con-red">continue</button></a>
             </div>    
         <?php endif ; ?>
       <?php endif ; ?>

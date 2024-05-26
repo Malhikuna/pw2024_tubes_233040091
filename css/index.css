@@ -124,7 +124,7 @@
   cursor: pointer;
 }
 
-.card-rows .card .catagory {
+.card-rows .card .category {
   display: inline-block;
   background-color: blueviolet;
   height: 18px;
@@ -266,9 +266,9 @@ button.check {
   font-size: 5rem;
 }
 
-/* Catagories */
+/* Categories */
 
-.catagories-rows {
+.categories-rows {
   width: 100%;
   height: 100%;
   display: grid;
@@ -278,7 +278,7 @@ button.check {
   margin-bottom: 80px;
 }
 
-.catagories-rows .catagory-card {
+.categories-rows .category-card {
   background-color: white;
   border: 1.8px solid black;
   width: 225px;

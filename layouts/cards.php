@@ -1,10 +1,10 @@
 <?php foreach($courses as $course) : ?>
   <div class="card">
     <form action="check.php" method="post">
-      <input type="hidden" name="catagory" value="<?= $course["catagory_name"]; ?>">
+      <input type="hidden" name="category" value="<?= $course["category_name"]; ?>">
       <img src="../img/thumbnail/<?= $course["thumbnail"] ?>" alt="">
       <input type="hidden" name="thumbnail" value="<?= $course["thumbnail"]; ?>">
-      <p class="catagory"><?= $course["catagory_name"] ?></p>
+      <p class="category"><?= $course["category_name"] ?></p>
 
       <div class="like">
         <i class="ri-heart-3-line"></i>

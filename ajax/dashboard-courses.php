@@ -11,7 +11,7 @@ $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 $query = "SELECT *, courses.id as courseId, users.id as userId 
           FROM courses 
-          JOIN catagories ON (courses.catagory_id = catagories.id) 
+          JOIN categories ON (courses.category_id = categories.id) 
           JOIN users ON (courses.user_id = users.id)
           WHERE
           channel_name LIKE '%$keyword%' OR

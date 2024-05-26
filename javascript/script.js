@@ -61,7 +61,7 @@ $(document).ready(function () {
   });
 
   $(".add-3").click(function (e) {
-    $(location).attr("href", "dashboard-catagories.php");
+    $(location).attr("href", "dashboard-categories.php");
   });
 
   $(".add-ctg").hide();
