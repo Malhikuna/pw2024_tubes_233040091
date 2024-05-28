@@ -12,8 +12,9 @@ $keyword = $_GET["keyword"];
 $query = "SELECT *, videos.id as videoId 
           FROM courses 
           JOIN videos ON (course_id = courses.id)
+          JOIN users ON (courses.user_id = users.id)
           WHERE
-          channel_name LIKE '%$keyword%' OR
+          username LIKE '%$keyword%' OR
           video_name LIKE '%$keyword%'
           ORDER BY videos.id DESC 
           LIMIT $dataAwal, $jumlahDataPerHalaman
@@ -22,37 +23,37 @@ $courseVideos = query($query);
 
 ?>
 
-  <div class="top">
-  </div>
-  <div class="bottom">
-    <table>
-      <thead>
-        <tr>
-          <th>Channnel</th>
-          <th>Videos</th>
-          <th>Title</th>
-          <th>Realease</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        <?php foreach($courseVideos as $video) : ?>
-          <tr>
-            <td><?= $video["channel_name"]; ?></td>
-            <td><img src="../img/<?= $video["thumbnail"]; ?>"></td>
-            <td><?= $video["video_name"]; ?></td>
-            <td>08-02-2024</td>
-            <td>
-              <form action="delete-video.php" method="post">
-                <input type="hidden" name="id" value="<?= $video["videoId"]; ?>">
-                <button class="delete">Delete</button>
-              </form>
-            </td>
-          </tr>
-        <?php endforeach ; ?>
-      </tbody>
-    </table>
-  </div>
+<div class="top">
+</div>
+<div class="bottom">
+  <table>
+    <thead>
+      <tr>
+        <th>Channnel</th>
+        <th>Videos</th>
+        <th>Title</th>
+        <th>Realease</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
 
-  <?php require "../layouts/pagination.php" ?>
+    <tbody>
+      <?php foreach($courseVideos as $video) : ?>
+      <tr>
+        <td><?= $video["username"]; ?></td>
+        <td><img src="../img/thumbnail/<?= $video["thumbnail"]; ?>"></td>
+        <td><?= $video["video_name"]; ?></td>
+        <td>08-02-2024</td>
+        <td>
+          <form action="delete-video.php" method="post">
+            <input type="hidden" name="id" value="<?= $video["videoId"]; ?>">
+            <button class="delete">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <?php endforeach ; ?>
+    </tbody>
+  </table>
+</div>
+
+<?php require "../layouts/pagination.php" ?>

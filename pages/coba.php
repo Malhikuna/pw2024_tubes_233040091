@@ -4,53 +4,58 @@ if(isset($_POST["contoh"])) {
   echo "Hello";
 }
 
+$satu = 1;
+$dua = "dua";
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Percobaan</title>
   <link rel="stylesheet" href="../css/main.css">
-  <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-    rel="stylesheet"
-    />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
-    h1, p {
-      /* font-family: ; */
-      font-weight: bold;
-    }
+  h1,
+  p {
+    /* font-family: ; */
+    font-weight: bold;
+  }
 
-    #desc {
-      font-weight: 900;
-    }
+  #desc {
+    font-weight: 900;
+  }
 
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin: auto;
-      display: block;
-    }
-    
-    .img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin: auto;
-      background-position: center;
-      background-size: cover;
-    }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: auto;
+    display: block;
+  }
+
+  .img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: auto;
+    background-position: center;
+    background-size: cover;
+  }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Hello World!</h1>
     <h1><i class="ri-heart-fill"></h1>
     <p>Hello World!</p>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus ut, veritatis, expedita possimus, esse fuga quis aut excepturi tempora porro nesciunt reprehenderit labore quibusdam suscipit natus laudantium voluptates iusto?</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus ut, veritatis, expedita possimus,
+      esse fuga quis aut excepturi tempora porro nesciunt reprehenderit labore quibusdam suscipit natus laudantium
+      voluptates iusto?</p>
 
     <label>
       Desc
@@ -62,19 +67,17 @@ if(isset($_POST["contoh"])) {
     <img src="../img/profile/665013d3d58fb.jpeg">
 
     <?php 
-    
-    if(isset($_POST["coba"])) {
-      echo "MEMEK";
-    }
-
+      if($satu > 0 && $dua === "dua") {
     ?>
+    <h1>Satu</h1>
+    <?php 
+      } else {
+    ?>
+    <h1>Salah</h1>
+    <?php } ?>
 
-    <form action="" method="post">
-      <input type="hidden" id="coba" name="coba" value="KONTOL">
-      <input type="checkbox" id="coba" name="coba" value="KONTOL" onchange="this.form.submit();" checked>
-      <label for="coba">KONTOL</label>
-    </form>
   </div>
 
 </body>
+
 </html>

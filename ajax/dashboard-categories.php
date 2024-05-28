@@ -3,43 +3,43 @@ require "../functions/functions.php";
 $keyword = $_GET["keyword"];
 
 $jumlahDataPerHalaman = 5;
-$jumlahData = count(query("SELECT * FROM catagories"));
+$jumlahData = count(query("SELECT * FROM categories"));
 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
 $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
 $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$query = "SELECT * FROM catagories
+$query = "SELECT * FROM categories
           WHERE 
-          catagory_name LIKE '%$keyword%'
+          category_name LIKE '%$keyword%'
           ORDER BY id DESC
           LIMIT $dataAwal, $jumlahDataPerHalaman
 ";
-$catagory = query($query);
+$category = query($query);
 
 ?>
 
-  <table>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Catagory Name</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php $i = 1; ?>
-      <?php foreach($catagory as $ctg) : ?>
-        <tr>
-          <td><?= $i++; ?></td>
-          <td><?= $ctg["catagory_name"]; ?></td>
-          <td>
-            <a href="update-catagory.php?id=<?= $ctg["id"]; ?>"><button name="update" class="update">Update</button></a>
-            <a href="delete-catagory.php?id=<?= $ctg["id"]; ?>"><button name="delete" class="delete">Delete</button></a>
-          </td>
-        </tr>
-        <?php endforeach ; ?>
-      </tbody>
-  </table>
+<table>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Category Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php $i = 1; ?>
+    <?php foreach($category as $ctg) : ?>
+    <tr>
+      <td><?= $i++; ?></td>
+      <td><?= $ctg["category_name"]; ?></td>
+      <td>
+        <a href="update-category.php?id=<?= $ctg["id"]; ?>"><button name="update" class="update">Update</button></a>
+        <a href="delete-category.php?id=<?= $ctg["id"]; ?>"><button name="delete" class="delete">Delete</button></a>
+      </td>
+    </tr>
+    <?php endforeach ; ?>
+  </tbody>
+</table>
 
-  <?php require "../layouts/pagination.php" ?>
+<?php require "../layouts/pagination.php" ?>

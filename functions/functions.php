@@ -392,6 +392,7 @@ function editProfile($data) {
     $linkedin = htmlspecialchars($data["linkedin"]);
     $facebook = htmlspecialchars($data["facebook"]);
     $youtube = htmlspecialchars($data["youtube"]);
+    $profilePicture = htmlspecialchars($data["oldProfilePicture"]);
     $userId = $data["userId"];
  
     mysqli_query($conn, "UPDATE profile 
@@ -522,5 +523,73 @@ function addNewPlaylist($data) {
     }
 
     return false;
+}
+
+function addToCart($data) {
+    global $conn;
+    $userId = $data["userId"];
+    $courseId = $data["courseId"];
+
+    $result = mysqli_query($conn, "SELECT * FROM cart WHERE user_id = $userId AND course_id = $courseId");
+    if(mysqli_fetch_assoc($result)) {
+        return false;
+    }
+
+    $query = "INSERT INTO cart (user_id, course_id) VALUES ('$userId', '$courseId')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function checkout($data) {
+    global $conn;
+    $userId = $data["userId"];
+
+
+    $courses = query("SELECT * FROM cart WHERE user_id = $userId");
+
+    foreach($courses as $crs) {
+        $courseId = $crs["course_id"];
+        $cartId = $crs["id"];
+
+        mysqli_query($conn, "INSERT INTO orders (course_id, user_id) VALUES ('$courseId', '$userId')");
+
+        if(mysqli_affected_rows($conn) > 0) {
+            
+            mysqli_query($conn, "DELETE cart, order_summary
+                             FROM cart
+                             JOIN order_summary
+                             ON cart.id = cart_id
+                             WHERE cart.id = $cartId");
+        }
+          
+        mysqli_affected_rows($conn);
+    }   
+
+    mysqli_affected_rows($conn);
+}
+
+function deleteCartList($id) {
+    global $conn;
+
+    $result =  mysqli_query($conn, "SELECT * FROM order_summary WHERE cart_id = $id");
+
+    if(mysqli_fetch_assoc($result)) {
+        mysqli_query($conn, "DELETE cart, order_summary
+                                FROM cart
+                                JOIN order_summary
+                                ON cart.id = cart_id
+                                WHERE cart.id = $id");
+
+        return  mysqli_affected_rows($conn);
+        
+    } else {
+        mysqli_query($conn, "DELETE 
+                                FROM cart WHERE id = $id");
+                                
+        return  mysqli_affected_rows($conn);
+    };
+
 }
 ?>

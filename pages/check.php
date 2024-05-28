@@ -8,6 +8,7 @@ if(!isset($_SESSION["login"])) {
 }
 
 $userId = $_POST["userId"];
+$myUserId = $_SESSION["id"];
 $channel = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
 
 $courseId = $_POST["courseId"];
@@ -23,19 +24,29 @@ $crs = query("SELECT * FROM courses
               JOIN users ON (courses.user_id = users.id)
               WHERE courses.id = '$courseId'")[0];
 
+if(isset($_POST["add"])) {
+  addToCart($_POST);
+}
+
+$result = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM orders WHERE course_id = $courseId AND user_id = $myUserId"));
+
 header("Cache-Control: no-cache, must-revalidate");
 
  ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Check Page</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/check.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="../css/remixicon.css" rel="stylesheet" />
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
@@ -43,7 +54,7 @@ header("Cache-Control: no-cache, must-revalidate");
     <section class="course-content">
       <p class="category"><?= $crs["category_name"]; ?></p>
       <?php if($crs["username"] === $_SESSION["username"]) : ?>
-          <button class="delete" name="delete">Delete</button>
+      <button class="delete" name="delete">Delete</button>
       <?php endif ; ?>
       <section class="top">
         <div class="left">
@@ -60,7 +71,8 @@ header("Cache-Control: no-cache, must-revalidate");
       <section class="bottom">
         <div class="left">
           <h1><?= $crs["name"]; ?></h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur corrupti vitae tenetur quo soluta iste.
+          </p>
           <div class="channel-content">
             <a href="profile.php?profile=<?= $crs["username"]; ?>">
               <img class="channel" src="../img/profile/<?= $channel; ?>">
@@ -68,17 +80,39 @@ header("Cache-Control: no-cache, must-revalidate");
             <a href="profile.php?profile=<?= $crs["username"]; ?>"><?= $crs["username"]; ?></a>
           </div>
         </div>
-        <div class="right">
+        <form action="" method="post">
+          <div class="right">
             <input type="hidden" name="course_id" value="<?= $courseId; ?>">
-            <?php if($crs["username"] === $_SESSION["username"]) : ?>
-              <a href="edit-course.php?id=<?= $courseId; ?>"><button id="edit" name="edit">Edit</button></a>
-              <a href="video.php?id=<?= $courseId; ?>"><button id="play" name="play">Play Video</button></a>
-            <?php else : ?>
-              <p>Rp100.000</p>
-              <button id="add">Add To Cart</button>
-              <button id="buy">Buy Now</button>
-            <?php endif ; ?>
-        </div>
+            <?php if($crs["username"] === $_SESSION["username"]) { ?>
+            <a href="edit-course.php?id=<?= $courseId; ?>"><button type="button" id="edit" name="edit">Edit</button></a>
+            <a href="video.php?id=<?= $courseId; ?>"><button type="button" id="play" name="play">Play Video</button></a>
+            <?php } else if($result > 0) { ?>
+            <a href="video.php?id=<?= $courseId; ?>"><button type="button" id="play" name="play">Play Video</button></a>
+            <?php $result = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM order_summary WHERE user_id = $myUserId")); ?>
+            <?php } else { ?>
+            <p>Rp<?= $crs["price"]; ?></p>
+            <input type="hidden" name="courseId" value="<?= $courseId; ?>">
+            <input type="hidden" name="userId" value="<?= $myUserId; ?>">
+            <?php 
+            
+            $cartResult = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM cart WHERE course_id = $courseId AND user_id = $myUserId"));
+
+            if($cartResult) {
+            ?>
+            <button type="button" name="add" id="addToCart-1" class="background-color: #191919;">Add To Cart</button>
+            <?php 
+            } else {
+            ?>
+            <button name="add" id="addToCart-2">Add To Cart</button>
+            <?php 
+            } 
+            ?>
+            <button name="buy" id="buy">Buy Now</button>
+            <?php 
+          } 
+          ?>
+          </div>
+        </form>
       </section>
 
       <div class="alert">
@@ -95,10 +129,17 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
       <a href="javascript:history.back()"><button class="back">Back</button></a>
     </section>
+
+    <section>
+      <h1>Related Courses</h1>
+    </section>
+
+    <?php require "../layouts/footer.php" ?>
   </div>
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/check.js"></script>
 
 </body>
+
 </html>

@@ -11,6 +11,8 @@ $id = $_GET["id"];
 
 $crs = query("SELECT * FROM courses JOIN categories ON (courses.category_id = categories.id) WHERE courses.id = '$id'")[0];
 
+$categories = query("SELECT category_name FROM categories");
+
 // cek apakah tombol update sudah ditekan atau belum
 
 header("Cache-Control: no-cache, must-revalidate");
@@ -21,6 +23,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +33,7 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/update.css">
   <link rel="stylesheet" href="../css/alert.css">
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
@@ -46,13 +50,14 @@ header("Cache-Control: no-cache, must-revalidate");
           </label>
           <label>
             Price
-            <input type="number" name="price" value="<?= $crs["price"]; ?>" autocomplete="off" >
+            <input type="number" name="price" value="<?= $crs["price"]; ?>" autocomplete="off">
           </label>
           <label>
             Category
             <select name="category" id="category">
-              <option value="Frontend Developer" selected>Frontend Developer</option>
-              <option value="Backend Developer">Backend Developer</option>
+              <?php foreach($categories as $category) : ?>
+              <option value="<?= $category["category_name"]; ?>"><?= $category["category_name"]; ?></option>
+              <?php endforeach ; ?>
             </select>
             <br>
           </label>
@@ -69,22 +74,23 @@ header("Cache-Control: no-cache, must-revalidate");
     </div>
 
     <?php if(isset($_POST["update"])) : ?>
-      <?php if (updateCourse($_POST) > 0) : ?>
-        <div class="alert alert-green">
-          <p>data berhasil diubah</p>
-          <a href="course.php"><button name="continue" class="continue">continue</button></a>        
-        </div>
-      <?php else : ?>
-        <div class="alert alert-red">
-          <p>data gagal diubah</p>
-          <button name="continue" class="continue con-red">continue</button>
-        </div>    
-      <?php endif ; ?>
-    <?php endif ; ?> 
-    
+    <?php if (updateCourse($_POST) > 0) : ?>
+    <div class="alert alert-green">
+      <p>data berhasil diubah</p>
+      <a href="course.php"><button name="continue" class="continue">continue</button></a>
+    </div>
+    <?php else : ?>
+    <div class="alert alert-red">
+      <p>data gagal diubah</p>
+      <button name="continue" class="continue con-red">continue</button>
+    </div>
+    <?php endif ; ?>
+    <?php endif ; ?>
+
   </div>
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
 </body>
+
 </html>
