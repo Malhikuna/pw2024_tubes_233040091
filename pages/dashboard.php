@@ -3,6 +3,8 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
+$adminId = $_SESSION["id"];
+$email = $_SESSION["email"];
 $status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
 if(!isset($_SESSION["login"])) {
@@ -12,6 +14,8 @@ if(!isset($_SESSION["login"])) {
 if($status !== "admin") {
   header("Location: index.php");
 }
+
+$imageProfile = query("SELECT image FROM profile WHERE user_id = $adminId")[0]["image"];
 
 $videos = jumlah("videos");
 $categories = jumlah("categories");
@@ -32,6 +36,7 @@ if(isset($_POST["delete"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,29 +45,36 @@ if(isset($_POST["delete"])) {
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/alert.css">
-  <style>
-    body {
-      min-height: 200vh;
-    }
-  </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <div class="left">
-
+      <div class="profile-box">
+        <img src="../img/profile/<?= $imageProfile; ?>" alt="">
+        <h4><?= $username; ?></h2>
+          <p><?= $email; ?></p>
+      </div>
+      <div class="menu-box">
+        <p>Menu</p>
+        <a href=""><i class="ri-home-6-fill"></i> Home</a>
+        <a href=""><i class="ri-home-6-fill"></i> Manage Courses</a>
+        <a href=""><i class="ri-account-box-fill"></i> Manage Accounts</a>
+        <a href=""><i class="ri-bank-card-2-fill"></i> Payment History</a>
+      </div>
     </div>
-    <div class="right deffault">
+    <div class="right default">
       <h1>Welcome <?= $username; ?></h1>
       <div class="row row-1">
         <div class="col col-1">
           <div class="circle">
-          <i class="ri-slideshow-3-fill"></i>
+            <i class="ri-slideshow-3-fill"></i>
           </div>
           <p><?= $courses; ?> Courses</p>
           <div class="add add-1">
-          <i class="ri-arrow-right-circle-line"></i>
+            <i class="ri-arrow-right-circle-line"></i>
           </div>
         </div>
         <div class="col col-2">
@@ -82,12 +94,9 @@ if(isset($_POST["delete"])) {
           <p><?= $categories; ?></p>
           <p>Categories</p>
           <div class="add add-3">
-          <i class="ri-arrow-right-circle-line"></i>
+            <i class="ri-arrow-right-circle-line"></i>
           </div>
         </div>
-      </div>
-      <h1>Current Account</h1>
-      <div class="row row-2">
       </div>
     </div>
   </div>
@@ -96,4 +105,5 @@ if(isset($_POST["delete"])) {
   <script src="../javascript/check.js"></script>
   <script src="../javascript/script.js"></script>
 </body>
+
 </html>

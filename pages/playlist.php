@@ -49,6 +49,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,44 +58,45 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/index.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
-    .container {
-        min-height: 100vh;
-      }
+  .container {
+    min-height: 100vh;
+  }
 
-    footer {
-      margin-top: 100px;
-    }
+  footer {
+    margin-top: 100px;
+  }
 
-    .channel-content {
-      margin-top: 0;
-    }
+  .channel-content {
+    margin-top: 0;
+  }
 
-    .card-rows .card {
-      height: 220px;
-    }
+  .card-rows .card {
+    height: 220px;
+  }
 
-    .img {
-      width: 100%;
-      height: 190px;
-      background-color: gray;
-      border-radius: 20px 20px 0 0;
-    }
+  .img {
+    width: 100%;
+    height: 190px;
+    background-color: gray;
+    border-radius: 20px 20px 0 0;
+  }
   </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <h1 class="tag-line">Video Playlist</h1>
     <form action="" method="post">
-     <div class="sort-content">
+      <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
           <?php if($_POST["sort"] === "old") : ?>
-            <option value="new">Newest</option>
-            <option value="old" selected>Oldest</option>
+          <option value="new">Newest</option>
+          <option value="old" selected>Oldest</option>
           <?php else : ?>
-            <option value="new" selected>Newest</option>
-            <option value="old">Oldest</option>
+          <option value="new" selected>Newest</option>
+          <option value="old">Oldest</option>
           <?php endif ; ?>
         </select>
         <div class="sort-icon">
@@ -103,7 +105,7 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
     </form>
     <section class="card-rows">
-    <?php foreach($playlist as $list) : ?>
+      <?php foreach($playlist as $list) : ?>
       <a href="video_playlist.php?id=<?= $list["id"]; ?>">
         <div class="card">
           <form action="check.php" method="post">
@@ -117,7 +119,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 
             <?php if($result > 0) : ?>
-              <?php 
+            <?php 
 
                 $videoPlaylist = query("SELECT video_id 
                                         FROM video_playlist 
@@ -126,22 +128,22 @@ header("Cache-Control: no-cache, must-revalidate");
                 $image = query("SELECT thumbnail FROM videos JOIN courses ON (course_id = courses.id) WHERE videos.id = $videoPlaylist")[0]["thumbnail"];
 
                 ?>
-              <img src="../img/thumbnail/<?= $image; ?>" alt="">
-              <p class="category"><?= $result; ?> Videos</p>
+            <img src="../img/thumbnail/<?= $image; ?>" class="card-image">
+            <p class="category"><?= $result; ?> Videos</p>
             <?php else : ?>
-              <div class="img"></div>
-              <p class="category">0 Videos</p>
+            <div class="img"></div>
+            <p class="category">0 Videos</p>
             <?php endif ; ?>
 
             <div class="bottom">
               <div class="left">
-                <h3 style="margin-left: 5px;"><?= $list["name"] ?></h3> 
+                <h3 style="margin-left: 5px;"><?= $list["name"] ?></h3>
               </div>
             </div>
           </form>
         </div>
       </a>
-    <?php endforeach ; ?>
+      <?php endforeach ; ?>
     </section>
 
     <?php require "../layouts/pagination.php" ?>
@@ -149,4 +151,5 @@ header("Cache-Control: no-cache, must-revalidate");
     <?php require "../layouts/footer.php" ?>
   </div>
 </body>
+
 </html>

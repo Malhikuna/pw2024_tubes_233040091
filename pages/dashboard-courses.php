@@ -3,6 +3,8 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
+$adminId = $_SESSION["id"];
+$email = $_SESSION["email"];
 $status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
 if(!isset($_SESSION["login"])) {
@@ -12,6 +14,9 @@ if(!isset($_SESSION["login"])) {
 if($status !== "admin") {
   header("Location: index.php");
 }
+
+$imageProfile = query("SELECT image FROM profile WHERE user_id = $adminId")[0]["image"];
+
 
 // Pagination
 $jumlahDataPerHalaman = 5;
@@ -35,6 +40,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,19 +50,41 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/alert.css">
   <style>
-    body {
-      min-height: 160vh;
-    }
+  body {
+    height: 160vh !important;
+  }
+
+  .container {
+    height: 160vh !important;
+  }
+
+  .right {
+    height: 160vh !important;
+  }
   </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <div class="left"></div>
+    <div class="left">
+      <div class="profile-box">
+        <img src="../img/profile/<?= $imageProfile; ?>" alt="">
+        <h4><?= $username; ?></h2>
+          <p><?= $email; ?></p>
+      </div>
+      <div class="menu-box">
+        <p>Menu</p>
+        <a href=""><i class="ri-home-6-fill"></i> Home</a>
+        <a href=""><i class="ri-home-6-fill"></i> Manage Courses</a>
+        <a href=""><i class="ri-account-box-fill"></i> Manage Accounts</a>
+        <a href=""><i class="ri-bank-card-2-fill"></i> Payment History</a>
+      </div>
+    </div>
     <div class="right videos">
       <i class="ri-arrow-left-circle-fill back"></i>
-      
+
       <div id="search">
         <form action="" method="post">
           <input class="search" type="text" name="key" size="40" placeholder="search.." autocomplete="off" id="key">
@@ -76,21 +104,21 @@ header("Cache-Control: no-cache, must-revalidate");
                 <th>Delete</th>
               </tr>
             </thead>
-            
+
             <tbody>
               <?php foreach($courses as $course) : ?>
-                <tr>
-                  <td><a href="profile.php?profile=<?= $course["username"]; ?>"><?= $course["username"]; ?></a></td>
-                  <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>
-                  <td><?= $course["name"]; ?></td>
-                  <td>08-02-2024</td>
-                  <td>
-                    <form action="delete-course.php" method="post">
-                      <input type="hidden" name="id" value="<?= $course["courseId"]; ?>">
-                      <button class="delete">Delete</button>
-                    </form>
-                  </td>
-                </tr>
+              <tr>
+                <td><a href="profile.php?profile=<?= $course["username"]; ?>"><?= $course["username"]; ?></a></td>
+                <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>
+                <td><?= $course["name"]; ?></td>
+                <td>08-02-2024</td>
+                <td>
+                  <form action="delete-course.php" method="post">
+                    <input type="hidden" name="id" value="<?= $course["courseId"]; ?>">
+                    <button class="delete">Delete</button>
+                  </form>
+                </td>
+              </tr>
               <?php endforeach ; ?>
             </tbody>
           </table>
@@ -105,15 +133,16 @@ header("Cache-Control: no-cache, must-revalidate");
   <script src="../javascript/check.js"></script>
   <script src="../javascript/script.js"></script>
   <script>
-    $(document).ready(function () {
-      // Event ketika keyword ditulis
-      $("#key").on("keyup", function () {
-        // $.get()
-        $.get("../ajax/dashboard-courses.php?keyword=" + $("#key").val(), function (data) {
-          $("#container").html(data);
-        });
+  $(document).ready(function() {
+    // Event ketika keyword ditulis
+    $("#key").on("keyup", function() {
+      // $.get()
+      $.get("../ajax/dashboard-courses.php?keyword=" + $("#key").val(), function(data) {
+        $("#container").html(data);
       });
     });
+  });
   </script>
 </body>
+
 </html>

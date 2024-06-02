@@ -21,6 +21,7 @@ $courses = query("SELECT *, courses.id as courseId, users.id as userId
 
 // Ambil semua data dari tabel kategori
 $categories = query("SELECT * FROM categories");
+$ctgss = query("SELECT * FROM categories LIMIT 6");
 
 // Sorting
 if(isset($_POST["sort"])) {
@@ -71,6 +72,16 @@ header("Cache-Control: no-cache, must-revalidate");
   <?php require "../layouts/navbar.php"  ?>
 
   <div class="container">
+    <div class="categories-line">
+      <?php foreach($ctgss as $ctgg) : ?>
+      <a href="category.php?category=<?= $ctgg["category_name"]; ?>"><?= $ctgg["category_name"]; ?></a>
+      <?php endforeach ; ?>
+    </div>
+
+    <div class="banner">
+      <img src="../img/banner/growth_2.jpg" alt="">
+    </div>
+
     <form action="" method="post">
       <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
@@ -174,25 +185,17 @@ header("Cache-Control: no-cache, must-revalidate");
   <script src="../javascript/script.js"></script>
   <script>
   $(document).ready(function() {
-    // $for($i = 1; $i <= 8; $i++) {
-    //   $(".add").hide();
-    //     function () {
-    //       $(".add-" + $i).show();
-    //     },
-    //     function () {
-    //       $(".add-" + $i).hide();
-    //     }
-    //   );
-    // }
+    let offset = 320;
+    let duration = 500;
 
-    // $(".card-1").hover(
-    //     function () {
-    //       $(".add-1").show();
-    //     },
-    //     function () {
-    //       $(".add-1").hide();
-    //     }
-    //   );
+    $(window).scroll(function() {
+      if ($(this).scrollTop() > offset) {
+        $(".categories-line").fadeOut(duration);
+        // $(".categories-line").show();
+      } else {
+        $(".categories-line").fadeIn(duration);
+      }
+    })
   })
   </script>
 </body>

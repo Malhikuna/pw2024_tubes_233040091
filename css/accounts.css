@@ -1,0 +1,111 @@
+body {
+  height: 150vh;
+}
+
+#search {
+  margin-top: -10px;
+  margin-left: 25px;
+}
+
+.right {
+  width: 1090px;
+  height: 100%;
+}
+
+.row {
+  height: 80vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+  width: 250px;
+  height: 380px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  gap: 5px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 0;
+  box-shadow: 0 0.2rem 0.4rem #0005;
+}
+
+.card img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+
+.card .button {
+  width: 200px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.card .button button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.card .button button i {
+  font-size: 1.1rem;
+}
+
+.card .button button:nth-child(2) {
+  background-color: red;
+  border-radius: 0 10px 10px 0;
+}
+
+.card .button button:nth-child(1) {
+  color: white;
+  border-radius: 10px 0 0 10px;
+}
+
+.card .bottom {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.card .bottom .det {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 230px;
+  height: 40px;
+  gap: 8px;
+}
+
+.card .bottom .det p {
+  font-size: 0.8rem;
+}
+
+.card .bottom .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: chartreuse;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left .menu-box a:nth-child(4) {
+  font-weight: bold;
+  color: #6060ff;
+}

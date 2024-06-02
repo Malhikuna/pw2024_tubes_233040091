@@ -66,6 +66,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,37 +75,38 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/index.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
   <style>
-    .container {
-        min-height: 100vh;
-      }
+  .container {
+    min-height: 100vh;
+  }
 
-    footer {
-      margin-top: 100px;
-    }
+  footer {
+    margin-top: 100px;
+  }
 
-    .channel-content {
-      margin-top: 0;
-    }
+  .channel-content {
+    margin-top: 0;
+  }
 
-    .card-rows .card {
-      height: 270px;
-    }
+  .card-rows .card {
+    height: 270px;
+  }
   </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <h1 class="tag-line">Video Liked</h1>
     <form action="" method="post">
-     <div class="sort-content">
+      <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
           <?php if($_POST["sort"] === "old") : ?>
-            <option value="new">Newest</option>
-            <option value="old" selected>Oldest</option>
+          <option value="new">Newest</option>
+          <option value="old" selected>Oldest</option>
           <?php else : ?>
-            <option value="new" selected>Newest</option>
-            <option value="old">Oldest</option>
+          <option value="new" selected>Newest</option>
+          <option value="old">Oldest</option>
           <?php endif ; ?>
         </select>
         <div class="sort-icon">
@@ -113,11 +115,11 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
     </form>
     <section class="card-rows">
-    <?php foreach($videos as $video) : ?>
+      <?php foreach($videos as $video) : ?>
       <a href="video_likes.php?id=<?= $video["videoId"]; ?>">
         <div class="card">
           <form action="check.php" method="post">
-            <img src="../img/thumbnail/<?= $video["thumbnail"] ?>" alt="">
+            <img src="../img/thumbnail/<?= $video["thumbnail"] ?>" class="card-image">
             <p class="category"><?= $video["category_name"] ?></p>
 
             <div class="like">
@@ -126,8 +128,8 @@ header("Cache-Control: no-cache, must-revalidate");
 
             <div class="bottom">
               <div class="left">
-                <h3><?= $video["video_name"] ?></h3> 
-                <hp><?= $video["name"] ?></hp> 
+                <h3><?= $video["video_name"] ?></h3>
+                <hp><?= $video["name"] ?></hp>
                 <div class="channel-content">
                   <img class="channel" src="../img/profile/<?= $video["image"]; ?>">
                   <p><?= $video["username"] ?></p>
@@ -137,7 +139,7 @@ header("Cache-Control: no-cache, must-revalidate");
           </form>
         </div>
       </a>
-    <?php endforeach ; ?>
+      <?php endforeach ; ?>
     </section>
 
     <?php require "../layouts/pagination.php" ?>
@@ -145,4 +147,5 @@ header("Cache-Control: no-cache, must-revalidate");
     <?php require "../layouts/footer.php" ?>
   </div>
 </body>
+
 </html>

@@ -57,24 +57,6 @@ nav {
   border: 1.8px solid black;
 }
 
-/* .menu input {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: -1.8px;
-  right: -2.9px;
-  opacity: 0;
-  z-index: 3;
-  cursor: pointer;
-} */
-
-/* .menu {
-  display: none;
-  z-index: 9999;
-  position: relative;
-  align-self: center;
-} */
-
 .judul {
   font-family: "Unbounded";
   font-size: 25px;
@@ -204,7 +186,10 @@ button {
   text-decoration: underline;
 }
 
-.profile {
+/* Menu */
+
+.profile,
+.course-img {
   width: 40px;
   height: 40px;
   border: 2px solid black;
@@ -214,28 +199,106 @@ button {
   display: block;
 }
 
-.profile-menu {
-  display: grid;
-  flex-direction: column;
-  justify-content: center;
+#menu {
   position: absolute;
-  top: 59px;
-  right: 55px;
-  background-color: #928fe5;
-  height: 250px;
-  width: 150px;
-  border-end-end-radius: 10px;
-  border-end-start-radius: 10px;
+  top: 49px;
+  right: 43px;
+  width: 230px;
+  height: 320px;
+  display: flex;
+  align-items: end;
 }
 
-.profile-menu a {
-  color: white;
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffffe7;
+  height: 300px;
+  width: 100%;
+  border-end-end-radius: 10px;
+  border-end-start-radius: 10px;
+  box-shadow: 0 0.2rem 0.4rem #0005;
+}
+
+.menu-content a {
+  color: black;
   margin: auto;
+}
+
+.email {
+  font-size: 0.8rem;
+}
+
+.menu {
+  height: 60px;
+  width: 100%;
+}
+
+.menu i {
+  color: #928fe5;
+}
+
+.menu .profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid black;
+  margin-top: 5px;
+}
+
+.menu .username {
+  margin-right: 20px;
+}
+
+.menu-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-1,
+.menu-2,
+.menu-3 {
+  height: 200px;
+  padding: 5px;
+  border-bottom: 1.5px solid #5f5f5f;
+}
+
+.menu-2,
+.menu-3,
+.menu-4 {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.menu-2 a,
+.menu-3 a,
+.menu-4 a {
+  height: 10px;
+  width: 100%;
+  /* background-color: rebeccapurple; */
+  color: #1a1a1a;
+  gap: 3px;
+  /* display: block; */
+}
+
+.menu-4 a {
+  margin-bottom: 10px;
+}
+
+.menu-2 a:hover,
+.menu-3 a:hover,
+.menu-4 a:hover {
+  font-weight: bold;
+  color: black;
 }
 
 .none {
   display: none;
 }
+
+/* Cart */
 
 .cart {
   margin-top: -5px;
@@ -254,18 +317,17 @@ button {
   display: flex;
   align-items: end;
   height: 225px;
-  width: 200px;
+  width: 250px;
 }
 
 #cart {
-  padding: 5px;
-  width: 200px;
+  padding: 10px;
+  width: 100%;
   height: 200px;
   background-color: white;
   /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   box-shadow: 0 0.2rem 0.4rem #0005;
 }
@@ -273,37 +335,49 @@ button {
 #cart .cart-list {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  width: 190px;
-  height: 170px;
-  /* background-color: #110b34; */
+  width: 100%;
+  height: 110px;
+  border-bottom: 1px solid black;
 }
 
 #cart .cart-list p {
-  width: 100px;
-  height: 40px;
+  width: 100%;
   overflow: hidden;
+  height: 50px;
 }
 
-#cart .cart-list img {
-  width: 80px;
-  height: 40px;
+#cart .cart-list .course-img {
+  width: 90px;
+  height: 50px;
   border-radius: 0;
   border: 1px solid black;
-  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 #cart .cart-list .course-list {
   display: flex;
+  gap: 5px;
   overflow: hidden;
+  width: 100%;
 }
 
 #cart button {
-  width: 100px;
+  width: 230px;
   height: 40px;
   background-color: black;
   color: white;
   border: 1px solid black;
+}
+
+#total-price {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+#total-price p {
+  font-size: 1.2rem;
 }
 
 .navbar-list .cart {

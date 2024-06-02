@@ -4,7 +4,7 @@ if(isset($_SESSION["login"])) {
   $userId = $_SESSION["id"];
   $cartResult = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM cart WHERE user_id = $userId"));
 
-  $cartList = query("SELECT *, cart.user_id as userId FROM cart JOIN courses ON course_id = courses.id WHERE cart.user_id = $userId LIMIT 3");
+  $cartList = query("SELECT *, cart.user_id as userId FROM cart JOIN courses ON course_id = courses.id WHERE cart.user_id = $userId LIMIT 2");
 }
 
 ?>
@@ -64,10 +64,20 @@ if(isset($_SESSION["login"])) {
       <div class="cart-list">
         <?php foreach($cartList as $crt) : ?>
         <div class="course-list">
-          <img src="../img/thumbnail/<?= $crt["thumbnail"]; ?>" alt="" width="20px">
+          <img src="../img/thumbnail/<?= $crt["thumbnail"]; ?>" alt="" width="20px" class="course-img">
           <p><?= $crt["name"]; ?></p>
         </div>
         <?php endforeach ; ?>
+      </div>
+      <div id="total-price">
+        <?php 
+        
+        $total_price = query("SELECT SUM(price) AS 'Total Price'
+        FROM cart JOIN courses ON courses.id = course_id WHERE cart.user_id = $userId ")[0]["Total Price"];
+
+        ?>
+        <h3>Total</h3>
+        <p><?= $total_price; ?></p>
       </div>
       <a href="cart.php"><button>See Cart</button></a>
     </div>
@@ -83,14 +93,30 @@ if(isset($_SESSION["login"])) {
   <a href="../pages/profile.php?profile=<?= $_SESSION["username"]; ?>"><img class="profile"
       src="../img/profile/<?= $profilePicture; ?>"></a>
 
-  <div class="profile-menu">
-    <a href="../pages/edit-profile.php">Edit Profile</a>
-    <a href="../pages/course.php">My Courses</a>
-    <a href="../pages/my-learning.php">My Learning</a>
-    <a href="../pages/playlist.php">Playlist</a>
-    <a href="../pages/setting.php">Setting</a>
-    <a href="../pages/dashboard.php">Dashboard</a>
-    <a href="../pages/logout.php">Logout</a>
+  <div id="menu">
+    <div class="menu-content">
+      <div class="menu menu-1">
+        <a href="../pages/profile.php?profile=<?= $_SESSION["username"]; ?>"><img class="profile-image"
+            src="../img/profile/<?= $profilePicture; ?>"></a>
+        <div class="username">
+          <h4><?= $_SESSION["username"]; ?></h4>
+          <p class="email"><?= $_SESSION["email"]; ?></p>
+        </div>
+      </div>
+      <div class="menu menu-2">
+        <a href="../pages/course.php"><i class="ri-play-fill"></i> My Courses</a>
+        <a href="../pages/my-learning.php"><i class="ri-video-fill"></i> My Learning</a>
+        <a href="../pages/playlist.php"><i class="ri-play-list-2-line"></i> Playlist</a>
+      </div>
+      <div class="menu menu-3">
+        <a href="../pages/edit-profile.php"><i class="ri-user-settings-fill"></i> Edit Profile</a>
+        <a href="../pages/setting.php"><i class="ri-settings-fill"></i> Setting</a>
+        <a href="../pages/dashboard.php"><i class="ri-dashboard-fill"></i> Dashboard</a>
+      </div>
+      <div class="menu menu-4">
+        <a href="../pages/logout.php"><i class="ri-login-box-fill"></i> Logout</a>
+      </div>
+    </div>
   </div>
   <?php endif ; ?>
 </nav>
@@ -98,26 +124,25 @@ if(isset($_SESSION["login"])) {
 <script src="../javascript/jquery.js"></script>
 <script>
 $(document).ready(function() {
-  // $(".profile-menu").hide();
-  $(".profile-menu").hide();
+  $("#menu").hide();
 
 
   $(".profile").mouseover(function() {
-    $(".profile-menu").show();
+    $("#menu").show();
   });
 
   $(".navbar-list").mouseout(function() {
-    $(".profile-menu").hide();
+    $("#menu").hide();
     $("#category-menu-content").hide();
     $("#cart-content").hide();
   });
 
-  $(".profile-menu").mouseover(function() {
-    $(".profile-menu").show();
+  $("#menu").mouseover(function() {
+    $("#menu").show();
   });
 
-  $(".profile-menu").mouseout(function() {
-    $(".profile-menu").hide();
+  $("#menu").mouseout(function() {
+    $("#menu").hide();
   });
 
   $("#category-menu-content").hide();

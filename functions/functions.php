@@ -95,6 +95,12 @@ function uploadCourse($data) {
     return false;
 }
 
+function categoryCheck($data) {
+    $result = query("SELECT id FROM categories WHERE category_name = '$data'")[0]["id"];
+
+    return $result;
+}
+
 function uploadImage($name, $folder) {
     $namaFile = $_FILES[$name]['name'];
     $ukuranFile = $_FILES[$name]['size'];
@@ -221,12 +227,6 @@ function search($keyword) {
     ";
 
     return query($query);
-}
-
-function categoryCheck($data) {
-    $result = query("SELECT id FROM categories WHERE category_name = '$data'")[0]["id"];
-
-    return $result;
 }
 
 function updateCourse($data) {
@@ -591,5 +591,14 @@ function deleteCartList($id) {
         return  mysqli_affected_rows($conn);
     };
 
+}
+
+function deleteAccount($id) {
+    global $conn;
+    mysqli_query($conn, "DELETE users, profile
+                         FROM videos JOIN profile ON user_id = users.id
+                         WHERE id = $id");
+
+    return mysqli_affected_rows($conn);
 }
 ?>
