@@ -3,19 +3,15 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
-$adminId = $_SESSION["id"];
-$email = $_SESSION["email"];
-$status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
+$role = $_SESSION["role"];
 
 if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
 
-if($status !== "admin") {
+if($role !== "admin") {
   header("Location: index.php");
 }
-
-$imageProfile = query("SELECT image FROM profile WHERE user_id = $adminId")[0]["image"];
 
 $jumlahDataPerHalaman = 10;
 $jumlahData = count(query("SELECT * FROM categories"));
@@ -63,6 +59,11 @@ header("Cache-Control: no-cache, must-revalidate");
   .right {
     height: 165vh !important;
   }
+
+  .left .menu-box a:nth-child(5) {
+    font-weight: bold;
+    color: #6060ff;
+  }
   </style>
 </head>
 
@@ -70,20 +71,7 @@ header("Cache-Control: no-cache, must-revalidate");
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <div class="left">
-      <div class="profile-box">
-        <img src="../img/profile/<?= $imageProfile; ?>" alt="">
-        <h4><?= $username; ?></h2>
-          <p><?= $email; ?></p>
-      </div>
-      <div class="menu-box">
-        <p>Menu</p>
-        <a href=""><i class="ri-home-6-fill"></i> Home</a>
-        <a href=""><i class="ri-home-6-fill"></i> Manage Courses</a>
-        <a href=""><i class="ri-account-box-fill"></i> Manage Accounts</a>
-        <a href=""><i class="ri-bank-card-2-fill"></i> Payment History</a>
-      </div>
-    </div>
+    <?php require "../layouts/sidebar.php" ?>
     <div class="right categories">
       <i class="ri-arrow-left-circle-fill back"></i>
 
@@ -93,6 +81,7 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       </div>
       <button id="add"><i class="ri-add-circle-line"></i></button>
+      <div class="close-click"></div>
       <section class="table table-category">
         <div class="top">
         </div>
@@ -167,8 +156,18 @@ header("Cache-Control: no-cache, must-revalidate");
   <script>
   $(document).ready(function() {
     $(".updateCategory").hide();
+    $(".close-click").hide();
 
     // $(".alert").hide();
+    $("#add").click(function() {
+      $(".add-ctg").show();
+      $(".close-click").show();
+    });
+
+    $(".close-click").click(function() {
+      $(".add-ctg").hide();
+      $(".close-click").hide();
+    });
 
     $("#submit").click(function(e) {
       $(".alert").show();

@@ -25,9 +25,15 @@ if (isset($_POST["login"])) {
       $username = $_SESSION["username"];
       $_SESSION["id"] = query("SELECT id FROM users WHERE username = '$username'")[0]["id"];
       $_SESSION["email"] = query("SELECT email FROM users WHERE username = '$username'")[0]["email"];
+      $_SESSION["role"] = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
-      header ("Location: index.php");
-      exit;
+      if ($_SESSION["role"] === "admin") {
+        header ("Location: dashboard.php");
+        exit;
+      } else {
+        header ("Location: index.php");
+        exit;
+      }
     }
   }
   
@@ -42,15 +48,16 @@ if (isset($_POST["login"])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/alert.css">
 </head>
 
 <body>
   <div class="container">
     <div class="form-content">
       <div class="left-content">
-        <div class="sign-in">
+        <div class="sign-in sign-in-left">
           <h1>Sign In</h1>
 
           <p>Use Your Email Account</p>
@@ -92,6 +99,12 @@ if (isset($_POST["login"])) {
           <?php endif ; ?>
 
         </div>
+        <div class="sign-in-open">
+          <h1>Welcome Back!</h1>
+          <p>Sign in To Your Account!</p>
+
+          <button id="sign-in">SIGN IN</button>
+        </div>
       </div>
 
       <div class="right-content">
@@ -99,34 +112,96 @@ if (isset($_POST["login"])) {
           <h1>Welcome Back!</h1>
           <p>Let's Go Create Your Account</p>
 
-          <button id="sign-up">SIGN UP</button>
+          <button type="button" id="sign-up">SIGN UP</button>
         </div>
-        <!-- <div class="sign-up">
+        <div class="sign-up-input">
           <h1>Create Account</h1>
           <form action="" method="post">
             <ul>
               <li>
-                  <input type="email" name="email" id="email" autocomplete="off" placeholder="email" autocomplete="off" required>
+                <input type="email" name="email" id="email" autocomplete="off" placeholder="email" autocomplete="off"
+                  required>
               </li>
               <li>
-                  <input type="password" name="password" id="password" placeholder="password" required>
+                <input type="text" name="username" id="username" autocomplete="off" placeholder="username"
+                  autocomplete="off" required>
               </li>
               <li>
-                <center><hr width="100"></center>
+                <input type="number" name="phone" id="phone" autocomplete="off" placeholder="phone" autocomplete="off"
+                  required>
+              </li>
+              <li>
+                <input type="password" name="password1" id="password1" placeholder="password" required>
+              </li>
+              <li>
+                <input type="password" name="password2" id="password2" placeholder="confirm password" required>
+              </li>
+              <li>
+                <center>
+                  <hr width="100">
+                </center>
                 <div class="login">
-                  <button type="submit" name="sign up" >Sign UP</button>
+                  <button type="submit" name="sign-up">Sign UP</button>
                 </div>
               </li>
             </ul>
           </form>
-        </div> -->
+        </div>
       </div>
-
     </div>
+
   </div>
+
+  <?php if(isset($_POST["sign-up"])) { 
+    $email = htmlspecialchars(strtolower($_POST["email"]));
+    $username = htmlspecialchars(ucwords(stripslashes($_POST["username"])));
+    $password1 = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["password1"]));
+    $password2 = htmlspecialchars(mysqli_real_escape_string($conn, $_POST["password2"]));
+    $resultEmail = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
+    $resultUsername = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'");
+    
+    if($password1 !== $password2) {
+  ?>
+  <div class="alert alert-red">
+    <p>Konfirmasi password tidak sesuai</p>
+    <a href="login.php"><button name="continue" class="continue con-red">continue</button></a>
+  </div>
+  <?php 
+    } else if (mysqli_num_rows($resultEmail) > 0) {
+  ?>
+  <div class="alert alert-red">
+    <p>Email sudah terdaftar</p>
+    <a href="login.php"><button name="continue" class="continue con-red">continue</button></a>
+  </div>
+  <?php 
+    } else if(mysqli_num_rows($resultUsername) > 0) {
+  ?>
+  <div class="alert alert-red">
+    <p>Username sudah terpakai</p>
+    <a href="login.php"><button name="continue" class="continue con-red">continue</button></a>
+  </div>
+  <?php 
+    } else if ( registrasi($_POST) <= 0) {
+  ?>
+  <div class="alert alert-red">
+    <p>Registrasi Gagal</p>
+    <a href="login.php"><button name="continue" class="continue con-red">continue</button></a>
+  </div>
+  <?php
+    } else {
+  ?>
+  <div class="alert alert-green">
+    <p>Registrasi Berhasil</p>
+    <a href="login.php"><button name="continue" class="continue con-red">continue</button></a>
+  </div>
+  <?php
+    } 
+  } 
+  ?>
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
+  <script src="../javascript/login.js"></script>
 </body>
 
 </html>

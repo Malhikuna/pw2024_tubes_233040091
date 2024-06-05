@@ -3,19 +3,16 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
-$adminId = $_SESSION["id"];
-$email = $_SESSION["email"];
-$status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
+
+$role = $_SESSION["role"];
 
 if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
 
-if($status !== "admin") {
+if($role !== "admin") {
   header("Location: index.php");
 }
-
-$imageProfile = query("SELECT image FROM profile WHERE user_id = $adminId")[0]["image"];
 
 $videos = jumlah("videos");
 $categories = jumlah("categories");
@@ -45,26 +42,19 @@ if(isset($_POST["delete"])) {
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/alert.css">
+  <style>
+  .left .menu-box a:nth-child(2) {
+    font-weight: bold;
+    color: #6060ff;
+  }
+  </style>
 </head>
 
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <div class="left">
-      <div class="profile-box">
-        <img src="../img/profile/<?= $imageProfile; ?>" alt="">
-        <h4><?= $username; ?></h2>
-          <p><?= $email; ?></p>
-      </div>
-      <div class="menu-box">
-        <p>Menu</p>
-        <a href=""><i class="ri-home-6-fill"></i> Home</a>
-        <a href=""><i class="ri-home-6-fill"></i> Manage Courses</a>
-        <a href=""><i class="ri-account-box-fill"></i> Manage Accounts</a>
-        <a href=""><i class="ri-bank-card-2-fill"></i> Payment History</a>
-      </div>
-    </div>
+    <?php require "../layouts/sidebar.php" ?>
     <div class="right default">
       <h1>Welcome <?= $username; ?></h1>
       <div class="row row-1">

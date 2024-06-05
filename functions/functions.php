@@ -16,33 +16,24 @@ function query($query) {
 function registrasi($data) {
     global $conn;
 
-    $email = strtolower($data["email"]);
-    $username = ucwords(stripslashes($data["username"]));
-    $password1 = mysqli_real_escape_string($conn, $data["password1"]);
-    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
-
-    if($password1 !== $password2) {
-        echo "<script>alert('Konfirmasi password tidak sesuai')</script>";
-        return false;
-    }
-
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
-    if(mysqli_fetch_assoc($result)) {
-        echo "<script>alert('Email sudah terdaftar')</script>";
-        return false;
-    }
-
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE email = '$username'");
-    if(mysqli_fetch_assoc($result)) {
-        echo "<script>alert('Username sudah terpakai')</script>";
-        return false;
-    }
+    $email = htmlspecialchars(strtolower($data["email"]));
+    $phone = htmlspecialchars($data["phone"]);
+    $username = htmlspecialchars(ucwords(stripslashes($data["username"])));
+    $password1 = htmlspecialchars(mysqli_real_escape_string($conn, $data["password1"]));
 
     $password1 = password_hash($password1, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO users(email, username, password) VALUES ('$email', '$username', '$password1')");
+    mysqli_query($conn, "INSERT INTO users(email, username, password, phone) VALUES ('$email', '$username', '$password1', '$phone')");
 
-    return mysqli_affected_rows($conn);
+    if(mysqli_affected_rows($conn) > 0) {
+        $userId = query("SELECT id FROM users WHERE email = '$email'")[0]["id"];
+
+        mysqli_query($conn, "INSERT INTO profile(user_id) VALUES('$userId')");
+
+        return mysqli_affected_rows($conn);
+    }
+
+    return false;
 }
 
 
@@ -545,29 +536,43 @@ function addToCart($data) {
 function checkout($data) {
     global $conn;
     $userId = $data["userId"];
+    $totalPrice = $data["totalPrice"];
+
+    mysqli_query($conn, "INSERT INTO orders (user_id, total) VALUES ('$userId', '$totalPrice')");
 
 
-    $courses = query("SELECT * FROM cart WHERE user_id = $userId");
+    if(mysqli_affected_rows($conn) > 0) {
+        $orders = query("SELECT *, 
+                        cart.id AS cart_id
+                        FROM order_summary
+                        JOIN cart ON cart.id = cart_id
+                        JOIN courses ON courses.id = course_id
+                        WHERE order_summary.user_id = $userId 
+                        ");
+                        
+        // Ambil id dari tabel order
+        $orderId = query("SELECT id FROM orders WHERE user_id = $userId ORDER BY id DESC LIMIT 1")[0]["id"];
 
-    foreach($courses as $crs) {
-        $courseId = $crs["course_id"];
-        $cartId = $crs["id"];
-
-        mysqli_query($conn, "INSERT INTO orders (course_id, user_id) VALUES ('$courseId', '$userId')");
-
-        if(mysqli_affected_rows($conn) > 0) {
-            
-            mysqli_query($conn, "DELETE cart, order_summary
-                             FROM cart
-                             JOIN order_summary
-                             ON cart.id = cart_id
-                             WHERE cart.id = $cartId");
-        }
-          
-        mysqli_affected_rows($conn);
-    }   
-
-    mysqli_affected_rows($conn);
+        foreach($orders as $ord) {
+            $courseId = $ord["course_id"];
+            $cartId = $ord["cart_id"];
+            $price = $ord["price"];
+    
+            mysqli_query($conn, "INSERT INTO orders_detail (course_id, order_id, price, quantity) VALUES ('$courseId', '$orderId', '$price', '1')");
+    
+            if(mysqli_affected_rows($conn) > 0) {
+                
+                mysqli_query($conn, "DELETE cart, order_summary
+                                 FROM cart
+                                 JOIN order_summary
+                                 ON cart.id = cart_id
+                                 WHERE cart.id = $cartId");
+                                 
+            }
+        }   
+        return mysqli_affected_rows($conn);
+    }
+    return false;
 }
 
 function deleteCartList($id) {
@@ -593,12 +598,14 @@ function deleteCartList($id) {
 
 }
 
-function deleteAccount($id) {
+function deleteUser($id) {
     global $conn;
     mysqli_query($conn, "DELETE users, profile
-                         FROM videos JOIN profile ON user_id = users.id
-                         WHERE id = $id");
+                         FROM users JOIN profile ON user_id = users.id
+                         WHERE users.id = $id");
 
     return mysqli_affected_rows($conn);
+
+    var_dump($id);
 }
 ?>

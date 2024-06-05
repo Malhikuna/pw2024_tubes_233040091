@@ -1,0 +1,84 @@
+body {
+  height: 100vh;
+}
+
+.row {
+  height: 320px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.right {
+  width: 1111px;
+}
+
+.card {
+  width: 320px;
+  height: 320px;
+  background-color: #ffffffb3;
+}
+
+.card1 {
+}
+
+.card2 {
+  padding: 0;
+  width: 710px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.card .det {
+  width: 100%;
+}
+
+.card .det p {
+  font-size: 1.2rem;
+}
+
+.left-side,
+.right-side {
+  padding: 10px;
+  height: 100%;
+  width: 50%;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+
+.right-side {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.square {
+  background-color: #b3b1e0f1;
+  width: 130px;
+  height: 130px;
+  border-radius: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.square i {
+  font-size: 3.2rem;
+  color: #3533c9;
+}
+
+.card img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid black;
+}

@@ -64,15 +64,30 @@ body::before {
 .left .menu-box {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  /* padding: 5px; */
   width: 100%;
   height: 350px;
 }
 
+.left .menu-box p {
+  margin-left: 10px;
+}
+
 .left .menu-box a {
+  padding: 10px;
   display: block;
-  margin-bottom: 20px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
   font-size: 0.9rem;
+  width: 100%;
+  height: 40px;
+}
+
+.left .menu-box a:hover {
+  /* font-weight: bold; */
+  /* color: #cdcdff; */
+  background-color: #000000c3;
 }
 
 .left .menu-box p {
@@ -87,7 +102,7 @@ body::before {
   border: 1px solid black;
 }
 
-.left .status {
+.left .role {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -99,6 +114,7 @@ body::before {
   transform: translateX(-50%);
   background-color: #4242f2;
   border-radius: 20px;
+  color: white;
 }
 
 /* Right Section */
@@ -285,7 +301,8 @@ tbody td {
 }
 
 .delete,
-.update {
+.update,
+.confirm {
   background-color: red;
   padding: 5px;
   color: white;
@@ -294,10 +311,11 @@ tbody td {
   cursor: pointer;
 }
 
-/* .delete {
-  width: 80px;
-  margin: auto;
-} */
+.confirm {
+  width: 100px;
+  border-radius: 0;
+  background-color: #02b902;
+}
 
 .update {
   background-color: #02b902;
@@ -344,7 +362,7 @@ thead th {
   width: 40px;
   height: 40px;
   background-color: #02b902;
-  top: 80px;
+  top: 120px;
   right: 65px;
   border-radius: 50%;
   font-size: 2rem;
@@ -364,12 +382,13 @@ thead th {
   align-items: center;
   gap: 10px;
   top: 170px;
-  left: 500px;
+  left: 524px;
   width: 400px;
   height: 100px;
   background-color: hsla(0, 0%, 15%, 0.8);
   border: 1px solid black;
   border-radius: 20px;
+  z-index: 2;
 }
 
 .add-ctg input {
@@ -431,6 +450,8 @@ thead th {
   font-size: 1rem;
 }
 
+/* Alert */
+
 .alert-green {
   background-color: hsl(84, 95%, 70%);
 }
@@ -441,7 +462,7 @@ thead th {
 
 #search {
   margin-top: 40px;
-  margin-left: 54px;
+  margin-left: 45px;
   width: 600px;
   margin-bottom: 10px;
 }

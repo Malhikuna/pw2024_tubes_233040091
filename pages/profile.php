@@ -20,10 +20,10 @@ $courses = query("SELECT *, courses.id as courseId, users.id as userId
                   ORDER BY courses.id DESC 
 ");
 
-$numVideos = jumlah("videos");
-$numCourses = jumlah("courses");
+$numVideos = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM videos JOIN courses ON course_id = courses.id WHERE user_id = $profileUserId"));
+$numCourses = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM courses WHERE user_id = $profileUserId"));
 $numLikes = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM video_likes JOIN videos ON videos.id = video_likes.video_id JOIN courses ON courses.id = course_id WHERE courses.user_id = $profileUserId"));
-$numSold = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM orders JOIN courses ON courses.id = course_id WHERE courses.user_id = $profileUserId"));
+$numSold = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM orders_detail JOIN courses ON courses.id = course_id WHERE courses.user_id = $profileUserId"));
 $numPurchasedCourses = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM orders WHERE user_id = $profileUserId"));
 $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE user_id = $profileUserId"));
 
@@ -54,11 +54,11 @@ $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE
         <button style="background-color: blue; color: white;">Follow</button>
         <button>Massage</button>
       </div>
-      <a href="../print.php">
+      <!-- <a href="../print.php">
         <div class="print">
           <i class="ri-printer-fill"></i>
         </div>
-      </a>
+      </a> -->
     </div>
 
     <div class="profile-bottom">

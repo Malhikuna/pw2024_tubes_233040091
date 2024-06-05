@@ -1,3 +1,21 @@
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  height: 100%;
+  background-image: url(../img/luke-chesser-IGtutkXikuc-unsplash.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
 a.account {
   color: #800080;
 }
@@ -35,12 +53,17 @@ a.account {
   margin-bottom: 10px;
 }
 
-.form-content .left-content .sign-in h1 {
+.sign-in {
+  z-index: 5000;
+}
+
+.sign-in h1,
+.sign-up-input h1 {
   color: #800080;
   margin-bottom: 20px;
 }
 
-.form-content .left-content .sign-in input {
+.form-content input {
   height: 35px;
   width: 280px;
   margin-bottom: 10px;
@@ -50,18 +73,18 @@ a.account {
   padding-left: 5px;
 }
 
-.form-content .left-content .sign-in hr {
+.sign-in hr {
   display: inline-block;
   width: 25%;
   margin-bottom: 2.5px;
   color: black;
 }
 
-.form-content .left-content .sign-in p.line {
+.sign-in p.line {
   text-align: center;
 }
 
-.form-content .left-content .sign-in .error-content {
+.sign-in .error-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,18 +95,18 @@ a.account {
   border: 1px solid #fda6ab;
 }
 
-.form-content .left-content .sign-in p.error {
+.sign-in p.error {
   color: #ff3640;
   font-size: 1rem;
 }
 
-.form-content .left-content .login {
+.login {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.form-content .left-content button {
+.sign-in button,
+.sign-up-input button {
   margin-top: 5px;
   margin-bottom: 15px;
   width: 250px;
@@ -101,7 +124,8 @@ a.account {
   box-shadow: 0 5px 7px #626262;
 }
 
-.form-content .left-content button:hover {
+.sign-in button:hover,
+.sign-up-input button:hover {
   opacity: 0.8;
 }
 
@@ -111,7 +135,8 @@ a.account {
   cursor: pointer;
 }
 
-.form-content .right-content button {
+.form-content .right-content button,
+.sign-in-open button {
   width: 200px;
   margin-top: 40px;
   color: white;
@@ -142,17 +167,27 @@ a.account {
   width: 450px;
 }
 
-.form-content .left-content .sign-in {
+.sign-in,
+.sign-up-input {
   background-color: white;
 }
 
-.form-content .right-content .sign-up {
-  background-color: white;
-  /* display: none; */
+.sign-in-open {
+  color: white;
+  background-image: url("../img/background/8.jpg");
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -1;
 }
 
-.form-content .sign-in,
-.form-content .sign-up {
+.sign-in,
+.sign-up,
+.sign-in-open,
+.sign-up-input {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -163,33 +198,190 @@ a.account {
   border-radius: 10px;
 }
 
-.form-content .right-content .sign-up {
+.sign-up {
   box-shadow: 0 10px 15px #626262;
+  z-index: 2;
 }
 
-.form-content .right-content .sign-up {
+.sign-up {
   color: white;
   background-image: url("../img/background/8.jpg");
   background-size: cover;
   background-position: center;
 }
 
-.form-content .right-content .sign-up p,
-.form-content .right-content .sign-up h1 {
+.sign-up p,
+.sign-in-open p,
+.sign-up h1,
+.sign-in-open h1 {
   color: white;
 }
 
-.form-content .right-content .sign-up h1 {
+.sign-up h1,
+.sign-in-open h1 {
   font-size: 2.2rem;
 }
 
-.form-content .right-content .sign-up p {
+.sign-up p,
+.sign-in-open p {
   font-weight: 500;
   font-size: 1.2rem;
 }
 
 .form-content .right-content {
   height: 100%;
+  position: relative;
+}
+
+.sign-up-input {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  z-index: -1;
+}
+
+/* Slide 1 */
+
+.form-content .right-content.slide1 {
+  transform: translateX(-430px);
+  height: 90%;
+  animation: move1 2.5s;
+  z-index: 8888;
+}
+
+.sign-in.slide1 {
+  animation: hilang 2.5s;
+  z-index: 0;
+  opacity: 0;
+}
+
+.sign-up.slide1 {
+  animation: hilang 2.5s;
+  opacity: 0;
+}
+
+.sign-in-open.slide1 {
+  animation: muncul 2.5s;
+  z-index: 2;
+  opacity: 1;
+}
+
+.form-content .left-content.slide1 {
+  transform: translateX(430px);
+  height: 100%;
+  animation: move2 2.5s;
+  z-index: 0;
+}
+
+.sign-up-input.slide1 {
+  animation: muncul 2.5s;
+  opacity: 1;
+  z-index: 5;
+}
+
+/* Slide 2 */
+
+.form-content .right-content.slide2 {
+  transform: translateX(0);
+  height: 100%;
+  animation: move3 2.5s;
+  z-index: 1;
+}
+
+.sign-in.slide2 {
+  animation: muncul 2.5s;
+  opacity: 1;
+}
+
+.sign-up.slide2 {
+  animation: muncul 2.5s;
+  opacity: 1;
+}
+
+.sign-in-open.slide2 {
+  animation: hilang 2.5s;
+  opacity: 0;
+}
+
+.form-content .left-content.slide2 {
+  transform: translateX(0);
+  height: 90%;
+  animation: move4 2.5s;
+}
+
+.sign-up-input.slide2 {
+  animation: hilang 2.5s;
+  opacity: 0;
+  z-index: -1;
+}
+
+@keyframes move1 {
+  from {
+    transform: translateX(0);
+    height: 100%;
+  }
+  to {
+    transform: translateX(-430px);
+    height: 90%;
+  }
+}
+
+@keyframes move2 {
+  from {
+    transform: translateX(0);
+    height: 90%;
+  }
+  to {
+    transform: translateX(430px);
+    height: 100%;
+  }
+}
+
+@keyframes move3 {
+  from {
+    transform: translateX(-450px);
+    height: 90%;
+  }
+  to {
+    transform: translateX(0);
+    height: 100%;
+  }
+}
+
+@keyframes move4 {
+  from {
+    transform: translateX(450px);
+    height: 100%;
+  }
+  to {
+    transform: translateX(0);
+    height: 90%;
+  }
+}
+
+@keyframes hilang {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes muncul {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.alert {
+  z-index: 9999;
 }
 
 /* .forget {

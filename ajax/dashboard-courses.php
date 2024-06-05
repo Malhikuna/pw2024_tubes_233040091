@@ -9,7 +9,10 @@ $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
 $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$query = "SELECT *, courses.id as courseId, users.id as userId 
+$query = "SELECT *, 
+          courses.id as courseId,
+          users.id as userId,
+          courses.date AS course_date 
           FROM courses 
           JOIN categories ON (courses.category_id = categories.id) 
           JOIN users ON (courses.user_id = users.id)
@@ -29,13 +32,18 @@ $courses= query($query);
       <th>Channnel</th>
       <th>Course</th>
       <th>Name</th>
-      <th>Realease</th>
+      <th>Date</th>
       <th>Delete</th>
     </tr>
   </thead>
 
   <tbody>
-    <?php foreach($courses as $course) : ?>
+    <?php 
+    foreach($courses as $course) : 
+      $dateTimestamp = $course["course_date"];
+      $timestamp = strtotime($dateTimestamp);
+      $date = date('d-m-y', $timestamp);
+    ?>
     <tr>
       <td><?= $course["username"]; ?></td>
       <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>

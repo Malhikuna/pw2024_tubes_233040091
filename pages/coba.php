@@ -18,11 +18,14 @@ $dua = "dua";
   <title>Percobaan</title>
   <link rel="stylesheet" href="../css/main.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
   <style>
   h1,
   p {
-    /* font-family: ; */
-    font-weight: bold;
+    font-family: "Open Sans";
+    /* font-weight: bold; */
   }
 
   #desc {

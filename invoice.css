@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  color: black;
+}
+
+body {
+  font-family: sans-serif;
+  min-height: 100vh;
+}
+
+.container {
+  padding: 30px 10px 10px 10px;
+  background-color: #eaeaea;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+button.print {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  border: 1px solid;
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: #0000d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+button.print i {
+  font-size: 1.3rem;
+  color: white;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: black; */
+  width: 100%;
+  height: 200px;
+}
+
+.top .left {
+  width: 400px;
+  height: 100%;
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.top .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 100%;
+  /* background-color: red; */
+  gap: 20px;
+}
+
+.top .right h1 {
+  color: red;
+  font-weight: bold;
+  font-size: 2rem;
+  font-family: "Rajdhani";
+  letter-spacing: 30px;
+  margin-left: 32px;
+}
+
+.center {
+  /* background-color: black; */
+  width: 100%;
+  height: 550px;
+}
+
+.bottom {
+  /* background-color: black; */
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.top .right .bottom-right {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid red;
+}
+
+/* Table */
+table {
+  margin-top: 10px;
+  width: 100%;
+}
+
+table th:not(:first-child) {
+  border-bottom: 1px solid black;
+}
+
+td:nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+table,
+th,
+td {
+  padding: 1rem;
+  border-collapse: collapse;
+}
+
+tbody td {
+  text-align: center;
+  margin: auto;
+}
+
+/* Bottom */
+.total-row {
+  width: 1050px;
+  height: 40px;
+  background-color: #b71818;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  color: white;
+}
+
+.total-row p {
+  font-size: 1.5rem;
+  color: white;
+  margin-right: 140px;
+}

@@ -59,6 +59,8 @@ if(isset($_SESSION["login"])) {
     </div>
   </div>
 
+
+  <?php if(isset($_SESSION["login"])) : ?>
   <div id="cart-content">
     <div id="cart">
       <div class="cart-list">
@@ -83,7 +85,6 @@ if(isset($_SESSION["login"])) {
     </div>
   </div>
 
-  <?php if(isset($_SESSION["login"])) : ?>
   <?php 
     
     $userId = $_SESSION["id"];

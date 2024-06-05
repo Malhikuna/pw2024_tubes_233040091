@@ -8,7 +8,8 @@ $userId = $_SESSION["id"];
 $jumlahDataPerHalaman = 6;
 $jumlahData = count(query("SELECT * 
                             FROM courses
-                            JOIN orders ON (courses.id = orders.course_id)
+                            JOIN orders_detail ON (courses.id = orders_detail.course_id)
+                            JOIN orders ON (orders.id = order_id)
                             WHERE orders.user_id = '$userId'"));
 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
 $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
@@ -20,7 +21,8 @@ $courses = query("SELECT *, courses.id as courseId, users.id as userId
                   JOIN categories ON (courses.category_id = categories.id) 
                   JOIN users ON (courses.user_id = users.id)
                   JOIN profile ON (users.id = profile.user_id)
-                  JOIN orders ON (courses.id = orders.course_id)
+                  JOIN orders_detail ON (courses.id = orders_detail.course_id)
+                  JOIN orders ON (orders.id = order_id)
                   WHERE orders.user_id = '$userId'
                   ORDER BY courses.id DESC 
                   LIMIT $dataAwal, $jumlahDataPerHalaman
@@ -37,7 +39,8 @@ if(isset($_POST["sort"])) {
                       JOIN categories ON (courses.category_id = categories.id) 
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
-                      JOIN orders ON (courses.id = orders.course_id)
+                      JOIN orders_detail ON (courses.id = orders_detail.course_id)
+                      JOIN orders ON (orders.id = order_id)
                       WHERE orders.user_id = '$userId'
                       ORDER BY courses.id ASC 
                       LIMIT $dataAwal, $jumlahDataPerHalaman
@@ -50,7 +53,8 @@ if(isset($_POST["sort"])) {
                       JOIN categories ON (courses.category_id = categories.id) 
                       JOIN users ON (courses.user_id = users.id)
                       JOIN profile ON (users.id = profile.user_id)
-                      JOIN orders ON (courses.id = orders.course_id)
+                      JOIN orders_detail ON (courses.id = orders_detail.course_id)
+                      JOIN orders ON (orders.id = order_id)
                       WHERE orders.user_id = '$userId'
                       ORDER BY courses.id DESC 
                       LIMIT $dataAwal, $jumlahDataPerHalaman

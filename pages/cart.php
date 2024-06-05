@@ -235,6 +235,7 @@ $totalPrice = query("SELECT SUM(price) AS 'Total Price'
         <p>Rp<?= $totalPrice; ?></p>
       </div>
       <input type="hidden" name="userId" value="<?= $userId; ?>">
+      <input type="hidden" name="totalPrice" value="<?= $totalPrice; ?>">
       <button name="confirm">Confirm</button>
       <button class="close"><i class="ri-close-line"></i></button>
     </div>
@@ -261,14 +262,25 @@ $totalPrice = query("SELECT SUM(price) AS 'Total Price'
   <?php if (password_verify($password, $row["password"])) : ?>
   <?php if(checkout($_POST) > 0) : ?>
   <div class="alert alert-green">
-    <p>Course berhasil terhapus</p>
-    <a href="my-learning.php"><button type="button" name="continue" class="continue">continue</button></a>
+    <p>Chekout Berhasil</p>
+    <a href="../invoice.php"><button type="button" name="continue" class="continue">continue</button></a>
+  </div>
+  <?php else : ?>
+  <div class="alert alert-red">
+    <p>Chekout Gagal</p>
+    <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
   </div>
   <?php endif ; ?>
+  <?php else : ?>
+  <div class="alert alert-red">
+    <p>Password Salah</p>
+    <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
+  </div>
   <?php endif ; ?>
   <?php endif ; ?>
 
   <?php require "../layouts/footer.php" ?>
+  <div class="close-click"></div>
 
   <script src="../javascript/jquery.js"></script>
   <script>
@@ -277,11 +289,15 @@ $totalPrice = query("SELECT SUM(price) AS 'Total Price'
 
     $("#check_button").click(function(e) {
       $("#checkout").show();
+      $(".close-click").show();
     });
 
     $(".close").click(function(e) {
       $("#checkout").hide();
+      $(".close-click").hide();
     });
+
+    $(".close-click").hide();
 
     // $("#form_check").submit(function(e) {
     //   e.preventDefault();

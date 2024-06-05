@@ -1,5 +1,5 @@
 body {
-  height: 150vh;
+  height: 170vh;
 }
 
 #search {
@@ -16,6 +16,7 @@ body {
   height: 80vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 
 .card {
@@ -62,12 +63,13 @@ body {
   font-size: 1.1rem;
 }
 
-.card .button button:nth-child(2) {
+#delete {
   background-color: red;
   border-radius: 0 10px 10px 0;
 }
 
-.card .button button:nth-child(1) {
+#detail,
+#back {
   color: white;
   border-radius: 10px 0 0 10px;
 }
@@ -82,7 +84,7 @@ body {
   gap: 8px;
 }
 
-.card .bottom .det {
+.card .det {
   display: flex;
   justify-content: start;
   align-items: center;
@@ -91,11 +93,11 @@ body {
   gap: 8px;
 }
 
-.card .bottom .det p {
+.card .det p {
   font-size: 0.8rem;
 }
 
-.card .bottom .icon {
+.card .icon {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -105,7 +107,7 @@ body {
   align-items: center;
 }
 
-.left .menu-box a:nth-child(4) {
+.left .menu-box a:nth-child(6) {
   font-weight: bold;
   color: #6060ff;
 }

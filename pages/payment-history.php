@@ -15,20 +15,22 @@ if($role !== "admin") {
 
 // Pagination
 $jumlahDataPerHalaman = 5;
-$jumlahData = count(query("SELECT * FROM courses"));
+$jumlahData = count(query("SELECT * 
+                            FROM courses
+                            JOIN orders_detail ON course_id = courses.id
+                            JOIN orders ON orders.id = order_id"));
 $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
 $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
 $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$courses = query("SELECT *, 
-                  courses.id as courseId,
-                  users.id as userId,
-                  courses.date AS course_date
-                  FROM courses 
-                  JOIN categories ON (courses.category_id = categories.id) 
-                  JOIN users ON (courses.user_id = users.id)
-                  ORDER BY courses.id DESC 
+$orders = query("SELECT *,
+                  orders.date AS order_date,
+                  orders_detail.id AS id
+                  FROM courses
+                  JOIN orders_detail ON course_id = courses.id
+                  JOIN orders ON orders.id = order_id
+                  ORDER BY orders_detail.id DESC 
                   LIMIT $dataAwal, $jumlahDataPerHalaman
 ");
 
@@ -60,7 +62,7 @@ header("Cache-Control: no-cache, must-revalidate");
     height: 160vh !important;
   }
 
-  .left .menu-box a:nth-child(3) {
+  .left .menu-box a:nth-child(7) {
     font-weight: bold;
     color: #6060ff;
   }
@@ -87,30 +89,33 @@ header("Cache-Control: no-cache, must-revalidate");
           <table>
             <thead>
               <tr>
-                <th>Channnel</th>
+                <th>Order Id</th>
                 <th>Course</th>
-                <th>Name</th>
+                <th>Price</th>
                 <th>date</th>
-                <th>Delete</th>
+                <th>Status</th>
               </tr>
             </thead>
 
             <tbody>
               <?php 
-              foreach($courses as $course) : 
-                $dateTimestamp = $course["course_date"];
+              foreach($orders as $order) : 
+                $dateTimestamp = $order["order_date"];
                 $timestamp = strtotime($dateTimestamp);
                 $date = date('d-m-y', $timestamp);
               ?>
               <tr>
-                <td><a href="profile.php?profile=<?= $course["username"]; ?>"><?= $course["username"]; ?></a></td>
-                <td><img src="../img/thumbnail/<?= $course["thumbnail"]; ?>"></td>
-                <td><?= $course["name"]; ?></td>
+                <td><?= $order["order_id"]; ?></td>
+                <td>
+                  <img src="../img/thumbnail/<?= $order["thumbnail"]; ?>">
+                  <p><?= $order["name"]; ?></p>
+                </td>
+                <td>Rp<?= $order["price"]; ?></td>
                 <td><?= $date; ?></td>
                 <td>
-                  <form action="delete-course.php" method="post">
-                    <input type="hidden" name="id" value="<?= $course["courseId"]; ?>">
-                    <button class="delete">Delete</button>
+                  <form action="delete-order.php" method="post">
+                    <input type="hidden" name="id" value="<?= $order["id"]; ?>">
+                    <button class="confirm">Confirm</button>
                   </form>
                 </td>
               </tr>

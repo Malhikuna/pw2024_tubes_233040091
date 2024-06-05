@@ -66,10 +66,6 @@ $(document).ready(function () {
 
   $(".add-ctg").hide();
 
-  $("#add").click(function () {
-    $(".add-ctg").show();
-  });
-
   $("#submit").click(function (e) {
     $(".add-ctg").hide();
   });

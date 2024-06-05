@@ -3,20 +3,15 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
-$adminId = $_SESSION["id"];
-$email = $_SESSION["email"];
-$status = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
+$role = $_SESSION["role"];
 
 if(!isset($_SESSION["login"])) {
   header("Location: index.php");
 }
 
-if($status !== "admin") {
+if($role !== "admin") {
   header("Location: index.php");
 }
-
-$imageProfile = query("SELECT image FROM profile WHERE user_id = $adminId")[0]["image"];
-
 
 $jumlahDataPerHalaman = 5;
 $jumlahData = count(query("SELECT * FROM courses "));
@@ -25,7 +20,9 @@ $halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
 
 $dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
-$courseVideos = query("SELECT *, videos.id as videoId 
+$courseVideos = query("SELECT *, 
+                        videos.id as videoId,
+                        videos.date AS video_date 
                         FROM courses 
                         JOIN videos ON (course_id = courses.id)
                         JOIN users ON (user_id = users.id) 
@@ -61,6 +58,11 @@ header("Cache-Control: no-cache, must-revalidate");
   .right {
     height: 160vh !important;
   }
+
+  .left .menu-box a:nth-child(4) {
+    font-weight: bold;
+    color: #6060ff;
+  }
   </style>
 </head>
 
@@ -68,20 +70,7 @@ header("Cache-Control: no-cache, must-revalidate");
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <div class="left">
-      <div class="profile-box">
-        <img src="../img/profile/<?= $imageProfile; ?>" alt="">
-        <h4><?= $username; ?></h2>
-          <p><?= $email; ?></p>
-      </div>
-      <div class="menu-box">
-        <p>Menu</p>
-        <a href=""><i class="ri-home-6-fill"></i> Home</a>
-        <a href=""><i class="ri-home-6-fill"></i> Manage Courses</a>
-        <a href=""><i class="ri-account-box-fill"></i> Manage Accounts</a>
-        <a href=""><i class="ri-bank-card-2-fill"></i> Payment History</a>
-      </div>
-    </div>
+    <?php require "../layouts/sidebar.php" ?>
     <div class="right videos">
       <i class="ri-arrow-left-circle-fill back"></i>
 
@@ -101,18 +90,23 @@ header("Cache-Control: no-cache, must-revalidate");
                 <th>Channnel</th>
                 <th>Videos</th>
                 <th>Title</th>
-                <th>Realease</th>
+                <th>Date</th>
                 <th>Delete</th>
               </tr>
             </thead>
 
             <tbody>
-              <?php foreach($courseVideos as $video) : ?>
+              <?php 
+              foreach($courseVideos as $video) : 
+                $dateTimestamp = $video["video_date"];
+                $timestamp = strtotime($dateTimestamp);
+                $date = date('d-m-y', $timestamp);
+              ?>
               <tr>
                 <td><?= $video["username"]; ?></td>
                 <td><img src="../img/thumbnail/<?= $video["thumbnail"]; ?>"></td>
                 <td><?= $video["video_name"]; ?></td>
-                <td>08-02-2024</td>
+                <td><?= $date; ?></td>
                 <td>
                   <form action="delete-video.php" method="post">
                     <input type="hidden" name="id" value="<?= $video["videoId"]; ?>">
