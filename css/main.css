@@ -401,6 +401,10 @@ button {
   color: white;
 }
 
+.course-list img {
+  width: 200px !important;
+}
+
 /* Footer */
 
 footer {

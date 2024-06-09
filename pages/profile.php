@@ -7,9 +7,11 @@ if(!isset($_SESSION["login"])) {
     exit;
 }
 
+$myUserId = $_SESSION["id"];
 $username = $_GET["profile"];
 $profile = query("SELECT *, users.id as userId FROM profile JOIN users ON (user_id = users.id) WHERE username = '$username'")[0];
-$profileUserId = $profile["userId"]; 
+$profileUserId = $profile["userId"];
+$followResult = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM followers WHERE user_id = $myUserId AND profile_id = $profileUserId"));
 
 $courses = query("SELECT *, courses.id as courseId, users.id as userId 
                   FROM courses 
@@ -26,6 +28,9 @@ $numLikes = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM video_likes JOIN 
 $numSold = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM orders_detail JOIN courses ON courses.id = course_id WHERE courses.user_id = $profileUserId"));
 $numPurchasedCourses = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM orders WHERE user_id = $profileUserId"));
 $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE user_id = $profileUserId"));
+$numFollowers = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM followers WHERE profile_id = $profileUserId"));
+$numFollowing = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM followers WHERE user_id = $profileUserId"));
+
 
 ?>
 
@@ -50,8 +55,19 @@ $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE
     <div class="profile-top">
       <img class="img" src="../img/profile/<?= $profile["image"]; ?>">
       <h3><?= $_GET["profile"] ?></h3>
-      <div class="button">
-        <button style="background-color: blue; color: white;">Follow</button>
+      <div class="button" id="followButton">
+        <input type="hidden" id="userId" value="<?= $profileUserId; ?>">
+        <?php 
+        if($followResult > 0) {
+        ?>
+        <button style="background-color: blue; color: white;" id="unFollow">Unfollow</button>
+        <?php 
+        } else {
+          ?>
+        <button style="background-color: blue; color: white;" id="follow">Follow</button>
+        <?php 
+        }
+        ?>
         <button>Massage</button>
       </div>
       <!-- <a href="../print.php">
@@ -62,13 +78,13 @@ $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE
     </div>
 
     <div class="profile-bottom">
-      <div class="follow-content">
+      <div class="follow-content" id="followers">
         <div class="followers">
-          <h2>0</h2>
+          <h2><?= $numFollowers; ?></h2>
           <p>Followers</p>
         </div>
         <div class="following">
-          <h2>0</h2>
+          <h2><?= $numFollowing; ?></h2>
           <p>Following</p>
         </div>
       </div>
@@ -157,6 +173,9 @@ $numPlaylist = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM playlist WHERE
         <?php require "../layouts/cards.php" ?>
       </div>
     </div>
+
+    <script src="../javascript/jquery.js"></script>
+    <script src="../javascript/profile.js"></script>
 </body>
 
 </html>

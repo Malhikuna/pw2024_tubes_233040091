@@ -6,11 +6,13 @@ $(document).ready(function () {
   $(".form-content-2").hide();
 
   $(".next").on("click", function () {
+    $(".form-content-1").hide();
     $(".form-content-2").show();
   });
 
   $(".prev").on("click", function () {
     $(".form-content-2").hide();
+    $(".form-content-1").show();
   });
 
   $(".con-red").on("click", function () {

@@ -16,7 +16,7 @@ if(isset($_SESSION["login"])) {
 
   <form action="search.php" method="post">
     <div class="search-content">
-      <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off" id="keyword">
+      <input class="search" type="text" name="keyword" size="40" placeholder="search.." autocomplete="off">
       <input type="hidden" class="search" name="search" id="tombol-cari"></input>
     </div>
   </form>
@@ -24,7 +24,7 @@ if(isset($_SESSION["login"])) {
   <div class="navbar-list">
     <a href="" class="link ctgs">categories</a>
     <?php if(isset($_SESSION["login"])) : ?>
-    <a class="link cart">
+    <a class="link cart" id="numCart">
       <i class="ri-shopping-cart-2-line"></i>
       <?php if($cartResult > 0) : ?>
       <?php if($cartResult > 9) : ?>
@@ -64,9 +64,10 @@ if(isset($_SESSION["login"])) {
   <div id="cart-content">
     <div id="cart">
       <div class="cart-list">
+        <input type="hidden" id="courseId2" value="<?= $myCourseId; ?>">
         <?php foreach($cartList as $crt) : ?>
         <div class="course-list">
-          <img src="../img/thumbnail/<?= $crt["thumbnail"]; ?>" alt="" width="20px" class="course-img">
+          <img src="../img/thumbnail/<?= $crt["thumbnail"]; ?>" alt="" class="course-img">
           <p><?= $crt["name"]; ?></p>
         </div>
         <?php endforeach ; ?>
@@ -79,7 +80,11 @@ if(isset($_SESSION["login"])) {
 
         ?>
         <h3>Total</h3>
-        <p><?= $total_price; ?></p>
+        <?php if($total_price === null) : ?>
+        <p>Rp0</p>
+        <?php else : ?>
+        <p>Rp<?= $total_price; ?></p>
+        <?php endif ; ?>
       </div>
       <a href="cart.php"><button>See Cart</button></a>
     </div>
@@ -123,55 +128,4 @@ if(isset($_SESSION["login"])) {
 </nav>
 
 <script src="../javascript/jquery.js"></script>
-<script>
-$(document).ready(function() {
-  $("#menu").hide();
-
-
-  $(".profile").mouseover(function() {
-    $("#menu").show();
-  });
-
-  $(".navbar-list").mouseout(function() {
-    $("#menu").hide();
-    $("#category-menu-content").hide();
-    $("#cart-content").hide();
-  });
-
-  $("#menu").mouseover(function() {
-    $("#menu").show();
-  });
-
-  $("#menu").mouseout(function() {
-    $("#menu").hide();
-  });
-
-  $("#category-menu-content").hide();
-
-  $(".ctgs").mouseover(function() {
-    $("#category-menu-content").show();
-  });
-
-  $("#category-menu-content").mouseover(function() {
-    $("#category-menu-content").show();
-  });
-
-  $("#category-menu-content").mouseout(function() {
-    $("#category-menu-content").hide();
-  });
-
-  $("#cart-content").hide();
-
-  $(".cart").mouseover(function() {
-    $("#cart-content").show();
-  });
-
-  $("#cart-content").mouseover(function() {
-    $("#cart-content").show();
-  });
-
-  $("#cart-content").mouseout(function() {
-    $("#cart-content").hide();
-  });
-})
-</script>
+<script src="../javascript/navbar.js"></script>

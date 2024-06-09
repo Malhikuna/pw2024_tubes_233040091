@@ -45,10 +45,7 @@ function uploadCourse($data) {
     $userId = htmlspecialchars($data["userId"]);
     $videoName = htmlspecialchars($data["videoName"]);
     $description = htmlspecialchars($data["description"]);
-
-    // Cek Category
-    $categoryId = categoryCheck($data["category"]);
-
+    $categoryId = $data["category"];
 
     // Upload gambar
     $thumbnail = uploadImage('thumbnail', '../img/thumbnail/');
@@ -84,12 +81,6 @@ function uploadCourse($data) {
     }
 
     return false;
-}
-
-function categoryCheck($data) {
-    $result = query("SELECT id FROM categories WHERE category_name = '$data'")[0]["id"];
-
-    return $result;
 }
 
 function uploadImage($name, $folder) {
@@ -226,17 +217,15 @@ function updateCourse($data) {
     $id = $data["id"];
     $courseName = htmlspecialchars($data["courseName"]);
     $price = htmlspecialchars($data["price"]);
+    $category = $data["category"];
     $oldThumbnail = ($data["oldThumbnail"]);
-
-    // Cek categori
-    $category = categoryCheck($data["category"]);
 
     // Cek apakah user pilih gambar baru atau tidak
     if( $_FILES['thumbnail']['error'] === 4) {
         $thumbnail = $oldThumbnail;
     } else {
         $thumbnail = uploadImage('thumbnail', '../img/thumbnail/');
-    } 
+    }
 
     //  query update data
     $query = "UPDATE courses 
@@ -428,24 +417,18 @@ function editProfilePicture($data) {
     return mysqli_affected_rows($conn);
 }
 
-function videoLiked($data) {
+function videoLiked($vId, $uId) {
     global $conn;
 
-    $userId = $data["userId"];
-    $videoId = $data["videoId"];
-
-    $query = "INSERT INTO `video_likes` (`id`, `video_id`, `user_id`) VALUES (NULL, '$videoId', '$userId')";
+    $query = "INSERT INTO `video_likes` (`id`, `video_id`, `user_id`) VALUES (NULL, '$vId', '$uId')";
 
     mysqli_query($conn, $query);
 }
 
-function videoUnliked($data) {
+function videoUnliked($vId, $uId) {
     global $conn;
 
-    $userId = $data["userId"];
-    $videoId = $data["videoId"];
-
-    $query = "DELETE FROM video_likes WHERE video_id = $videoId AND user_id = $userId";
+    $query = "DELETE FROM video_likes WHERE video_id = $vId AND user_id = $uId";
 
     mysqli_query($conn, $query);
 }
@@ -516,10 +499,10 @@ function addNewPlaylist($data) {
     return false;
 }
 
-function addToCart($data) {
+function addToCart($uId, $cId) {
     global $conn;
-    $userId = $data["userId"];
-    $courseId = $data["courseId"];
+    $userId = $uId;
+    $courseId = $cId;
 
     $result = mysqli_query($conn, "SELECT * FROM cart WHERE user_id = $userId AND course_id = $courseId");
     if(mysqli_fetch_assoc($result)) {
@@ -606,6 +589,21 @@ function deleteUser($id) {
 
     return mysqli_affected_rows($conn);
 
-    var_dump($id);
+}
+
+function follow($userId, $myUserId) {
+    global $conn;
+
+    mysqli_query($conn, "INSERT INTO followers(user_id, profile_id) VALUES ('$myUserId', '$userId')");
+
+    return mysqli_affected_rows($conn);
+}
+
+function unFollow($userId, $myUserId) {
+    global $conn;
+
+    mysqli_query($conn, "DELETE FROM followers WHERE user_id = $myUserId AND profile_id = $userId");
+
+    return mysqli_affected_rows($conn);
 }
 ?>

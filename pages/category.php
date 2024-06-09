@@ -62,39 +62,46 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Utama</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Utama</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/index.css">
 
-    <!-- Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Roboto&family=Unbounded:wght@500&display=swap" rel="stylesheet" /> -->
-    <style>
-      .container {
-        min-height: 100vh;
-      }
+  <!-- Fonts -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Roboto&family=Unbounded:wght@500&display=swap" rel="stylesheet" /> -->
+  <style>
+  .container {
+    min-height: 100vh;
+  }
 
-      footer {
-        margin-top: 100px;
-      }
-    </style>
+  footer {
+    margin-top: 100px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+  </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php"  ?>
 
   <div class="container">
+    <h1 class="text-center"><?= $courses[0]["category_name"]; ?></h1>
     <form action="" method="post">
       <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
           <?php if($_POST["sort"] === "old") : ?>
-            <option value="new">Newest</option>
-            <option value="old" selected>Oldest</option>
+          <option value="new">Newest</option>
+          <option value="old" selected>Oldest</option>
           <?php else : ?>
-            <option value="new" selected>Newest</option>
-            <option value="old">Oldest</option>
+          <option value="new" selected>Newest</option>
+          <option value="old">Oldest</option>
           <?php endif ; ?>
         </select>
         <div class="sort-icon">
@@ -103,9 +110,9 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
     </form>
     <section class="card-rows">
-      <?php require "../layouts/cards.php" ?>     
+      <?php require "../layouts/cards.php" ?>
     </section>
-    
+
     <!-- Pagination -->
     <?php require "../layouts/pagination.php" ?>
 
@@ -115,9 +122,10 @@ header("Cache-Control: no-cache, must-revalidate");
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
   <script>
-    $(document).ready(function () {
+  $(document).ready(function() {
 
-    })
+  })
   </script>
 </body>
+
 </html>

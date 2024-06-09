@@ -135,7 +135,7 @@ body {
   display: block;
 }
 
-.course-content .bottom .right #addToCart-1 {
+.course-content .bottom .right .added {
   background-color: #323232;
   cursor: default;
 }

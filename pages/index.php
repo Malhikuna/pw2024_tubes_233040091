@@ -73,13 +73,18 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <div class="container">
     <div class="categories-line">
-      <?php foreach($ctgss as $ctgg) : ?>
-      <a href="category.php?category=<?= $ctgg["category_name"]; ?>"><?= $ctgg["category_name"]; ?></a>
-      <?php endforeach ; ?>
+      <div class="line">
+        <?php foreach($ctgss as $ctgg) : ?>
+        <a href="category.php?category=<?= $ctgg["category_name"]; ?>"><?= $ctgg["category_name"]; ?></a>
+        <?php endforeach ; ?>
+      </div>
     </div>
 
     <div class="banner">
-      <img src="../img/banner/growth_2.jpg" alt="">
+      <img class="img1" src="../img/interactive/1717788029348.png">
+      <div class="search-content">
+        <input class="search" type="search" size="40" placeholder="search.." autocomplete="off" id="keyword">
+      </div>
     </div>
 
     <form action="" method="post">
@@ -98,12 +103,16 @@ header("Cache-Control: no-cache, must-revalidate");
         </div>
       </div>
     </form>
-    <section class="card-rows">
+    <section class="card-rows" id="container">
       <?php require "../layouts/cards.php" ?>
     </section>
 
     <!-- Pagination -->
     <?php require "../layouts/pagination.php" ?>
+
+    <div class="banner">
+      <img class="img2" src="../img/interactive/1717613101888.png">
+    </div>
 
     <h1 class="tag-line webdev">Web Development</h1>
     <section class="webdev-rows">
@@ -183,21 +192,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/script.js"></script>
-  <script>
-  $(document).ready(function() {
-    let offset = 320;
-    let duration = 500;
-
-    $(window).scroll(function() {
-      if ($(this).scrollTop() > offset) {
-        $(".categories-line").fadeOut(duration);
-        // $(".categories-line").show();
-      } else {
-        $(".categories-line").fadeIn(duration);
-      }
-    })
-  })
-  </script>
+  <script src="../javascript/index.js"></script>
 </body>
 
 </html>

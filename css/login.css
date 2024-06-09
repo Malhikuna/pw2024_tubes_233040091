@@ -158,7 +158,7 @@ a.account {
 .form-content .left-content {
   z-index: 9999;
   position: relative;
-  left: 20px;
+  left: 15px;
 }
 
 .form-content .left-content,
@@ -231,6 +231,7 @@ a.account {
 .form-content .right-content {
   height: 100%;
   position: relative;
+  right: 15px;
 }
 
 .sign-up-input {
@@ -243,7 +244,7 @@ a.account {
 /* Slide 1 */
 
 .form-content .right-content.slide1 {
-  transform: translateX(-430px);
+  transform: translateX(-420px);
   height: 90%;
   animation: move1 2.5s;
   z-index: 8888;
@@ -267,7 +268,7 @@ a.account {
 }
 
 .form-content .left-content.slide1 {
-  transform: translateX(430px);
+  transform: translateX(420px);
   height: 100%;
   animation: move2 2.5s;
   z-index: 0;
@@ -321,7 +322,7 @@ a.account {
     height: 100%;
   }
   to {
-    transform: translateX(-430px);
+    transform: translateX(-420px);
     height: 90%;
   }
 }
@@ -332,14 +333,14 @@ a.account {
     height: 90%;
   }
   to {
-    transform: translateX(430px);
+    transform: translateX(420px);
     height: 100%;
   }
 }
 
 @keyframes move3 {
   from {
-    transform: translateX(-450px);
+    transform: translateX(-440px);
     height: 90%;
   }
   to {
@@ -350,7 +351,7 @@ a.account {
 
 @keyframes move4 {
   from {
-    transform: translateX(450px);
+    transform: translateX(440px);
     height: 100%;
   }
   to {

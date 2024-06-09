@@ -16,15 +16,13 @@ if (isset($_POST["login"])) {
   if(mysqli_num_rows($result) === 1) {
     // Cek password
 
-    $row = mysqli_fetch_assoc(($result));
+    $row = mysqli_fetch_assoc($result);
     if (password_verify($password, $row["password"])) {
       $_SESSION["login"] = true;
-
+      $_SESSION["email"] = $_POST["email"];
       $_SESSION["username"] = (user($_POST["email"]));
-
       $username = $_SESSION["username"];
       $_SESSION["id"] = query("SELECT id FROM users WHERE username = '$username'")[0]["id"];
-      $_SESSION["email"] = query("SELECT email FROM users WHERE username = '$username'")[0]["email"];
       $_SESSION["role"] = query("SELECT status FROM users WHERE username = '$username'")[0]["status"];
 
       if ($_SESSION["role"] === "admin") {
@@ -107,7 +105,7 @@ if (isset($_POST["login"])) {
         </div>
       </div>
 
-      <div class="right-content">
+      <div class="right-content slide">
         <div class="sign-up">
           <h1>Welcome Back!</h1>
           <p>Let's Go Create Your Account</p>

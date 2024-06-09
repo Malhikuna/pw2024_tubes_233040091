@@ -66,6 +66,10 @@ header("Cache-Control: no-cache, must-revalidate");
     font-weight: bold;
     color: #6060ff;
   }
+
+  .table {
+    overflow: hidden;
+  }
   </style>
 </head>
 

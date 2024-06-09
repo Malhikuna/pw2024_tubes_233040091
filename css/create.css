@@ -1,18 +1,36 @@
 .container {
   padding-top: 80px;
   display: flex;
-  min-height: 120vh;
+  height: 100%;
   width: 100%;
+  position: relative;
 }
 
 body {
+  height: 140vh;
   background-color: #eaeaea;
   font-family: sans-serif;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  height: 100%;
+  background-image: url(../img/luke-chesser-IGtutkXikuc-unsplash.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  filter: brightness(80%);
 }
 
 .form-content {
   position: relative;
-  width: 700px;
+  width: 1000px;
   height: 600px;
   margin: auto;
   margin-bottom: 20px;
@@ -22,11 +40,11 @@ body {
 .form-content-1,
 .form-content-2 {
   position: relative;
-  padding: 50px;
+  padding: 100px;
   justify-content: center;
-  background-color: white;
-  width: 700px;
-  height: 620px;
+  background-color: #ffffffb4;
+  width: 100%;
+  height: 100%;
   margin: auto;
   border: 1.5px solid black;
   border-radius: 10px;
@@ -40,7 +58,7 @@ textarea[name="description"] {
   width: 100%;
   margin-bottom: 30px;
   /* border-radius: 5px; */
-  background-color: white;
+  background-color: #f3f3f3;
   border: 1px solid black;
   padding-left: 5px;
   font-size: 1.1rem;
@@ -75,13 +93,12 @@ input[name="thumbnail"] {
 .form-content button.prev,
 .form-content button.upload {
   color: #eaeaea;
-  border-radius: 10px;
   border: 2px solid black;
   font-size: 1rem;
   cursor: pointer;
   background-color: #4444f9;
-  height: 30px;
-  width: 70px;
+  height: 40px;
+  width: 100px;
 }
 
 button.continue {
@@ -112,9 +129,9 @@ button.continue {
 }
 
 .form-content-2 {
+  height: 750px !important;
   position: absolute;
   top: 0;
-  /* display: none; */
 }
 
 .form-content-2 textarea[name="description"] {

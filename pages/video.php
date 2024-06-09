@@ -32,16 +32,6 @@ if(isset($_POST["video_click"]) || isset($_POST["continue"])) {
   $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
 }
 
-// Ketika video di like
-if(isset($_POST["liked"])) {
-  videoLiked($_POST);
-}
-
-// Ketika video di unlike
-if(isset($_POST["unliked"])) {
-  videoUnliked($_POST);
-}
-
 // Tambah ke playlist
 if(isset($_POST["list"])) {
   $id = $_POST["videoId"];
@@ -190,13 +180,14 @@ header("Cache-Control: no-cache, must-revalidate");
       $result = (mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM video_likes WHERE video_id = $id AND user_id = $myUserId")));
 
       ?>
-        <form action="" method="post" id="form-like">
-          <input type="hidden" name="userId" value="<?= $myUserId; ?>">
-          <input type="hidden" name="videoId" value="<?= $id; ?>">
+        <form id="container">
+          <input id="videoLikeId" type="hidden" value="<?= $id; ?>">
+          <input id="userLikeId" type="hidden" value="<?= $myUserId; ?>">
           <?php if($result === null) : ?>
-          <button name="liked" id="liked"><i class="ri-heart-3-line"></i> Like</button>
+          <button type="button" id="likeButton"><i class="ri-heart-3-line"></i> Like</button>
           <?php else : ?>
-          <button name="unliked" id="unliked"><i class="ri-heart-3-fill"></i> Unlike</button>
+          <button type="button" id="unLikeButton"><i class="ri-heart-3-fill" style="color: #ff0000"></i>
+            Unlike</button>
           <?php endif ; ?>
         </form>
       </div>
@@ -248,6 +239,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/video.js"></script>
+  <script src="../javascript/like.js"></script>
 </body>
 
 </html>

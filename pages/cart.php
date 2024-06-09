@@ -13,21 +13,10 @@ $cartResult = mysqli_num_rows(mysqli_query($conn, "SELECT *
                                                     WHERE user_id = $userId"));
 
 // Pagination
-$jumlahDataPerHalaman = 3;
-$jumlahData = count(query("SELECT *  
-                            FROM cart 
-                            WHERE user_id = $userId "));
-                            
-$jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
-$halamanAktif = (isset($_GET["page"])) ? $_GET["page"] : 1;
-
-$dataAwal = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-
 $cartLst = query("SELECT *, cart.user_id as userId, cart.id as cartId
                     FROM cart 
                     JOIN courses ON course_id = courses.id 
-                    WHERE cart.user_id = $userId 
-                    LIMIT $dataAwal, $jumlahDataPerHalaman");
+                    WHERE cart.user_id = $userId");
 
 header("Cache-Control: no-cache, must-revalidate");
 
@@ -157,7 +146,6 @@ if(isset($_POST["delete"])) {
             <?php endforeach ; ?>
         </table>
 
-        <?php require "../layouts/pagination.php" ?>
       </div>
       <div class="right">
         <div class="top-text">
@@ -186,11 +174,6 @@ if(isset($_POST["delete"])) {
           <img src="../img/thumbnail/<?= $orderSummary["thumbnail"]; ?>" alt="">
           <p><?= $orderSummary["name"]; ?></p>
         </div>
-        <!-- <div class="check-content-alt">
-          for
-          <img src="../img/thumbnail/" alt="">
-          <p>JavaScript</p>
-        </div> -->
         <div class="total-content">
           <p>Total</p>
           <p>Rp<?= $totalPrice; ?></p>
@@ -298,10 +281,6 @@ $totalPrice = query("SELECT SUM(price) AS 'Total Price'
     });
 
     $(".close-click").hide();
-
-    // $("#form_check").submit(function(e) {
-    //   e.preventDefault();
-    // });
   })
   </script>
 </body>

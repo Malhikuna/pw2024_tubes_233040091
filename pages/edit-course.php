@@ -11,7 +11,10 @@ $id = $_GET["id"];
 
 $crs = query("SELECT * FROM courses JOIN categories ON (courses.category_id = categories.id) WHERE courses.id = '$id'")[0];
 
-$categories = query("SELECT category_name FROM categories");
+$categoryId = $crs["category_id"];
+$oldCategory= query("SELECT category_name FROM categories WHERE id = $categoryId")[0]["category_name"];
+
+$categories = query("SELECT * FROM categories WHERE id != $categoryId");
 
 // cek apakah tombol update sudah ditekan atau belum
 
@@ -55,8 +58,9 @@ header("Cache-Control: no-cache, must-revalidate");
           <label>
             Category
             <select name="category" id="category">
+              <option value="<?= $categoryId; ?>"><?= $oldCategory; ?></option>
               <?php foreach($categories as $category) : ?>
-              <option value="<?= $category["category_name"]; ?>"><?= $category["category_name"]; ?></option>
+              <option value="<?= $category["id"]; ?>"><?= $category["category_name"]; ?></option>
               <?php endforeach ; ?>
             </select>
             <br>
