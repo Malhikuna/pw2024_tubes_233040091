@@ -65,7 +65,9 @@ header("Cache-Control: no-cache, must-revalidate");
   <link href="../css/remixicon.css" rel="stylesheet" />
 
   <!-- Fonts -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Roboto&family=Unbounded:wght@500&display=swap" rel="stylesheet" /> -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
 </head>
 
 <body>
@@ -110,7 +112,7 @@ header("Cache-Control: no-cache, must-revalidate");
     <!-- Pagination -->
     <?php require "../layouts/pagination.php" ?>
 
-    <div class="banner">
+    <div class="banner banner2">
       <img class="img2" src="../img/interactive/1717613101888.png">
     </div>
 

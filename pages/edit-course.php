@@ -35,6 +35,11 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/create.css">
   <link rel="stylesheet" href="../css/update.css">
   <link rel="stylesheet" href="../css/alert.css">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
 </head>
 
 <body>

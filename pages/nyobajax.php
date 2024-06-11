@@ -8,27 +8,22 @@
 </head>
 
 <body>
-  <input type="search" id="keyword">
-  <div id="container">
 
+  <div id="container">
+    <input type="hidden" id="value" value="0">
+    <input type="checkbox" class="check">
+    <label for="check">Kontol</label>
   </div>
 
 
 
   <script src="../javascript/jquery.js"></script>
+  <script src="../javascript/video.js"></script>
   <script>
   $(document).ready(function() {
-    // Event ketika keyword ditulis
-    $("#click").on("click", function() {
+    $(".check").on("change", function() {
       // $.get()
-      $.get("../ajax/nyobajax.php?id=" + $("#id").val(), function(data) {
-        $("#container").html(data);
-      });
-    });
-
-    $("#keyword").on("keyup", function() {
-      // $.get()
-      $.get("../ajax/nyobajax.php?keyword=" + $("#keyword").val(), function(data) {
+      $.get("../ajax/nyobajax.php?value=" + $("#value").val(), function(data) {
         $("#container").html(data);
       });
     });

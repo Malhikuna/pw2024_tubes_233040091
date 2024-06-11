@@ -1,0 +1,32 @@
+.right input {
+  width: 400px;
+  height: 40px;
+  border: 1px solid black;
+  background-color: #717171;
+  color: white;
+  padding-left: 10px;
+  font-size: 1.2rem;
+}
+
+.right label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.right {
+  background-color: #e1e1e1;
+  padding-left: 20px;
+}
+
+.row {
+  flex-direction: column;
+}
+
+.right button {
+  width: 100px;
+  height: 30px;
+  border: 1px solid black;
+  background-color: #4444f9;
+  color: white;
+}

@@ -52,7 +52,7 @@ if(isset($_POST["delete"])) {
 }
 
 if(isset($_POST["add"])) {
-  myqsli_query($conn, "UPDATE users SET status = 'admin'");
+  mysqli_query($conn, "UPDATE users SET status = 'admin'");
 }
 
 
@@ -71,6 +71,11 @@ if(isset($_POST["add"])) {
   <link rel="stylesheet" href="../css/alert.css">
   <link rel="stylesheet" href="../css/accounts.css">
   <link rel="stylesheet" href="../css/user-detail.css">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
 </head>
 
 <body>

@@ -1,5 +1,6 @@
 <?php 
-$conn = mysqli_connect("localhost", "root", "", "pw2024_tubes_233040091");
+// $conn = mysqli_connect("localhost", "root", "", "pw2024_tubes_233040091");
+$conn = mysqli_connect("localhost", "id22297404_malhikuna", "OhA0a#MYZakF*ymT", "id22297404_pw2024_tubes_233040091");
 
 function query($query) {
     global $conn;
@@ -155,7 +156,7 @@ function uploadVideo() {
     }
 
     // Cek jika ukurannya terlalu besar
-    if( $ukuranFile > 1000000) {
+    if( $ukuranFile > 100000000000) {
         echo "<script>
                 alert('Uuran video terlalu besar!');
             </script>";
@@ -441,11 +442,8 @@ function jumlah($tabel) {
     return $result;
 }
 
-function saveTo($data) {
+function saveTo($videoId, $playlistId) {
     global $conn;
-    
-    $videoId = $data["videoId"];
-    $playlistId = $data["playlistId"];
 
     $query = "INSERT INTO video_playlist (video_id, playlist_id) VALUES ('$videoId', '$playlistId')";
 
@@ -454,11 +452,8 @@ function saveTo($data) {
     return mysqli_affected_rows($conn);
 }
 
-function unSave($data) {
+function unSave($videoId, $playlistId) {
     global $conn;
-
-    $videoId = $data["videoId"];
-    $playlistId = $data["playlistId"];
 
     $query = "DELETE FROM video_playlist 
                 WHERE video_id = $videoId 
@@ -516,10 +511,10 @@ function addToCart($uId, $cId) {
     return mysqli_affected_rows($conn);
 }
 
-function checkout($data) {
+function checkout($userId, $totalPrice) {
     global $conn;
-    $userId = $data["userId"];
-    $totalPrice = $data["totalPrice"];
+    // $userId = $data["userId"];
+    // $totalPrice = $data["totalPrice"];
 
     mysqli_query($conn, "INSERT INTO orders (user_id, total) VALUES ('$userId', '$totalPrice')");
 

@@ -3,14 +3,9 @@ session_start();
 require "../functions/functions.php";
 
 $username = $_SESSION["username"];
-
-$role = $_SESSION["role"];
+$email = $_SESSION["email"];
 
 if(!isset($_SESSION["login"])) {
-  header("Location: index.php");
-}
-
-if($role !== "admin") {
   header("Location: index.php");
 }
 
@@ -41,6 +36,7 @@ if(isset($_POST["delete"])) {
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/setting.css">
   <link rel="stylesheet" href="../css/alert.css">
 
   <!-- Fonts -->
@@ -48,7 +44,7 @@ if(isset($_POST["delete"])) {
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
     rel="stylesheet" />
   <style>
-  .left .menu-box a:nth-child(2) {
+  .left .menu-box a:nth-child(1) {
     font-weight: bold;
     color: #6060ff;
   }
@@ -59,40 +55,29 @@ if(isset($_POST["delete"])) {
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
-    <?php require "../layouts/sidebar.php" ?>
-    <div class="right default">
-      <h1>Welcome <?= $username; ?></h1>
-      <div class="row row-1">
-        <div class="col col-1">
-          <div class="circle">
-            <i class="ri-slideshow-3-fill"></i>
-          </div>
-          <p><?= $courses; ?> Courses</p>
-          <div class="add add-1">
-            <i class="ri-arrow-right-circle-line"></i>
-          </div>
-        </div>
-        <div class="col col-2">
-          <div class="circle">
-            <i class="ri-video-fill"></i>
-          </div>
-          <p><?= $videos; ?></p>
-          <p>Videos</p>
-          <div class="add add-2">
-            <i class="ri-add-circle-line"></i>
-          </div>
-        </div>
-        <div class="col col-3">
-          <div class="circle">
-            <i class="ri-stack-fill"></i>
-          </div>
-          <p><?= $categories; ?></p>
-          <p>Categories</p>
-          <div class="add add-3">
-            <i class="ri-arrow-right-circle-line"></i>
-          </div>
-        </div>
+    <div class="left">
+      <div class="menu-box">
+        <p>Menu</p>
+        <a href="../pages/dashboard.php"><i class="ri-home-6-fill"></i> Account</a>
+        <a href="../pages/dashboard-courses.php"><i class="ri-slideshow-3-fill"></i> Theme</a>
+        <a href="../pages/logout.php"><i class="ri-login-box-fill"></i> Logout</a>
       </div>
+    </div>
+    <div class="right default">
+      <form action="" method="post">
+        <div class="row">
+          <label>
+            Email
+            <input type="email" name="email" value="<?= $email; ?>">
+          </label>
+          <button name="changeEmail">Change</button>
+          <label>
+            Password
+            <input type="password" name="password">
+          </label>
+          <button name="changePassword">Change</button>
+        </div>
+      </form>
     </div>
   </div>
 

@@ -12,7 +12,7 @@ $myUserId = $_SESSION["id"];
 $courseId = $_GET["id"];
 $userId = query("SELECT user_id FROM courses WHERE id = '$courseId'")[0]["user_id"];
 $username = query("SELECT username FROM users WHERE id = '$userId'")[0]["username"];
-$profilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
+$userProfilePicture = query("SELECT image FROM profile WHERE user_id = $userId")[0]["image"];
 
 // Mengambil semua data dari ralasi tabel course, categories, dan users
 $crs = query("SELECT * FROM courses 
@@ -30,14 +30,6 @@ $playlist = query("SELECT * FROM playlist WHERE user_id = $myUserId ORDER BY id 
 if(isset($_POST["video_click"]) || isset($_POST["continue"])) {
   $id = $_POST["videoId"];
   $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
-}
-
-// Tambah ke playlist
-if(isset($_POST["list"])) {
-  $id = $_POST["videoId"];
-  $videoName = query("SELECT video_name FROM videos WHERE course_id = '$courseId' AND id = $id")[0]["video_name"];
-  $playlistName = $_POST["playlistName"];
-  $value = $_POST["list"];
 }
 
 // Tambah playlist baru
@@ -97,33 +89,29 @@ header("Cache-Control: no-cache, must-revalidate");
       <button name="add" id="add"><i class="ri-play-list-add-fill"></i></button>
       <div class="add">
         <p>Save to..</p>
-        <div class="list-name">
+        <div class="list-name" id="list-container">
           <?php foreach($playlist as $list) : ?>
-          <form action="" method="post">
-            <div class="list">
-              <input type="hidden" name="videoId" value="<?= $id; ?>">
-              <input type="hidden" name="playlistId" value="<?= $list["id"]; ?>">
-              <input type="hidden" name="playlistName" value="<?= $list["name"]; ?>">
-              <?php 
+          <div class="list">
+            <input type="hidden" id="videoId" value="<?= $id; ?>">
+            <input type="hidden" id="playlistId" value="<?= $list["id"]; ?>">
+            <input type="hidden" id="playlistName" value="<?= $list["name"]; ?>">
+            <?php 
               
               $playlistId = $list["id"]; 
               $result = (mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM video_playlist WHERE video_id = $id AND playlist_id = $playlistId")));
               
               ?>
-              <?php if($result > 0) : ?>
+            <?php if($result > 0) : ?>
 
-              <input type="hidden" id="<?= $list["id"]; ?>" name="list" value="unsave">
-              <input type="checkbox" id="<?= $list["id"]; ?>" name="list" value="unsave" onchange="this.form.submit();"
-                checked>
+            <input type="checkbox" class="check1" id="<?= $list["id"]; ?>" value="unsave" checked>
 
-              <?php else : ?>
+            <?php else : ?>
 
-              <input type="checkbox" id="<?= $list["id"]; ?>" name="list" value="save" onchange="this.form.submit();">
+            <input type="checkbox" class="check2" id="<?= $list["id"]; ?>" value="save">
 
-              <?php endif; ?>
-              <label for="<?= $list["id"]; ?>"><?= $list["name"]; ?></label>
-            </div>
-          </form>
+            <?php endif; ?>
+            <label for="<?= $list["id"]; ?>"><?= $list["name"]; ?></label>
+          </div>
           <?php endforeach ; ?>
         </div>
         <form action="" method="post">
@@ -166,17 +154,18 @@ header("Cache-Control: no-cache, must-revalidate");
       <!-- Link Ke Halaman Profile -->
       <div class="channel-box">
         <a href="profile.php?profile=<?= $username; ?>">
-          <img class="picture-profile" src="../img/profile/<?= $profilePicture; ?>">
+          <img class="picture-profile" src="../img/profile/<?= $userProfilePicture; ?>">
         </a>
         <a href="profile.php?profile=<?= $username; ?>">
           <p><?= $username; ?></p>
         </a>
       </div>
 
-      <!-- Tombol Like -->
+      <!-- Tombol like -->
       <div class="like-box">
         <?php 
       
+      $myUserId = $_SESSION["id"]; 
       $result = (mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM video_likes WHERE video_id = $id AND user_id = $myUserId")));
 
       ?>
@@ -192,31 +181,6 @@ header("Cache-Control: no-cache, must-revalidate");
         </form>
       </div>
     </section>
-
-    <!-- Alert -->
-    <?php if(isset($_POST["list"])) : ?>
-    <?php if($value === "save") : ?>
-    <?php if (saveTo($_POST) > 0) : ?>
-    <form action="" method="post">
-      <div class="alert alert-green">
-        <p>Video berhasil ditambahkan ke <?= $playlistName; ?></p>
-        <input type="hidden" name="videoId" value="<?= $id; ?>">
-        <button name="continue" class="continue">continue</button>
-      </div>
-    </form>
-    <?php endif  ?>
-    <?php else : ?>
-    <?php if (unSave($_POST) > 0) : ?>
-    <form action="" method="post">
-      <div class="alert alert-green">
-        <p>Video berhasil dihapus dari list <?= $playlistName; ?></p>
-        <input type="hidden" name="videoId" value="<?= $id; ?>">
-        <button name="continue" class="continue">continue</button>
-      </div>
-    </form>
-    <?php endif ; ?>
-    <?php endif ; ?>
-    <?php endif ; ?>
 
     <?php if(isset($_POST["add-new"])) : ?>
     <?php if (addNewPlaylist($_POST) > 0) : ?>
@@ -235,10 +199,13 @@ header("Cache-Control: no-cache, must-revalidate");
     <?php endif ; ?>
     <?php endif ; ?>
 
+
+
   </div>
 
   <script src="../javascript/jquery.js"></script>
   <script src="../javascript/video.js"></script>
+  <script src="../javascript/playlist.js"></script>
   <script src="../javascript/like.js"></script>
 </body>
 

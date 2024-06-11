@@ -11,7 +11,7 @@ if(isset($_SESSION["login"])) {
 
 <nav>
   <div class="navbar-brand">
-    <a href="./index.php" class="judul">UPSKIL</a>
+    <a href="./index.php" class="judul">COURSEAREA</a>
   </div>
 
   <form action="search.php" method="post">
@@ -113,6 +113,7 @@ if(isset($_SESSION["login"])) {
         <a href="../pages/course.php"><i class="ri-play-fill"></i> My Courses</a>
         <a href="../pages/my-learning.php"><i class="ri-video-fill"></i> My Learning</a>
         <a href="../pages/playlist.php"><i class="ri-play-list-2-line"></i> Playlist</a>
+        <a href="../invoice.php"><i class="ri-bank-card-2-fill"></i> Invoice</a>
       </div>
       <div class="menu menu-3">
         <a href="../pages/edit-profile.php"><i class="ri-user-settings-fill"></i> Edit Profile</a>

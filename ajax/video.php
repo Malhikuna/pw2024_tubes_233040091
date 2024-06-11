@@ -23,4 +23,5 @@ if($result > 0) {
 <?php endif ; ?>
 
 <script src="../javascript/jquery.js"></script>
+<script src="../javascript/videos.js"></script>
 <script src="../javascript/like.js"></script>

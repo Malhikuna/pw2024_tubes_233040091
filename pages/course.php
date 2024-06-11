@@ -60,6 +60,7 @@ header("Cache-Control: no-cache, must-revalidate");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,30 +68,36 @@ header("Cache-Control: no-cache, must-revalidate");
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/index.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
-  <style>
-    .container {
-        min-height: 100vh;
-      }
 
-    footer {
-      margin-top: 100px;
-    }
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
+  <style>
+  .container {
+    min-height: 100vh;
+  }
+
+  footer {
+    margin-top: 100px;
+  }
   </style>
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
   <div class="container">
     <h1 class="tag-line">My Course</h1>
     <form action="" method="post">
-     <div class="sort-content">
+      <div class="sort-content">
         <select id="sort" name="sort" onchange="this.form.submit();">
           <?php if($_POST["sort"] === "old") : ?>
-            <option value="new">Newest</option>
-            <option value="old" selected>Oldest</option>
+          <option value="new">Newest</option>
+          <option value="old" selected>Oldest</option>
           <?php else : ?>
-            <option value="new" selected>Newest</option>
-            <option value="old">Oldest</option>
+          <option value="new" selected>Newest</option>
+          <option value="old">Oldest</option>
           <?php endif ; ?>
         </select>
         <div class="sort-icon">
@@ -107,4 +114,5 @@ header("Cache-Control: no-cache, must-revalidate");
     <?php require "../layouts/footer.php" ?>
   </div>
 </body>
+
 </html>

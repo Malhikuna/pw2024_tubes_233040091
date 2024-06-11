@@ -6,6 +6,7 @@ $userId = $_SESSION["id"];
 $username = $_SESSION["username"];
 
 $orderId = query("SELECT id FROM orders WHERE user_id = $userId ORDER BY id DESC LIMIT 1")[0]["id"];
+$orderDate = query("SELECT date FROM orders WHERE user_id = $userId AND id = $orderId")[0]["date"];
 
 $orders = query("SELECT * FROM orders_detail JOIN courses ON course_id = courses.id WHERE order_id = $orderId");
 $totalPrice = query("SELECT SUM(courses.price) AS 'Total Price' FROM orders_detail JOIN courses ON course_id = courses.id WHERE order_id = $orderId")[0]["Total Price"];
@@ -30,7 +31,10 @@ $totalPrice = query("SELECT SUM(courses.price) AS 'Total Price' FROM orders_deta
 
 <body>
   <div class="container">
-    <a href="print.php"><button class="print"><i class="ri-printer-fill"></i></button></a>
+    <div class="button">
+      <a href="index.php"><button class="print">Home</button></a>
+      <a href="print.php"><button class="print"><i class="ri-printer-fill"></i></button></a>
+    </div>
     <div class="top">
       <div class="left">
         <h2><?= $username; ?></h2>
@@ -40,7 +44,7 @@ $totalPrice = query("SELECT SUM(courses.price) AS 'Total Price' FROM orders_deta
         <div class="bottom-right">
           <div class="date">
             <h3>Date Information</h3>
-            <p>Date Information</p>
+            <p><?= $orderDate; ?></p>
           </div>
           <div class="number">
             <h3>Invoice Number</h3>

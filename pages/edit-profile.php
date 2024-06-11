@@ -17,6 +17,7 @@ $profile = query("SELECT * FROM profile WHERE user_id = $userId")[0];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,11 +25,14 @@ $profile = query("SELECT * FROM profile WHERE user_id = $userId")[0];
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/alert.css">
   <link rel="stylesheet" href="../css/edit-profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Fonts -->
   <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-    rel="stylesheet"
-    />
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
 </head>
+
 <body>
   <?php require "../layouts/navbar.php" ?>
 
@@ -52,7 +56,7 @@ $profile = query("SELECT * FROM profile WHERE user_id = $userId")[0];
               <button type="button" class="italic-text"><i class="ri-italic"></i></button>
             </div>
             <div class="bottom">
-                <textarea id="description" name="description" style="resize: none;"></textarea>
+              <textarea id="description" name="description" style="resize: none;"></textarea>
             </div>
           </div>
           <br>
@@ -88,15 +92,15 @@ $profile = query("SELECT * FROM profile WHERE user_id = $userId")[0];
           </label>
           <input type="hidden" name="userId" value="<?= $userId; ?>">
           <input type="hidden" name="oldProfilePicture" value="<?= $profile["image"]; ?>">
-          <button type="submit" name="save" class="save" >Save</button>
+          <button type="submit" name="save" class="save">Save</button>
         </div>
 
 
         <div class="form-content-2">
-        <div class="image-profile" style="background-image: url(../img/profile/<?= $profile["image"]; ?>"></div>
+          <div class="image-profile" style="background-image: url(../img/profile/<?= $profile["image"]; ?>"></div>
           <label for="select" class="select"><i class="ri-camera-line"></i></label>
           <div class="img">
-            <input id="select" type="file" name="profilePicture" value="" >
+            <input id="select" type="file" name="profilePicture" value="">
             <div class="erase"></div>
             <button name="saveImage" class="right">Save</button>
           </div>
@@ -108,78 +112,81 @@ $profile = query("SELECT * FROM profile WHERE user_id = $userId")[0];
         </div>
       </div>
     </form>
-    
+
     <?php if(isset($_POST["save"])) : ?>
-      <?php if (editProfile($_POST) > 0) : ?>
-        <?php $_SESSION["username"] = $_POST["username"] ?>
-        <div class="alert alert-green">
-          <p>Profile berhasil diupdate</p>
-          <a href="profile.php?profile=<?= $_SESSION["username"]; ?>"><button name="continue" class="continue">continue</button></a>
-        </div>
-      <?php else : ?>
-        <div class="alert alert-red">
-          <p>Profile gagal diupdate</p>
-          <a href="edit-profile.php"><button name="continue" class="continue con-red">continue</button></a>
-        </div>    
-      <?php endif ; ?>
+    <?php if (editProfile($_POST) > 0) : ?>
+    <?php $_SESSION["username"] = $_POST["username"] ?>
+    <div class="alert alert-green">
+      <p>Profile berhasil diupdate</p>
+      <a href="profile.php?profile=<?= $_SESSION["username"]; ?>"><button name="continue"
+          class="continue">continue</button></a>
+    </div>
+    <?php else : ?>
+    <div class="alert alert-red">
+      <p>Profile gagal diupdate</p>
+      <a href="edit-profile.php"><button name="continue" class="continue con-red">continue</button></a>
+    </div>
+    <?php endif ; ?>
     <?php endif ; ?>
 
     <?php if(isset($_POST["saveImage"])) : ?>
-      <?php if (editProfilePicture($_POST) > 0) : ?>
-        <?php $_SESSION["username"] = $_POST["username"] ?>
-        <div class="alert alert-green">
-          <p>Gambar profile anda berhasil diupdate</p>
-          <a href="profile.php?profile=<?= $_SESSION["username"]; ?>"><button name="continue" class="continue">continue</button></a>
-        </div>
-      <?php else : ?>
-        <div class="alert alert-red">
-          <p>Gambar profile anda gagal diupdate</p>
-          <a href="edit-profile.php"><button name="continue" class="continue con-red">continue</button></a>
-        </div>    
-      <?php endif ; ?>
-    <?php endif ; ?> 
+    <?php if (editProfilePicture($_POST) > 0) : ?>
+    <?php $_SESSION["username"] = $_POST["username"] ?>
+    <div class="alert alert-green">
+      <p>Gambar profile anda berhasil diupdate</p>
+      <a href="profile.php?profile=<?= $_SESSION["username"]; ?>"><button name="continue"
+          class="continue">continue</button></a>
+    </div>
+    <?php else : ?>
+    <div class="alert alert-red">
+      <p>Gambar profile anda gagal diupdate</p>
+      <a href="edit-profile.php"><button name="continue" class="continue con-red">continue</button></a>
+    </div>
+    <?php endif ; ?>
+    <?php endif ; ?>
   </div>
 
   <script src="../javascript/jquery.js"></script>
   <script>
-    $(document).ready(function () {
-      $(".bold-text").click(function (e) { 
-        $(".bold-text").toggleClass("active");
-        $(".ri-bold").toggleClass("white");
-        $("#description").toggleClass("bold");
-      });
+  $(document).ready(function() {
+    $(".bold-text").click(function(e) {
+      $(".bold-text").toggleClass("active");
+      $(".ri-bold").toggleClass("white");
+      $("#description").toggleClass("bold");
+    });
 
-      $(".italic-text").click(function (e) { 
-        $(".italic-text").toggleClass("active");
-        $(".ri-italic").toggleClass("white");
-        $("#description").toggleClass("italic");
-      });
+    $(".italic-text").click(function(e) {
+      $(".italic-text").toggleClass("active");
+      $(".ri-italic").toggleClass("white");
+      $("#description").toggleClass("italic");
+    });
 
+    $(".profile-about").addClass("active");
+    $(".ri-account-box-fill").addClass("white");
+
+    $(".form-content-2").hide();
+
+    $(".profile-picture").click(function(e) {
+      $(".profile-picture").addClass("active");
+      $(".ri-camera-fill").addClass("white");
+      $(".profile-about").removeClass("active");
+      $(".ri-account-box-fill").removeClass("white");
+      $(".form-content-2").show();
+      $(".form-content-1").hide();
+    });
+
+    $(".profile-about").click(function(e) {
       $(".profile-about").addClass("active");
       $(".ri-account-box-fill").addClass("white");
-      
+      $(".profile-picture").removeClass("active");
+      $(".ri-camera-fill").removeClass("white");
       $(".form-content-2").hide();
-
-      $(".profile-picture").click(function (e) { 
-        $(".profile-picture").addClass("active");
-        $(".ri-camera-fill").addClass("white");
-        $(".profile-about").removeClass("active");
-        $(".ri-account-box-fill").removeClass("white");
-        $(".form-content-2").show();
-        $(".form-content-1").hide();
-      });
-
-      $(".profile-about").click(function (e) { 
-        $(".profile-about").addClass("active");
-        $(".ri-account-box-fill").addClass("white");
-        $(".profile-picture").removeClass("active");
-        $(".ri-camera-fill").removeClass("white");
-        $(".form-content-2").hide();
-        $(".form-content-1").show();
-      });
+      $(".form-content-1").show();
+    });
 
 
-     })
+  })
   </script>
 </body>
+
 </html>

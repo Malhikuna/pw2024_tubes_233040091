@@ -200,31 +200,6 @@ header("Cache-Control: no-cache, must-revalidate");
       </div>
     </section>
 
-    <!-- Alert -->
-    <?php if(isset($_POST["list"])) : ?>
-    <?php if($value === "save") : ?>
-    <?php if (saveTo($_POST) > 0) : ?>
-    <form action="" method="post">
-      <div class="alert alert-green">
-        <p>Video berhasil ditambahkan ke <?= $playlistName; ?></p>
-        <input type="hidden" name="videoId" value="<?= $id; ?>">
-        <button name="continue" class="continue">continue</button>
-      </div>
-    </form>
-    <?php endif  ?>
-    <?php else : ?>
-    <?php if (unSave($_POST) > 0) : ?>
-    <form action="" method="post">
-      <div class="alert alert-green">
-        <p>Video berhasil dihapus dari list <?= $playlistName; ?></p>
-        <input type="hidden" name="videoId" value="<?= $id; ?>">
-        <button name="continue" class="continue">continue</button>
-      </div>
-    </form>
-    <?php endif ; ?>
-    <?php endif ; ?>
-    <?php endif ; ?>
-
 
     <?php if(isset($_POST["add-new"])) : ?>
     <?php if (addNewPlaylist($_POST) > 0) : ?>

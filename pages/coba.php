@@ -18,69 +18,146 @@ $dua = "dua";
   <title>Percobaan</title>
   <link rel="stylesheet" href="../css/main.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
     rel="stylesheet" />
+
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="Mid-client-3MVh8M26cxNIxMN6"></script>
   <style>
-  h1,
-  p {
-    font-family: "Open Sans";
-    /* font-weight: bold; */
-  }
-
-  #desc {
-    font-weight: 900;
-  }
-
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin: auto;
+  label {
     display: block;
-  }
-
-  .img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin: auto;
-    background-position: center;
-    background-size: cover;
   }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>Hello World!</h1>
-    <h1><i class="ri-heart-fill"></h1>
-    <p>Hello World!</p>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus ut, veritatis, expedita possimus,
-      esse fuga quis aut excepturi tempora porro nesciunt reprehenderit labore quibusdam suscipit natus laudantium
-      voluptates iusto?</p>
 
-    <label>
-      Desc
-      <textarea name="" id="desc"></textarea>
-    </label>
+    <form action="" id="checkoutForm">
+      <input type="hidden" name="id" value="1">
+      <label>
+        Username
+        <input type="text" name="username">
+      </label>
+      <label>
+        Email
+        <input type="email" name="email">
+      </label>
 
-    <div class="img" style="background-image: url(../img/profile/665013d3d58fb.jpeg);"></div>
-
-    <img src="../img/profile/665013d3d58fb.jpeg">
+      <button id="checkButton">Checkout</button>
+    </form>
 
     <?php 
-      if($satu > 0 && $dua === "dua") {
-    ?>
-    <h1>Satu</h1>
-    <?php 
-      } else {
-    ?>
-    <h1>Salah</h1>
-    <?php } ?>
+  
+$orderSummary = query("SELECT *
+                          FROM order_summary
+                          JOIN cart ON cart.id = cart_id
+                          JOIN courses ON courses.id = course_id
+                          WHERE order_summary.user_id = $userId");
+
+$totalPrice = query("SELECT SUM(price) AS 'Total Price'
+                      FROM order_summary
+                      JOIN cart ON cart.id = cart_id
+                      JOIN courses ON courses.id = course_id
+                      WHERE order_summary.user_id = $userId ")[0]["Total Price"];
+
+  ?>
+
+    <form action="" method="post">
+      <div id="checkout">
+        <h3>Confirm Password</h3>
+        <input type="password" name="password" id="" required>
+        <div class="courses">
+          <?php foreach($orderSummary as $order) : ?>
+          <div class="orders">
+            <p><?= $order["name"]; ?></p>
+            <p>Rp<?= $order["price"]; ?></p>
+          </div>
+          <?php endforeach ; ?>
+        </div>
+        <div id="total">
+          <p>Total Amount</p>
+          <p>Rp<?= $totalPrice; ?></p>
+        </div>
+        <input type="hidden" name="userId" value="<?= $userId; ?>">
+        <input type="hidden" name="totalPrice" value="<?= $totalPrice; ?>">
+        <button name="confirm">Confirm</button>
+        <button class="close"><i class="ri-close-line"></i></button>
+      </div>
+
+      <?php if(isset($_POST["sure"])) : ?>
+      <?php if (password_verify($password, $row["password"])) : ?>
+      <div class="alert">
+        <p>Are you sure?</p>
+        <div class="yon">
+          <a href="javascript:history.back()"><button type="button" class="no">No</button></a>
+          <form action="" method="post">
+            <input type="hidden" name="userId" value="<?= $userId; ?>">
+            <button name="confirm" class="yes">Yes</button>
+          </form>
+        </div>
+      </div>
+      <?php endif ; ?>
+      <?php endif ; ?>
+    </form>
+
+
+    <?php if(isset($_POST["confirm"])) : ?>
+    <?php if (password_verify($password, $row["password"])) : ?>
+    <?php if(checkout($id, $total) > 0) : ?>
+    <div class="alert alert-green">
+      <p>Chekout Berhasil</p>
+      <a href="../invoice.php"><button type="button" name="continue" class="continue">continue</button></a>
+    </div>
+    <?php else : ?>
+    <div class="alert alert-red">
+      <p>Chekout Gagal</p>
+      <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
+    </div>
+    <?php endif ; ?>
+    <?php else : ?>
+    <div class="alert alert-red">
+      <p>Password Salah</p>
+      <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
+    </div>
+    <?php endif ; ?>
+    <?php endif ; ?>
+
+    <?php require "../layouts/footer.php" ?>
 
   </div>
 
+  <script>
+  const form = document.querySelector("#checkoutForm");
+  const checkoutButton = document.querySelector("#checkButton");
+
+  // Kirim data ketika tombol checkout diklik
+  checkoutButton.addEventListener("click", async function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = new URLSearchParams(formData);
+    const objData = Object.fromEntries(data);
+    console.log(objData);
+
+    // minta transaction token menggunakan ajax / fetch
+    try {
+      const response = await fetch("../transaction/placeOrder.php", {
+        method: "POST",
+        body: data,
+      });
+      const token = await response.text();
+      console.log(token);
+      // window.snap.embed("YOUR_SNAP_TOKEN", {
+      //   embedId: "snap-container",
+      // });
+    } catch (err) {
+      console.log(err.message);
+    }
+  });
+  </script>
 </body>
 
 </html>

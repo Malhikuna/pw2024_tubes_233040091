@@ -6,6 +6,7 @@ $(document).ready(function () {
     $(".add").show();
     $(".close-click").show();
     $("#add-list").show();
+    $(".alert").show();
   });
 
   $("#close").click(function (e) {
@@ -33,6 +34,14 @@ $(document).ready(function () {
   $("#add-list").click(function (e) {
     $("#new").show();
     $("#add-list").hide();
+  });
+
+  $(".check1").change(function (e) {
+    $(".alert").show();
+  });
+
+  $(".check2").change(function (e) {
+    $(".alert").show();
   });
 
   $(".continue").click(function (e) {

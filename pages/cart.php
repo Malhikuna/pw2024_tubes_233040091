@@ -8,6 +8,9 @@ if(!isset($_SESSION["login"])) {
 }
 
 $userId = $_SESSION["id"];
+$username = $_SESSION["username"];
+$email = $_SESSION["email"];
+$phone = query("SELECT phone FROM users WHERE email = '$email'")[0]["phone"];
 $cartResult = mysqli_num_rows(mysqli_query($conn, "SELECT * 
                                                     FROM cart 
                                                     WHERE user_id = $userId"));
@@ -67,6 +70,16 @@ if(isset($_POST["delete"])) {
   <link rel="stylesheet" href="../css/cart.css">
   <link rel="stylesheet" href="../css/alert.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@300&family=Rajdhani:wght@300&family=Great+Vibes&family=Roboto&family=Unbounded:wght@500&family=Oswald:wght@200;400&family=REM:wght@100;400&display=swap"
+    rel="stylesheet" />
+
+  <!-- JS -->
+  <!-- <script src="../javascript/checkout.js" async></script> -->
+
+  <!-- Midtrans -->
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-n2-yieImZZkM66iL"></script>
 </head>
 
 <body>
@@ -87,7 +100,7 @@ if(isset($_POST["delete"])) {
 
           <tbody>
             <?php foreach($cartLst as $crtList) : ?>
-            <form action="" method="post" id="form_check">
+            <form action="" method="post" id="<?= $crtList["cartId"]; ?>">
               <tr>
                 <td>
                   <?php 
@@ -156,11 +169,17 @@ if(isset($_POST["delete"])) {
           $jumlahCourse = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM order_summary WHERE user_id = $userId"));
 
           if ($result2 > 0) {
-            $orderSummary = query("SELECT *
+            $orderSummary = query("SELECT *, courses.id as id
             FROM order_summary
             JOIN cart ON cart.id = cart_id
             JOIN courses ON courses.id = course_id
             WHERE order_summary.user_id = $userId")[0];
+
+            $orderItems = query("SELECT courses.id as id, name, price
+            FROM order_summary
+            JOIN cart ON cart.id = cart_id
+            JOIN courses ON courses.id = course_id
+            WHERE order_summary.user_id = $userId")[0]["name"];
 
             $totalPrice = query("SELECT SUM(price) AS 'Total Price'
             FROM order_summary
@@ -178,101 +197,39 @@ if(isset($_POST["delete"])) {
           <p>Total</p>
           <p>Rp<?= $totalPrice; ?></p>
         </div>
-        <div class="checkout-content">
-          <button id="check_button">Checkout</button>
-        </div>
+        <form action="" id="checkoutForm">
+          <input type="hidden" name="total" value="<?= $totalPrice; ?>">
+          <input type="hidden" name="items" value="<?= $orderItems; ?>">
+          <input type="hidden" name="name" value="<?= $username; ?>">
+          <input type="hidden" name="email" value="<?= $email; ?>">
+          <input type="hidden" name="phone" value="<?= $phone; ?>">
+          <input type="hidden" name="id" value="<?= $userId; ?>">
+          <div class="checkout-content">
+            <button type="button" id="checkButton">Checkout</button>
+          </div>
+        </form>
         <?php } ?>
       </div>
     </div>
   </div>
-  <?php 
-  
-$orderSummary = query("SELECT *
-                          FROM order_summary
-                          JOIN cart ON cart.id = cart_id
-                          JOIN courses ON courses.id = course_id
-                          WHERE order_summary.user_id = $userId");
 
-$totalPrice = query("SELECT SUM(price) AS 'Total Price'
-                      FROM order_summary
-                      JOIN cart ON cart.id = cart_id
-                      JOIN courses ON courses.id = course_id
-                      WHERE order_summary.user_id = $userId ")[0]["Total Price"];
-
-  ?>
-
-  <form action="" method="post">
-    <div id="checkout">
-      <h3>Confirm Password</h3>
-      <input type="password" name="password" id="" required>
-      <div class="courses">
-        <?php foreach($orderSummary as $order) : ?>
-        <div class="orders">
-          <p><?= $order["name"]; ?></p>
-          <p>Rp<?= $order["price"]; ?></p>
-        </div>
-        <?php endforeach ; ?>
-      </div>
-      <div id="total">
-        <p>Total Amount</p>
-        <p>Rp<?= $totalPrice; ?></p>
-      </div>
-      <input type="hidden" name="userId" value="<?= $userId; ?>">
-      <input type="hidden" name="totalPrice" value="<?= $totalPrice; ?>">
-      <button name="confirm">Confirm</button>
-      <button class="close"><i class="ri-close-line"></i></button>
-    </div>
-
-
-
-    <?php if(isset($_POST["sure"])) : ?>
-    <?php if (password_verify($password, $row["password"])) : ?>
-    <div class="alert">
-      <p>Are you sure?</p>
-      <div class="yon">
-        <a href="javascript:history.back()"><button type="button" class="no">No</button></a>
-        <form action="" method="post">
-          <input type="hidden" name="userId" value="<?= $userId; ?>">
-          <button name="confirm" class="yes">Yes</button>
-        </form>
-      </div>
-    </div>
-    <?php endif ; ?>
-    <?php endif ; ?>
-  </form>
-
-  <?php if(isset($_POST["confirm"])) : ?>
-  <?php if (password_verify($password, $row["password"])) : ?>
-  <?php if(checkout($_POST) > 0) : ?>
-  <div class="alert alert-green">
-    <p>Chekout Berhasil</p>
-    <a href="../invoice.php"><button type="button" name="continue" class="continue">continue</button></a>
-  </div>
-  <?php else : ?>
-  <div class="alert alert-red">
-    <p>Chekout Gagal</p>
-    <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
-  </div>
-  <?php endif ; ?>
-  <?php else : ?>
-  <div class="alert alert-red">
-    <p>Password Salah</p>
-    <a href="cart.php"><button type="button" name="continue" class="continue">continue</button></a>
-  </div>
-  <?php endif ; ?>
-  <?php endif ; ?>
+  <!-- Checkout -->
 
   <?php require "../layouts/footer.php" ?>
+
   <div class="close-click"></div>
 
   <script src="../javascript/jquery.js"></script>
+  <script src="../javascript/checkout.js"></script>
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="Mid-client-3MVh8M26cxNIxMN6"></script>
   <script>
   $(document).ready(function() {
     $("#checkout").hide();
 
-    $("#check_button").click(function(e) {
-      $("#checkout").show();
-      $(".close-click").show();
+    $("#checkButton").click(function(e) {
+      // $("#checkout").show();
+      // $(".close-click").show();
     });
 
     $(".close").click(function(e) {
@@ -281,7 +238,7 @@ $totalPrice = query("SELECT SUM(price) AS 'Total Price'
     });
 
     $(".close-click").hide();
-  })
+  });
   </script>
 </body>
 

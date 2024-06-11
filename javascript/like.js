@@ -6,7 +6,7 @@ $(document).ready(function () {
       $("#container").html(data);
     });
   });
-
+  
   $("#unLikeButton").on("click", function () {
     // $.get()
     $.get("../ajax/video.php?userId=" + $("#userLikeId").val() + "&videoId=" + $("#videoLikeId").val(), function (data) {
